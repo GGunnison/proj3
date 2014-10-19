@@ -10,9 +10,14 @@ var mongoose = require('mongoose');
 var users = require('./routes/users');
 
 ///////////////////// Configure database
-var Date = mongoose.Schema({
+var Workout = mongoose.Schema({
 	username: String,
-	workout: [Exercises]
+	dates: [Date]
+});
+
+var Date = mongoose.Schema({
+	date: String,
+	workout: [Exercise]
 });
 
 var Exercise = mongoose.Schema({
@@ -43,8 +48,8 @@ var userSchema = mongoose.Schema({
 });
 
 var Workout = mongoose.model('Workout',workoutSchema);
-var Cardio = mongoose.model('Cardio',cardioSchema);
-var Lift = mongoose.model('Lift',liftingSchema);
+var Date = mongoose.model('Date',dateSchema);
+var Exercise = mongoose.model('Exercise',exerciseSchema);
 var User = mongoose.model('User',userSchema);
 
 
@@ -58,6 +63,8 @@ app.use(cookieParser());
 app.use(function(req,res, next){
     req.userDB = User;
     req.workoutDB = Workout;
+    req.dateDB = Date;
+    req.exerciseDB = Exercise;
     req.liftDB = Lift;
     req.cardioDB = Cardio;
     next();
