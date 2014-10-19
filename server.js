@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 
 ///////////////////// Configure database
 var workoutSchema = mongoose.Schema({
+	username: String, //use to link to userSchema
 	weeks: Number,
 	days: [],
 	type: String,

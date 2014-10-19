@@ -18,7 +18,7 @@ router.post('*', requireContent);
 //method modified from example API code https://github.com/kongming92/6170-p3demo
 router.get('/', function(req,res) {
 	var Workouts = req.workoutDB;
-	var user =  ;
+	var user =  ; //TODO: get current username here
 	Workouts.find({username: user}, function(err, workouts) {
 		if (err) {
 			utils.sendErrResponse(res, 500, 'An unknown error occurred.');
@@ -29,8 +29,20 @@ router.get('/', function(req,res) {
 	});
 });
 
+//add a workout to a user's list of workouts
+//method modified from example API code https://github.com/kongming92/6170-p3demo
 router.post('/', function(req,res) {
-
+	var Workouts = req.workoutDB;
+	var user =  ; //TODO: get current username here
+	Workouts.save({username: user, weeks:req.body.weeks, days:req.body.days, type: req.body.type, 
+				exercises:req.body.exercises}, function(err) {
+		if (err) {
+			utils.sendErrResponse(res, 500, 'An unknown error occurred.');
+		}
+		else {
+			utils.sendSuccessResponse(res);
+		}
+	});
 });
 
 
