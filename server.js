@@ -10,24 +10,28 @@ var mongoose = require('mongoose');
 var users = require('./routes/users');
 
 ///////////////////// Configure database
-var workoutSchema = mongoose.Schema({
-	username: String, //use to link to userSchema
-	name: String,
-	weeks: Number,
-	days: [],
-	type: String,
-	exercises: [] //array of ids to cardio or lifting
+var Date = mongoose.Schema({
+	username: String,
+	workout: [Exercises]
 });
-var cardioSchema = mongoose.Schema({
+
+var Exercise = mongoose.Schema({
+	name: String,
+	type: String,
+	//has all fields, only take relevant based on type
+
+	//cardio
 	exercise: String,
 	length: Number
-});
-var liftingSchema = mongoose.Schema({
+
+	//lifting
 	lift: String,
 	weight: Number,
 	sets: Number,
 	reps: Number
 });
+
+
 var userSchema = mongoose.Schema({
     username: String,
     password: String,
