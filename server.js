@@ -9,7 +9,7 @@ var workoutSchema = mongoose.Schema({
 	weeks: Number,
 	days: [],
 	type: String,
-	exercises: []
+	exercises: [] //array of ids to cardio or lifting
 });
 var cardioSchema = mongoose.Schema({
 	exercise: String,
