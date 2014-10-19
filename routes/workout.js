@@ -25,23 +25,23 @@ router.post('*', requireContent);
 //get all of a user's workouts
 //method modified from example API code https://github.com/kongming92/6170-p3demo
 router.get('/', function(req,res) {
-	var Workouts = req.workoutDB;
+	var workouts = req.workoutDB;
 	var user =  ; //TODO: get current username here
-	Workouts.find({username: user}, function(err, workouts) {
+	workouts.find({username: user}, function(err, workout) {
 		if (err) {
 			utils.sendErrResponse(res, 500, 'An unknown error occurred.');
 		}
 		else {
-			utils.sendSuccessResponse(res, {workouts: workouts});
+			utils.sendSuccessResponse(res, {workout: workout});
 		}
 	});
 });
 
 //add a workout to a user's list of workouts
 router.post('/', function(req,res) {
-	var Workouts = req.workoutDB;
+	var workouts = req.workoutDB;
 	var user =  ; //TODO: get current username here
-	Workouts.save({username: user, weeks:req.body.weeks, days:req.body.days, type: req.body.type, 
+	workouts.save({username: user, weeks:req.body.weeks, days:req.body.days, type: req.body.type, 
 				exercises:req.body.exercises}, function(err) {
 		if (err) {
 			utils.sendErrResponse(res, 500, 'An unknown error occurred.');
@@ -53,18 +53,56 @@ router.post('/', function(req,res) {
 });
 
 //get the exercises from a workout
+
+//I don't think we need to do this method... we should return the entire workout at once
+//client side should parse the json's for the exercises for individual dates
 router.get('/exercise', function(req,res) {
+	var workouts = req.workoutDB
+	var user = req.body.username
 
+	workouts.findOne({username:user}, function(err, workout){
+		if (err){
+			utils.sendErrResponse(res, 500, "An unknown error occured")
+		}
+
+	})
 });
 
-//add an exercise to an existing workout
-//look up workouts by name
-router.post('/exercise', function(req,res) {
-	var Workouts = req.workoutDB;
-	var user =  ; //TODO: get current username here
-	Workouts.findOne({username:user, })
+//add or edit exercise to an existing workout
+//look up workouts by name, date
+router.put('/exercise', function(req,res) {
+	var workouts = req.workoutDB;
+	var user =  req.body.username;
+	var date = req.body.date;
+
+	workouts.findOne({username:user}, function(err, workout) {
+	
+		workout.dates.findOne({date:date}, function(err, date){
+			if (err){
+				//add new date with all exercises...
+				//workouts.update({username:user}, {$addToSet: {dates: date}}, function...)
+			}else{
+				//edit existing
+				utils.sendSuccessResponse(res, date.workout)
+			}
+		});
+	})
 });
+//delete all workout? one day? one excerise? -- different methods for these?
+router.delete('/:date', function(req, res){
+
+})
 
 
 
 module.exports = router;
+
+
+
+/*
+
+edit workouts -- mean extending or changing specific days
+
+delete workouts -- actually delete all the information
+
+*/
