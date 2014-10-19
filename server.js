@@ -43,8 +43,10 @@ var User = mongoose.model('User',userSchema);
 var app = express();
 
 app.use(function(req,res, next){
-    req.userDB = UserAccount;
-    req.tweetDB = Tweet;
+    req.userDB = User;
+    req.workoutDB = Workout;
+    req.liftDB = Lift;
+    req.cardioDB = Cardio;
     next();
 });
 
