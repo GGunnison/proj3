@@ -1,8 +1,13 @@
 var express = require('express');
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 
 
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
+
+var users = require('./routes/users');
 
 ///////////////////// Configure database
 var workoutSchema = mongoose.Schema({
@@ -24,7 +29,7 @@ var liftingSchema = mongoose.Schema({
 var userSchema = mongoose.Schema({
     username: String,
     password: String,
-    name: String,
+    displayname: String,
     age: Number,
     height: String,
     weight: Number,
@@ -41,6 +46,8 @@ var User = mongoose.model('User',userSchema);
 
 
 var app = express();
+
+app.use(cookieParser());
 
 app.use(function(req,res, next){
     req.userDB = User;
