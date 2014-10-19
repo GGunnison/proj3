@@ -7,9 +7,18 @@ var isLoggedIn = function(req,res){
 	return false;
 };
 
-var isInvalidBody = function(req,res){
+var isInvalidLoginBody = function(req,res){
 	if (!(req.body.username && req.body.password)){
 		utils.sendErrResponse(res, 400, 'You did not supply a username and/or password');
+		return true;
+	}
+	return false;
+}
+
+var isInvalidNewUserBody = function(req,res){
+	if (!(req.body.username && req.body.password && req.body.displayName && req.body.userHeight &&
+	 req.body.userWeight && req.body.level && req.body.age)){
+		utils.sendErrResponse(res, 400, 'You did not supply all necessary information');
 		return true;
 	}
 	return false;
@@ -18,7 +27,7 @@ var isInvalidBody = function(req,res){
 /* POST to login a user */
 // used when the login button is pressed on the home page
 router.post('/login', function(req, res) {
-	if (isLoggedIn(req,res) || isInvalidBody(req,res)){
+	if (isLoggedIn(req,res) || isInvalidLoginBody(req,res)){
 		return;
 	}
     // Get our form valuess
@@ -76,7 +85,7 @@ router.post('/adduser', function(req, res) {
 
     userCollection.findOne({username: userName}, function(err, user){
         //Do not allow calls to API if a user is already logged in
-        if (isLoggedIn(req,res) || isInvalidBody(req,res)){
+        if (isLoggedIn(req,res) || isInvalidNewUserBody(req,res)){
         	return;
         }
 
