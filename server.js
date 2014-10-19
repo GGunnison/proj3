@@ -57,6 +57,11 @@ app.use(function(req,res, next){
     next();
 });
 
+//var index = require('./routes/index');
+var workout = require('./routes/workout'); 
+
+//app.use('/', index);
+app.use('/workout', workout);
 
 module.exports = app;
 
