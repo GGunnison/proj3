@@ -15,12 +15,12 @@ var Workout = mongoose.Schema({
 	dates: [Date]
 });
 
-var Date = mongoose.Schema({
+var date = mongoose.Schema({
 	date: String,
-	workout: [Exercise]
+	workout: [exercises]
 });
 
-var Exercise = mongoose.Schema({
+var exercises = mongoose.Schema({
 	name: String,
 	type: String,
 	//has all fields, only take relevant based on type
@@ -30,10 +30,14 @@ var Exercise = mongoose.Schema({
 	length: Number
 
 	//lifting
-	lift: String,
-	weight: Number,
-	sets: Number,
-	reps: Number
+	lifts:[lift] 
+});
+
+var lift = mongoose.Schema({
+    name: String, 
+    sets: Number, 
+    reps: Number, 
+    weight: Number
 });
 
 

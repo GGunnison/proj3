@@ -1,3 +1,7 @@
+var users = db.get('users')
+var utils = require('../utils/utils');
+
+
 var isLoggedIn = function(req,res){
 	var currentUser = req.cookies.name
 	if (currentUser){
@@ -33,7 +37,6 @@ router.post('/login', function(req, res) {
     // Get our form valuess
     var userName = req.body.username;
     var userPassword = req.body.password;
-
     var userCollection = req.userDB;
 
     userCollection.findOne({username: userName}, function(err, user){
@@ -43,6 +46,7 @@ router.post('/login', function(req, res) {
             if (user.password == userPassword){
                 //direct to the freetlist page
                 res.cookie("name",userName); //create cookie with username
+                //we need to send the workout information here too??
                 utils.sendSuccessResponse(res, {user: user});
             }else{
                 utils.sendErrResponse(res, 403, 'Incorrect Password');
@@ -74,7 +78,7 @@ router.post('/adduser', function(req, res) {
     var userPassword = req.body.password;
 
     var displayName = req.body.displayName;
-    var userAge = req.body.userAge;
+    var userBirthday = req.body.userBirthday;
     var userHeight = req.body.userHeight;
     var userWeight = req.body.userWeight;
     var level = req.body.level;
@@ -96,7 +100,7 @@ router.post('/adduser', function(req, res) {
                 'username' : userName,
                 'password' : userPassword,
                 'displayname' : displayName,
-                'age' : userAge,
+                'birth' : userBirthday,
                 'height' : userHeight;
                 'weight' : userWeight,
                 'level' : level
@@ -104,7 +108,7 @@ router.post('/adduser', function(req, res) {
                 if (err) {
                    	utils.sendErrResponse(res, 500, "Could not add user to the database!");
                 } else {
-                    utils.sendSuccessResponse(res);
+                    utils.sendSuccessResponse(res, {user: user});
                 }
             });    
         //if the username is already in the collection   
@@ -114,3 +118,87 @@ router.post('/adduser', function(req, res) {
         
     });
 });
+
+//we need to use different routes here... just variables instead of paths
+//Delete the user and all the data in the workout db with that user
+router.delete('/delete', function(req, res){
+    
+    var userCollection = req.userDB;
+    var workouts = req.workoutDB;
+
+    userCollection.findOne({username: req.body.username}, function(err, user){
+        if (user){
+            userCollection.remove({username: req.body.username}, function(err, user){
+                if (err){
+                    utils.sendErrResponse(res, 500, "Could not delete from database")
+                }else{
+                    var currentUser = req.cookies.name;
+                    if (currentUser == req.body.username){
+                        res.clearCookie('name');
+                        utils.sendSuccessResponse(res, {user:user});
+                        //call router here to logout??
+                        }
+                    }
+            });
+        }else{
+            util.sendErrResponse(res, 500, "User not in the database")
+        }
+    });
+
+    //Delete the information from the workout db here?? or different method
+    workouts.findOne({username: req.body.username}, function(err, workout){
+        if (workout){
+            workouts.remove({username: req.body.username}, function(err, user){
+                if (err){
+                    utils.sendErrResponse(res, 500, "Could not delete from database")
+                }else{
+                    utils.sendSuccessResponse(res, {user:user});
+                }
+            });
+        }else{
+            utils.sendErrResponse(res, 500, "No workout for this user")
+        }
+    });
+});
+
+//Put to edit the user 
+router.put('/edit', function(req, res){
+    // Get our form values
+    var userName = req.body.username
+    var userPassword = req.body.password;
+    var userBirthday = req.body.userBirthday;
+    var userHeight = req.body.userHeight;
+    var userWeight = req.body.userWeight;
+    var level = req.body.level;
+
+
+    // Set our collection
+    var userCollection = req.userDB; //usercollection is used to store users
+
+    userCollection.findOne({username: userName}, function(err, user){
+        // the username is logged in and allowed to edit
+        if (username ==req.cookie.username)){
+            // Submit the potentially editted fields to the DB
+            userCollection.update({
+                'username' : userName}, {$set
+                'password' : userPassword,
+                'birthday' : userBirthday,
+                'height' : userHeight;
+                'weight' : userWeight,
+                'level' : level
+            }, function (err, doc) {
+                if (err) {
+                    utils.sendErrResponse(res, 500, "Could not add user to the database!");
+                } else {
+                    utils.sendSuccessResponse(res, {user:user});
+                }
+            });    
+        //if the user being editted is not the one logged in 
+        }else{
+            utils.sendErrResponse(res, 400, "You cannot edit another user's information");
+        }
+        
+    });
+});
+
+module.exports = router;
