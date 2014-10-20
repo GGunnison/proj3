@@ -9,18 +9,19 @@ var mongoose = require('mongoose');
 
 var users = require('./routes/users');
 
+
 ///////////////////// Configure database
-var Workout = mongoose.Schema({
+var workoutSchema = mongoose.Schema({
 	username: String,
-	dates: [Date]
+	dates: [date]
 });
 
-var date = mongoose.Schema({
+var dateSchema = mongoose.Schema({
 	date: String,
-	workout: [exercises]
+	workout: [{type: Schema.Types.ObjectID, ref: 'exercises'}]
 });
 
-var exercises = mongoose.Schema({
+var exerciseSchema = mongoose.Schema({
 	name: String,
 	type: String,
 	//has all fields, only take relevant based on type
@@ -30,10 +31,10 @@ var exercises = mongoose.Schema({
 	length: Number
 
 	//lifting
-	lifts:[lift] 
+	lifts:[{type: Schema.Types.ObjectID, re: 'lift'}] 
 });
 
-var lift = mongoose.Schema({
+var liftSchema = mongoose.Schema({
     name: String, 
     sets: Number, 
     reps: Number, 
@@ -52,8 +53,9 @@ var userSchema = mongoose.Schema({
 });
 
 var Workout = mongoose.model('Workout',workoutSchema);
-var Date = mongoose.model('Date',dateSchema);
-var Exercise = mongoose.model('Exercise',exerciseSchema);
+var date = mongoose.model('date', dateSchema);
+var exercises = mongoose.model('exercises', exerciseSchema);
+var lift = mongoose.model('lift', liftSchema)
 var User = mongoose.model('User',userSchema);
 
 
