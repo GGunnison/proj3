@@ -30,7 +30,7 @@ var isInvalidNewUserBody = function(req,res){
 
 /* POST to login a user */
 // used when the login button is pressed on the home page
-router.post('/login', function(req, res) {
+router.post('/:login', function(req, res) {
 	if (isLoggedIn(req,res) || isInvalidLoginBody(req,res)){
 		return;
 	}
@@ -61,7 +61,7 @@ router.post('/login', function(req, res) {
 });
 
 // Logout, clear cookie, return to home page
-router.get('/logout', function(req, res) {
+router.get('/', function(req, res) {
 	var currentUser = req.cookies.name;
 	if (currentUser){
 		res.clearCookie('name');
@@ -72,7 +72,7 @@ router.get('/logout', function(req, res) {
 });
 
 /* POST to Add User */
-router.post('/adduser', function(req, res) {
+router.post('/', function(req, res) {
     // Get our form values
     var userName = req.body.username;
     var userPassword = req.body.password;
@@ -121,20 +121,25 @@ router.post('/adduser', function(req, res) {
 
 //we need to use different routes here... just variables instead of paths
 //Delete the user and all the data in the workout db with that user
-router.delete('/delete', function(req, res){
+router.delete('/:username', function(req, res){
     
     var userCollection = req.userDB;
     var workouts = req.workoutDB;
 
-    userCollection.findOne({username: req.body.username}, function(err, user){
+    userCollection.findOne({username: req.username}, function(err, user){
         if (user){
-            userCollection.remove({username: req.body.username}, function(err, user){
+            userCollection.remove({username: req.username}, function(err, user){
                 if (err){
                     utils.sendErrResponse(res, 500, "Could not delete from database")
                 }else{
                     var currentUser = req.cookies.name;
-                    if (currentUser == req.body.username){
+                    if (currentUser == req.username){
                         res.clearCookie('name');
+                        $.delete('/workout/:'+username, function(err, res){
+                            if(err){
+                                utils.sendErrResponse(res, 400, "Unknown error deleting")
+                            }
+                        });
                         utils.sendSuccessResponse(res, {user:user});
                         //call router here to logout??
                         }
@@ -143,26 +148,12 @@ router.delete('/delete', function(req, res){
         }else{
             util.sendErrResponse(res, 500, "User not in the database")
         }
-    });
 
-    //Delete the information from the workout db here?? or different method
-    workouts.findOne({username: req.body.username}, function(err, workout){
-        if (workout){
-            workouts.remove({username: req.body.username}, function(err, user){
-                if (err){
-                    utils.sendErrResponse(res, 500, "Could not delete from database")
-                }else{
-                    utils.sendSuccessResponse(res, {user:user});
-                }
-            });
-        }else{
-            utils.sendErrResponse(res, 500, "No workout for this user")
-        }
+
     });
-});
 
 //Put to edit the user 
-router.put('/edit', function(req, res){
+router.put('/', function(req, res){
     // Get our form values
     var userName = req.body.username
     var userPassword = req.body.password;
