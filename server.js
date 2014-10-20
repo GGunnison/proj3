@@ -41,7 +41,7 @@ var userSchema = mongoose.Schema({
     username: String,
     password: String,
     displayname: String,
-    age: Number,
+    birthday: String,
     height: String,
     weight: Number,
     level: String
