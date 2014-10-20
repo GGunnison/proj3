@@ -22,12 +22,12 @@ var requireContent = function(req, res, next) {
 router.all('*', requireAuthentication);
 router.post('*', requireContent);
 
-//get all of a user's workouts
+//get an user's workouts
 //method modified from example API code https://github.com/kongming92/6170-p3demo
 router.get('/', function(req,res) {
 	var workouts = req.workoutDB;
-	var user =  ; //TODO: get current username here
-	workouts.find({username: user}, function(err, workout) {
+	
+	workouts.findOne({username: req.cookies.username}, function(err, workout) {
 		if (err) {
 			utils.sendErrResponse(res, 500, 'An unknown error occurred.');
 		}
@@ -38,11 +38,19 @@ router.get('/', function(req,res) {
 });
 
 //add a workout to a user's list of workouts
+
+//HOW DO WE BUILD/PACKAGE THE WORKOUTS?? 
+// HOW DO WE INSERT THE OBJECT??
 router.post('/', function(req,res) {
 	var workouts = req.workoutDB;
-	var user =  ; //TODO: get current username here
-	workouts.save({username: user, weeks:req.body.weeks, days:req.body.days, type: req.body.type, 
-				exercises:req.body.exercises}, function(err) {
+
+	var lift = {name : req.body.liftName, 
+	var
+
+
+	var dateObject = 
+	workouts.update({username: req.cookies.username},
+	 {$addToSet{dates: dateObject}}, function(err) {
 		if (err) {
 			utils.sendErrResponse(res, 500, 'An unknown error occurred.');
 		}
@@ -56,7 +64,9 @@ router.post('/', function(req,res) {
 
 //I don't think we need to do this method... we should return the entire workout at once
 //client side should parse the json's for the exercises for individual dates
-router.get('/exercise', function(req,res) {
+
+//HOW DO WE UNPACKAGE THE WORKOUT?? dot notion??
+router.get('/', function(req,res) {
 	var workouts = req.workoutDB
 	var user = req.body.username
 
@@ -70,7 +80,7 @@ router.get('/exercise', function(req,res) {
 
 //add or edit exercise to an existing workout
 //look up workouts by name, date
-router.put('/exercise', function(req,res) {
+router.put('/', function(req,res) {
 	var workouts = req.workoutDB;
 	var user =  req.body.username;
 	var date = req.body.date;
@@ -89,9 +99,24 @@ router.put('/exercise', function(req,res) {
 	})
 });
 //delete all workout? one day? one excerise? -- different methods for these?
-router.delete('/:date', function(req, res){
+router.delete('/:username', function(req, res){
 
-})
+    workouts.findOne({username: req.username}, function(err, workout){
+        if (workout){
+            workouts.remove({username: req.username}, function(err, user){
+                if (err){
+                    utils.sendErrResponse(res, 500, "Could not delete from database")
+                }else{
+                    utils.sendSuccessResponse(res, {user:user});
+                }
+            });
+        }else{
+            utils.sendErrResponse(res, 500, "No workout for this user")
+        }
+    });
+});
+
+});
 
 
 
