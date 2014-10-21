@@ -1,11 +1,9 @@
-var users = db.get('users')
-var utils = require('../utils/utils');
+var express = require('express');
+var router = express.Router();
 
-router.get('/', function(req,res) {
-	console.log("redirecting to users login")
-	res.redirect('/users/:dirk');
+/* GET home page. */
+router.get('/', function(req, res) {
+  res.render('index', { title: 'Express' });
 });
-
-
 
 module.exports = router;

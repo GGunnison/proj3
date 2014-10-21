@@ -1,3 +1,6 @@
+var express = require('express');
+var router = express.Router();
+
 var users = db.get('users')
 var utils = require('../utils/utils');
 
