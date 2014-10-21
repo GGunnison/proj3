@@ -9,6 +9,7 @@ var isLoggedIn = function(req,res){
 		utils.sendErrResponse(res, 403, 'A user is already logged in');
 		return true;
 	}
+    console.log('user not logged in');
 	return false;
 };
 
@@ -23,11 +24,12 @@ var isInvalidLoginBody = function(req,res){
 var isInvalidNewUserBody = function(req,res){
     console.log("req.body: " + JSON.stringify(req.body));
 
-	if (!(req.body.username && req.body.password && req.body.displayName && req.body.userHeight &&
-	 req.body.userWeight && req.body.level && req.body.age)){
+	if (!(req.body.username && req.body.password && req.body.displayName && req.body.height &&
+	 req.body.weight && req.body.level && req.body.birthday)){
 		utils.sendErrResponse(res, 400, 'You did not supply all necessary information');
 		return true;
 	}
+    console.log('valid new user body');
 	return false;
 }
 
@@ -107,9 +109,7 @@ router.post('/', function(req, res) {
 
         // the username is not already in the collection
         if (!(user)){
-            console.log('username not in collection');
-            // Submit the new user to the DB
-            userCollection.insert({
+            var newUser = new userCollection({
                 'username' : userName,
                 'password' : userPassword,
                 'displayname' : displayName,
@@ -117,7 +117,10 @@ router.post('/', function(req, res) {
                 'height' : userHeight,
                 'weight' : userWeight,
                 'level' : level
-            }, function (err, doc) {
+            });
+
+            // Submit the new user to the DB
+            newUser.save(function (err, doc) {
                 if (err) {
                    	utils.sendErrResponse(res, 500, "Could not add user to the database!");
                 } else {
