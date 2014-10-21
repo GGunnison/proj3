@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-var users = db.get('users')
 var utils = require('../utils/utils');
 
 var isLoggedIn = function(req,res){
@@ -157,6 +156,7 @@ router.delete('/:username', function(req, res){
 
 
     });
+});
 
 //Put to edit the user 
 router.put('/', function(req, res){
@@ -177,10 +177,10 @@ router.put('/', function(req, res){
         if (username ==req.cookie.username){
             // Submit the potentially editted fields to the DB
             userCollection.update({
-                'username' : userName}, {$set
+                'username' : userName, //TODO: some weird set stuff was here, I deleted it
                 'password' : userPassword,
                 'birthday' : userBirthday,
-                'height' : userHeight;
+                'height' : userHeight,
                 'weight' : userWeight,
                 'level' : level
             }, function (err, doc) {
