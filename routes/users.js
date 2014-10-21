@@ -29,13 +29,19 @@ var isInvalidNewUserBody = function(req,res){
 	return false;
 }
 
+router.get('/testing', function(req,res) {
+    console.log("got into testing");
+    //utils.sendSuccessResponse(res, {testing: 'yes'});
+    res.send({success: true});
+});
+
 /* POST to login a user */
 // used when the login button is pressed on the home page
 router.post('/:login', function(req, res) {
 	if (isLoggedIn(req,res) || isInvalidLoginBody(req,res)){
 		return;
 	}
-    // Get our form valuess
+    // Get our form values
     var userName = req.body.username;
     var userPassword = req.body.password;
     var userCollection = req.userDB;
