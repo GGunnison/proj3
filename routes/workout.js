@@ -43,6 +43,7 @@ router.get('/', function(req,res) {
 //HOW DO WE BUILD/PACKAGE THE WORKOUTS?? 
 // HOW DO WE INSERT THE OBJECT??
 router.post('/', function(req,res) {
+	console.log('in workout post /');
 	var Workouts = req.workoutDB;
 
 	var Exercises = req.exercisesDB;
@@ -61,23 +62,31 @@ var opts = [
 ]*/
 
 	
-	var lift = new Lift({name:'bench',reps:5,sets:2,weight:85});
+	var lift = new Lifts({name:'bench',sets:5,reps:2,weight:85});
 
 	lift.save(function(err,lifts_returned) {
 		Lifts.findOne({name:'bench',reps:5,sets:2,weight:85}, function(err,l) {
-			Lifts.populate(l, opts, function(err,l) {
-				console.log(l);
+
+			var e = new Exercises({name:'dirk',type:'lift',exercise:'bench'});
+			e.save(function(err,exercises) {
+				//Exercises.findOne({name:'dirk',type:'lift',exercise:'bench'}).populate('lifts')
+
+				var opts = [
+					{name:'squat',reps:5,sets:2,weight:85},
+					{name:'deadlift',reps:5,sets:2,weight:85}
+				];
+
+				Lifts.populate(exercises, opts, function(err,l) {
+					console.log(l);
+				});
+
+
 			});
-		});
 
 
-		/*
-		var e = new Exercises({name:'dirk',type:'lift',exercise:'bench'});
-		e.save(function(err,exercises) {
-			Exercises.findOne({name:'dirk',type:'lift',exercise:'bench'})
-				.populate('lifts')
 		});
-		*/
+
+		
 	});
 	
 	

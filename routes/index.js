@@ -8,7 +8,7 @@ router.get('/', function(req, res) {
 	
 	var host_str = 'http://localhost:3000';
 
-	
+	/*
 	request.post({url:host_str + '/users', form:{
 		'username' : 'Grant',
 		'password' : 'hello',
@@ -19,8 +19,15 @@ router.get('/', function(req, res) {
 		'level' : 'amateur'}
 	}, function(err,res,body) {
 		console.log(body);
+
+		request.post({url:host_str + '/users/login', form:{
+			'username': 'Grant',
+			'password': 'hello'
+		}, function(err,res,body) {
+			console.log('returned from login');
+		}})
 	});
-	
+	*/
 
 	request.post({url:host_str + '/workout', form:{
 		'weight': 100
