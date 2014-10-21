@@ -54,6 +54,7 @@ router.post('/login', function(req, res) {
         	//if the correct password was typed
             if (user.password == userPassword){
                 //direct to the freetlist page
+
                 res.cookie("name",userName); //create cookie with username
                 //we need to send the workout information here too??
                 utils.sendSuccessResponse(res, {user: user});
@@ -91,9 +92,9 @@ router.post('/', function(req, res) {
     var userPassword = req.body.password;
 
     var displayName = req.body.displayName;
-    var userBirthday = req.body.userBirthday;
-    var userHeight = req.body.userHeight;
-    var userWeight = req.body.userWeight;
+    var birthday = req.body.birthday;
+    var height = req.body.height;
+    var weight = req.body.weight;
     var level = req.body.level;
 
     // Set our collection
@@ -112,9 +113,9 @@ router.post('/', function(req, res) {
                 'username' : userName,
                 'password' : userPassword,
                 'displayname' : displayName,
-                'birth' : userBirthday,
-                'height' : userHeight,
-                'weight' : userWeight,
+                'birthday' : birthday,
+                'height' : height,
+                'weight' : weight,
                 'level' : level
             });
 
@@ -123,7 +124,7 @@ router.post('/', function(req, res) {
                 if (err) {
                    	utils.sendErrResponse(res, 500, "Could not add user to the database!");
                 } else {
-                    utils.sendSuccessResponse(res, {user: user});
+                    utils.sendSuccessResponse(res, {user: newUser});
                 }
             });    
         //if the username is already in the collection   
