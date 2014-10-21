@@ -29,11 +29,6 @@ var isInvalidNewUserBody = function(req,res){
 	return false;
 }
 
-router.get('/testing', function(req,res) {
-    console.log("got into testing");
-    //utils.sendSuccessResponse(res, {testing: 'yes'});
-    res.send({success: true});
-});
 
 /* POST to login a user */
 // used when the login button is pressed on the home page
