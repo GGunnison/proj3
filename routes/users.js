@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var utils = require('../utils/utils');
+//var data = require('../data/db.js');
+
 
 var isLoggedIn = function(req,res){
-	var currentUser = req.cookies.name
-	if (currentUser){
+	if (req.session.user == req.body.username){
 		utils.sendErrResponse(res, 403, 'A user is already logged in');
 		return true;
 	}
@@ -23,7 +24,7 @@ var isInvalidLoginBody = function(req,res){
 var isInvalidNewUserBody = function(req,res){
     console.log("req.body: " + JSON.stringify(req.body));
 
-	if (!(req.body.username && req.body.password && req.body.displayName && req.body.height &&
+	if (!(req.body.username && req.body.password && req.body.displayname && req.body.height &&
 	 req.body.weight && req.body.level && req.body.birthday)){
 		utils.sendErrResponse(res, 400, 'You did not supply all necessary information');
 		return true;
@@ -39,6 +40,7 @@ router.post('/login', function(req, res) {
     console.log('in POST /:login');
 
 	if (isLoggedIn(req,res) || isInvalidLoginBody(req,res)){
+        console.log("invalid body or already logged in")
 		return;
 	}
     // Get our form values
@@ -53,30 +55,28 @@ router.post('/login', function(req, res) {
         if (user){
         	//if the correct password was typed
             if (user.password == userPassword){
-                //direct to the freetlist page
-
-                res.cookie("name",userName); //create cookie with username
+                //direct to main page
+                req.session.user = userName;
                 //we need to send the workout information here too??
-                utils.sendSuccessResponse(res, {user: user});
+                utils.sendSuccessResponse(res, user);
             }else{
+                console.log('here')
                 utils.sendErrResponse(res, 403, 'Incorrect Password');
             }
               
         //if the username is not in the collection
         }else{
+            console.log('this one?')
             utils.sendErrResponse(res, 403, 'Invalid Username');
         }
     });
-   
 });
 
-// Logout, clear cookie, return to home page
-router.get('/', function(req, res) {
+// Logout, return to home page
+router.get('/logout', function(req, res) {
     console.log("in GET /");
-
-	var currentUser = req.cookies.name;
-	if (currentUser){
-		res.clearCookie('name');
+	if (req.session.user){
+        delete req.session.user
 		utils.sendSuccessResponse(res);
 	} else {
 		utils.sendErrResponse(res, 403, 'No user is logged in');
@@ -84,7 +84,7 @@ router.get('/', function(req, res) {
 });
 
 /* POST to Add User */
-router.post('/', function(req, res) {
+router.post('/add', function(req, res) {
     console.log("in POST /");
 
     // Get our form values
@@ -124,7 +124,7 @@ router.post('/', function(req, res) {
                 if (err) {
                    	utils.sendErrResponse(res, 500, "Could not add user to the database!");
                 } else {
-                    utils.sendSuccessResponse(res, {user: newUser});
+                    utils.sendSuccessResponse(res, newUser);
                 }
             });    
         //if the username is already in the collection   
@@ -141,15 +141,17 @@ router.delete('/:username', function(req, res){
     
     var userCollection = req.userDB;
     var workouts = req.workoutDB;
+    var username = param('username');
 
-    userCollection.findOne({username: req.username}, function(err, user){
+    userCollection.findOne({username: username}, function(err, user){
         if (user){
-            userCollection.remove({username: req.username}, function(err, user){
+            userCollection.remove({username: username}, function(err, user){
                 if (err){
                     utils.sendErrResponse(res, 500, "Could not delete from database")
                 }else{
+                    //logout 
                     var currentUser = req.cookies.name;
-                    if (currentUser == req.username){
+                    if (currentUser == username){
                         res.clearCookie('name');
                         $.delete('/workout/:'+username, function(err, res){
                             if(err){

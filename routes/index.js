@@ -10,8 +10,8 @@ router.get('/', function(req, res) {
 
 	
 	request.post({url:host_str + '/users', form:{
-		'username' : 'Grant',
-		'password' : 'hello',
+		'username' : 'Grant1',
+		'password' : 'hello1',
 		'displayName' : 'Dirk1',
 		'birthday' : '01-26-1994',
 		'height' : '5\' 9\"',
@@ -34,9 +34,6 @@ router.get('/', function(req, res) {
 	// 	console.log(body);
 	// });
 
-	request.delete({urls:host_str + '/:dirk1', form:{
-
-	}})
 
 });
 
