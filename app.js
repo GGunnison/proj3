@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose')
+var session = require('express-session');
 var Schema = mongoose.Schema
 
 //set up database
@@ -46,7 +47,7 @@ var exerciseSchema = mongoose.Schema({
     length: Number,
 
     //lifting
-    lifts:[{type: Schema.Types.ObjectId, re: 'lift'}] 
+    lifts:[{type: Schema.Types.ObjectId, ref: 'lift'}] 
 });
 
 var liftSchema = mongoose.Schema({
@@ -74,8 +75,35 @@ var lift = mongoose.model('lift', liftSchema)
 var User = mongoose.model('User',userSchema);
 
 
-
 var app = express();
+app.use(session({
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: true
+}));
+
+// Authentication middleware
+// Check that the user's session passed in req.session is valid
+app.use(function(req, res, next) {
+    if (req.session.userId) {
+        var users = db.get('users');
+        users.findOne({
+            _id: req.session.userId
+        }, function(err, user) {
+            if (user) {
+                req.currentUser = user;
+            } else {
+                delete req.session.userId;
+            }
+            next();
+        });
+    } else {
+        next();
+    }
+});
+
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

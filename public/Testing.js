@@ -6,6 +6,7 @@ test("testing Login", function(){
 	// 	function(data){
 	// 		alert("data loaded: " + data);
 	// });
+
 	$.ajax({
 		type: "POST",
 		url: "http://localhost:3000/users/login",
