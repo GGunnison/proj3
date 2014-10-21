@@ -61,7 +61,10 @@ var opts = [
 ]*/
 
 	
-	var lift = new Lift({name:'bench',reps:5,sets:2,weight:85});
+	var lift = new Lifts({name:'bench',reps:5,sets:2,weight:85});
+	var lift1 = new Lifts({name:'pullup',reps:5,sets:2,weight:85});
+	//what do I put for the lifts paramter?
+	var exercise = new Exercises({name:'Chest',type:'lift',lifts:[lift._id,lift1._id]});
 
 	lift.save(function(err,lifts_returned) {
 		Lifts.findOne({name:'bench',reps:5,sets:2,weight:85}, function(err,l) {
