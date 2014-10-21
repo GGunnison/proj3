@@ -10,6 +10,11 @@ var mongoose = require('mongoose');
 var users = require('./routes/users');
 
 
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+
 ///////////////////// Configure database
 var workoutSchema = mongoose.Schema({
 	username: String,
@@ -28,7 +33,7 @@ var exerciseSchema = mongoose.Schema({
 
 	//cardio
 	exercise: String,
-	length: Number
+	length: Number,
 
 	//lifting
 	lifts:[{type: Schema.Types.ObjectID, re: 'lift'}] 
@@ -76,10 +81,10 @@ app.use(function(req,res, next){
     next();
 });
 
-//var index = require('./routes/index');
+var index = require('./routes/index');
 var workout = require('./routes/workout'); 
 
-//app.use('/', index);
+app.use('/', index);
 app.use('/workout', workout);
 
 module.exports = app;

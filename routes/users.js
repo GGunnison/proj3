@@ -1,7 +1,6 @@
 var users = db.get('users')
 var utils = require('../utils/utils');
 
-
 var isLoggedIn = function(req,res){
 	var currentUser = req.cookies.name
 	if (currentUser){
@@ -39,6 +38,8 @@ router.post('/:login', function(req, res) {
     var userPassword = req.body.password;
     var userCollection = req.userDB;
 
+    console.log("in post username");
+
     userCollection.findOne({username: userName}, function(err, user){
         //if the username is not in the collection
         if (user){
@@ -62,6 +63,8 @@ router.post('/:login', function(req, res) {
 
 // Logout, clear cookie, return to home page
 router.get('/', function(req, res) {
+    console.log("in post /");
+
 	var currentUser = req.cookies.name;
 	if (currentUser){
 		res.clearCookie('name');
@@ -101,7 +104,7 @@ router.post('/', function(req, res) {
                 'password' : userPassword,
                 'displayname' : displayName,
                 'birth' : userBirthday,
-                'height' : userHeight;
+                'height' : userHeight,
                 'weight' : userWeight,
                 'level' : level
             }, function (err, doc) {
@@ -168,7 +171,7 @@ router.put('/', function(req, res){
 
     userCollection.findOne({username: userName}, function(err, user){
         // the username is logged in and allowed to edit
-        if (username ==req.cookie.username)){
+        if (username ==req.cookie.username){
             // Submit the potentially editted fields to the DB
             userCollection.update({
                 'username' : userName}, {$set
