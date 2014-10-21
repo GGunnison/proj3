@@ -21,6 +21,8 @@ var isInvalidLoginBody = function(req,res){
 }
 
 var isInvalidNewUserBody = function(req,res){
+    console.log("req.body: " + JSON.stringify(req.body));
+
 	if (!(req.body.username && req.body.password && req.body.displayName && req.body.userHeight &&
 	 req.body.userWeight && req.body.level && req.body.age)){
 		utils.sendErrResponse(res, 400, 'You did not supply all necessary information');
@@ -33,6 +35,8 @@ var isInvalidNewUserBody = function(req,res){
 /* POST to login a user */
 // used when the login button is pressed on the home page
 router.post('/:login', function(req, res) {
+    console.log('in POST /:login');
+
 	if (isLoggedIn(req,res) || isInvalidLoginBody(req,res)){
 		return;
 	}
@@ -66,7 +70,7 @@ router.post('/:login', function(req, res) {
 
 // Logout, clear cookie, return to home page
 router.get('/', function(req, res) {
-    console.log("in post /");
+    console.log("in GET /");
 
 	var currentUser = req.cookies.name;
 	if (currentUser){
@@ -79,6 +83,8 @@ router.get('/', function(req, res) {
 
 /* POST to Add User */
 router.post('/', function(req, res) {
+    console.log("in POST /");
+
     // Get our form values
     var userName = req.body.username;
     var userPassword = req.body.password;
@@ -88,7 +94,6 @@ router.post('/', function(req, res) {
     var userHeight = req.body.userHeight;
     var userWeight = req.body.userWeight;
     var level = req.body.level;
-
 
     // Set our collection
     var userCollection = req.userDB; //usercollection is used to store users
