@@ -34,7 +34,7 @@ var isInvalidNewUserBody = function(req,res){
 
 /* POST to login a user */
 // used when the login button is pressed on the home page
-router.post('/:login', function(req, res) {
+router.post('/login', function(req, res) {
     console.log('in POST /:login');
 
 	if (isLoggedIn(req,res) || isInvalidLoginBody(req,res)){
@@ -48,7 +48,7 @@ router.post('/:login', function(req, res) {
     console.log("in post username");
 
     userCollection.findOne({username: userName}, function(err, user){
-        //if the username is not in the collection
+        //if the username is in the collection
         if (user){
         	//if the correct password was typed
             if (user.password == userPassword){
@@ -60,7 +60,7 @@ router.post('/:login', function(req, res) {
                 utils.sendErrResponse(res, 403, 'Incorrect Password');
             }
               
-        //if the username is in the collection
+        //if the username is not in the collection
         }else{
             utils.sendErrResponse(res, 403, 'Invalid Username');
         }
