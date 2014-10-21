@@ -23,14 +23,8 @@ router.get('/', function(req, res) {
 	*/
 
 	request.post({url:host_str + '/workout', form:{
-		'username' : 'dirk3',
-		'password' : 'password',
-		'displayName' : 'Dirk',
-		'birthday' : '01-26-1994',
-		'height' : '5\' 9\"',
-		'weight' : '140',
-		'level' : 'amateur'}
-	}, function(err,res,body) {
+		'weight': 100
+	}}, function(err,res,body) {
 		console.log(body);
 	});
 

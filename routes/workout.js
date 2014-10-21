@@ -20,8 +20,8 @@ var requireContent = function(req, res, next) {
 };
 
 //next two methods and definitions from example API code https://github.com/kongming92/6170-p3demo
-router.all('*', requireAuthentication);
-router.post('*', requireContent);
+//router.all('*', requireAuthentication);
+//router.post('*', requireContent);
 
 //get an user's workouts
 //method modified from example API code https://github.com/kongming92/6170-p3demo
@@ -43,7 +43,47 @@ router.get('/', function(req,res) {
 //HOW DO WE BUILD/PACKAGE THE WORKOUTS?? 
 // HOW DO WE INSERT THE OBJECT??
 router.post('/', function(req,res) {
-	var workouts = req.workoutDB;
+	var Workouts = req.workoutDB;
+
+	var Exercises = req.exercisesDB;
+	var Lifts = req.liftsDB;
+	/*
+	var workout = new Workouts({date:'10-21-2014'});
+	workout.save(function(err,workouts) {
+		console.log("saved workout");
+	});
+	*/
+
+/*
+var opts = [
+	{ path: 'company', match: { x: 1 }, select: 'name' }
+	, { path: 'notes', options: { limit: 10 }, model: 'override' }
+]*/
+
+	
+	var lift = new Lift({name:'bench',reps:5,sets:2,weight:85});
+
+	lift.save(function(err,lifts_returned) {
+		Lifts.findOne({name:'bench',reps:5,sets:2,weight:85}, function(err,l) {
+			Lifts.populate(l, opts, function(err,l) {
+				console.log(l);
+			});
+		});
+
+
+		/*
+		var e = new Exercises({name:'dirk',type:'lift',exercise:'bench'});
+		e.save(function(err,exercises) {
+			Exercises.findOne({name:'dirk',type:'lift',exercise:'bench'})
+				.populate('lifts')
+		});
+		*/
+	});
+	
+	
+
+	//exercises.findOne()
+
 	/*
 	var lift = {name : req.body.liftName, 
 	var
@@ -63,23 +103,6 @@ router.post('/', function(req,res) {
 */
 });
 
-//get the exercises from a workout
-
-//I don't think we need to do this method... we should return the entire workout at once
-//client side should parse the json's for the exercises for individual dates
-
-//HOW DO WE UNPACKAGE THE WORKOUT?? dot notion??
-router.get('/', function(req,res) {
-	var workouts = req.workoutDB
-	var user = req.body.username
-
-	workouts.findOne({username:user}, function(err, workout){
-		if (err){
-			utils.sendErrResponse(res, 500, "An unknown error occured")
-		}
-
-	})
-});
 
 //add or edit exercise to an existing workout
 //look up workouts by name, date
