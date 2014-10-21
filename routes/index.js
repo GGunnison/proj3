@@ -5,17 +5,22 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-	res.render('index', { title: 'Express' });
+	// res.render('index', { title: 'Express' });
 	
-	require('request').debug = true
+	var host_str = 'http://localhost:3000';
 
+	var formData = {
+	  my_field: 'my_value',
+	};
 
-	request('http://localhost:3000/users/testing', function (error, response, body) {
-	  if (!error && response.statusCode == 200) {
-	    console.log(body);
+	request.post({url:host_str + '/users', formData: formData}, function optionalCallback(err, httpResponse, body) {
+	  if (err) {
+	    return console.error('upload failed:', err);
 	  }
+	  console.log('Upload successful!  Server responded with:', body);
 	});
 
 });
+
 
 module.exports = router;
