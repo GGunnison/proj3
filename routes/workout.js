@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var utils = require('../utils/utils');
 
 var requireAuthentication = function(req,res,next) {
 	if (!req.currentUser) {

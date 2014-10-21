@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-
 var utils = require('../utils/utils');
 
 var isLoggedIn = function(req,res){
