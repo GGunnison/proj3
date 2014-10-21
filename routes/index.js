@@ -1,24 +1,19 @@
 var http = require("http");
 var express = require('express');
+var request = require('request');
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
 	res.render('index', { title: 'Express' });
+	
+	require('request').debug = true
 
 
-	var options = {
-		host: 'localhost',
-		port: 3000,
-		path: '/users/testing',
-		method: 'GET'
-	};
-	console.log("making get request");
-	//on initial response
-	var req = http.request(options, function(res)
-	{
-		console.log("got request");
-		console.log(res.testing);
+	request('http://localhost:3000/users/testing', function (error, response, body) {
+	  if (!error && response.statusCode == 200) {
+	    console.log(body);
+	  }
 	});
 
 });
