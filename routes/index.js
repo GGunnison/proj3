@@ -9,7 +9,7 @@ router.get('/', function(req, res) {
 	var host_str = 'http://localhost:3000';
 
 	var formData = {
-		'username' : 'dirk',
+		'username' : 'dirk2',
 		'password' : 'password',
 		'displayname' : 'Dirk',
 		'birth' : '01-26-1994',

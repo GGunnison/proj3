@@ -101,11 +101,13 @@ router.post('/', function(req, res) {
     userCollection.findOne({username: userName}, function(err, user){
         //Do not allow calls to API if a user is already logged in
         if (isLoggedIn(req,res) || isInvalidNewUserBody(req,res)){
+            console.log("user already logged in; returning");
         	return;
         }
 
         // the username is not already in the collection
         if (!(user)){
+            console.log('username not in collection');
             // Submit the new user to the DB
             userCollection.insert({
                 'username' : userName,
