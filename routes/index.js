@@ -47,6 +47,8 @@ router.get('/', function(req, res) {
 	});
 	*/
 
+	request.
+
 	request.del(host_str + '/workout', function(err,res,body) {
 		console.log(body);
 	});

@@ -5,7 +5,7 @@ var objectID = require('mongodb').ObjectID;
 var moment = require('moment');
 
 var requireAuthentication = function(req,res,next) {
-	if (!req.currentUser) {
+	if (!req.session.user) {
 		utils.sendErrResponse(res, 403, 'Must be logged in to perform this action.');
 	} 
 	else {
@@ -22,7 +22,7 @@ var requireContent = function(req, res, next) {
 };
 
 //next two methods and definitions from example API code https://github.com/kongming92/6170-p3demo
-//router.all('*', requireAuthentication);
+router.all('*', requireAuthentication);
 //router.post('*', requireContent);
 
 //get an user's workouts
