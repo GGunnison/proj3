@@ -118,26 +118,98 @@ router.post('/addlift', function(req,res) {
 	var exercises = req.exercisesDB;
 	var lifts = req.liftDB;
 
-	var liftID = req.body.liftID;
-	var exerciseID = req.body.exerciseID;
+	var id = req.body.liftid;
+	var exerciseID = req.body.parentExercise; //id reference
+    var liftname = req.body.liftname;
+    var sets = req.body.sets;
+    var reps = req.body.reps;
+    var weight = req.body.weight;
+    console.log('THe Start');
 
-	exercises.findOne({_id: exerciseID}, function(err,exercise){
-		if (exercise){
-			lifts.findOne({_id: liftID}, function(err, lift){
-				if (lift){
-					exercise.lifts.push(lift);
-					exercise.save(function(err){
-						if (err) utils.sendErrResponse(res, 500, 'Could not save exercise to DB.');
-						utils.sendSuccessResponse(res, {exercise: exercise});
+    // Submit the lift to the DB
+    if (id != null){
+    	var newLift = new lifts({
+	    	'_id' : id,
+	        'parentExercise' : exerciseID,
+	        'name' : liftname,
+	        'sets': sets,
+	        'reps' : reps,
+	        'weight' : weight
+		});
+    }else{
+	    var newLift = new lifts({
+		    'parentExercise' : exerciseID,
+		    'name' : liftname,
+		    'sets': sets,
+		    'reps' : reps,
+		    'weight' : weight
+		});
+    }
+    // Submit the new lift to the DB
+    newLift.save(function (err, doc) {
+        if (err) {
+        	console.log('uh oh');
+           	utils.sendErrResponse(res, 500, "Could not add lift to the database!");
+        } else {
+			var liftID = newLift._id;
+			exercises.findOne({_id: exerciseID}, function(err,exercise){
+				if (exercise){
+					lifts.findOne({_id: liftID}, function(err, lift){
+						if (lift){
+							exercise.lifts.push(lift);
+							exercise.save(function(err){
+								console.log('first one');
+								if (err) utils.sendErrResponse(res, 500, 'Could not save exercise to DB.');
+								utils.sendSuccessResponse(res, {exercise: exercise});
+							});
+						}else{
+							console.log('second one');
+							utils.sendErrResponse(res, 500, 'That lift is not in the database.');
+						}
 					});
 				}else{
-					utils.sendErrResponse(res, 500, 'That lift is not in the database.');
+					console.log('third one');
+					utils.sendErrResponse(res, 500, 'That exercise is not in the database.');
+				}
+			});            
+        }
+    });  
+});
+
+//add lift to exercise
+router.delete('/deletelift', function(req,res) {
+	var lifts = req.liftDB;
+	var exercises = req.exercisesDB;
+	var liftID = req.body.liftID;
+
+	lifts.findOne({_id: liftID}, function(err, lift){
+		if (lift){
+			var exerciseID = lift.parentExercise;
+			console.log('Parent ID ' + exerciseID);
+			exercises.findOne({_id: exerciseID}, function(err,exercise){
+				if (exercise){
+					var index = exercise.lifts.indexOf(liftID);
+					exercise.lifts.splice(index, 1);
+					exercise.save(function(err){
+						if (err) utils.sendErrResponse(res, 500, 'Could not splice lift from exercise.');
+			            lifts.remove({_id: liftID}, function(err, d){
+			                if (err){
+			                	console.log('first one');
+			                    utils.sendErrResponse(res, 500, "Could not delete lift from database");
+			                }else{
+			                    utils.sendSuccessResponse(res, {exercise:exercise});
+			                }
+			            });							
+					});				
+				}else{
+					console.log('second one');
+					utils.sendErrResponse(res, 500, "Error accessing exercise of the lift");
 				}
 			});
 		}else{
-			utils.sendErrResponse(res, 500, 'That exercise is not in the database.');
+			console.log('third one');
+			utils.sendErrResponse(res, 500, 'That lift is not in the database.');
 		}
-
 	});
 });
 
