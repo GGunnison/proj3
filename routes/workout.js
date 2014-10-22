@@ -114,30 +114,6 @@ router.post('/addlift', function(req,res) {
 });
 
 
-//add or edit exercise to an existing workout
-//look up workouts by name, date
-router.put('/', function(req,res) {
-	var workouts = req.workoutDB;
-	var dates = req.dateDB;
-	var exercises = req.exercisesDB;
-	var user =  req.body.username;
-	var date = req.body.date;
-
-
-	workouts.findOne({username:user}, function(err, workout) {
-	
-		workout.dates.findOne({date:date}, function(err, date){
-			if (err){
-				//add new date with all exercises...
-				//workouts.update({username:user}, {$addToSet: {dates: date}}, function...)
-			}else{
-				//edit existing
-				utils.sendSuccessResponse(res, date.workout)
-			}
-		});
-	});
-});
-
 //delete the user's workout
 router.delete('/', function(req, res){
 	console.log('in delete method');
@@ -163,12 +139,3 @@ router.delete('/', function(req, res){
 
 module.exports = router;
 
-
-
-/*
-
-edit workouts -- mean extending or changing specific days
-
-delete workouts -- actually delete all the information
-
-*/
