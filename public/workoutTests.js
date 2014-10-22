@@ -1,42 +1,5 @@
-// QUnit.asyncTest("testing Login", function(assert){
-// 	expect(1);
 
-// 	$.ajax({
-// 		type: "POST",
-// 		url: "http://localhost:3000/users/login",
-// 		data: {'username':'Grant', 'password': 'hello'},
-// 		success: function(obj){
-// 			var res = JSON.parse(obj);
-// 			assert.equal(res.content.username, 'Grant' );
-// 			QUnit.start();
-// 		}
-// 	});
-// });
-
-// QUnit.asyncTest('add new user', function(assert){
-
-// 	$.ajax({
-// 		type:"POST",
-// 		url: "http://localhost:3000/users/add",
-// 		data: {'username': "Grant", "password": "hello", "displayname": "Grant",
-// 		'birthday': '02-13-34', "height": "5'1", "weight": 153, 'level': 'pro'},
-// 		success: function(obj){
-// 			var res = JSON.parse(obj);
-
-// 			$.ajax({
-// 				type: "POST",
-// 				url: "http://localhost:3000/users/login",
-// 				data: {'username':'Grant', 'password': 'hello'},
-// 				success: function(obj){
-// 					var res = JSON.parse(obj);
-// 					assert.equal(res.content.username, 'Grant' );
-// 					QUnit.start();
-// 				}
-// 			});
-// 		}
-// 	});
-// });
-
+// DO NOT DELETE THIS TEST!!!
 //when no liftid is specified, a random one is generated and added to the DB
 // QUnit.asyncTest("testing add lift without specified liftID", function(assert){
 // 	var exerciseID = '5447362295a004581b378ef8';
@@ -87,3 +50,65 @@ QUnit.asyncTest("testing delete the specified liftID", function(assert){
 		}
 	});
 });
+
+QUnit.asyncTest("testing workout workflow", function(assert){
+	
+	//ADD USER
+	$.ajax({
+		type:"POST",
+		url: "http://localhost:3000/users/add",
+		data: {'username': 'Jill', "password": "mountains", "displayname": "Billy",
+		'birthday': '02-13-34', "height": "5'1", "weight": 153, 'level': 'pro'},
+		success: function(obj){
+			var res = JSON.parse(obj);
+			assert.equal(res.content.username, 'Jill');
+			console.log('after first ajax call');
+
+			//LOGIN
+			$.ajax({
+				type: "POST",
+				url: "http://localhost:3000/users/login",
+				data: {'username': 'Jill', 'password': 'mountains'},
+				success: function(obj){
+
+					//ADD WORKOUT
+					$.ajax({
+						type: "POST",
+						url: "http://localhost:3000/workout/addWorkout",
+						data: {
+							username: 'Bob',
+							date: 'date!!',
+							exercise_name: 'chest',
+							type: 'lift',
+							lift_name: 'bench',
+							reps: 5,
+							sets: 3,
+							weight: 100
+						},
+						success: function(obj){
+							var res = JSON.parse(obj);
+							assert.equal(1,1); //if we got here, it was successful
+
+							//DELETE USER
+							$.ajax({
+								type: "DELETE",
+								url: "http://localhost:3000/users/" + 'Jill',
+								data: {'username':'Jill'},
+								success: function(obj){
+									var res = JSON.parse(obj);
+									console.log('returned from delete call');
+									//deleting user also calls the workout delete method
+									//so no point in writing a separate test - it's covered here
+									assert.equal(1,1, "Successful delete"); 
+									QUnit.start();
+								}
+							});
+						}
+					});
+				}
+			});
+		}
+	});
+});
+
+

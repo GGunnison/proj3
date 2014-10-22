@@ -32,6 +32,15 @@ router.get('/', function(req, res) {
 	// 	console.log(body);
 	// });
 	
+	/*
+	request.post({url:host_str + '/workout/addWorkout', form:{
+		workout: {username: 'username'}, 
+		dates: {parentWorkout: 'parentWorkout', date: 'date'},
+		exercises: {parentDate: 'parentDate', name: 'name', type: 'type'},
+		lifts: {parentExercise: 'parentExercise', name: 'name', reps: 'reps', sets: 'sets', weight: 'weight'}}}, function(err,res,body){
+			console.log('Body ' + body);
+	});*/
+
 
 	// request.post({url:host_str + '/workout/addWorkout', form:{
 	// 	workout: {username: 'username'}, 
@@ -66,6 +75,34 @@ router.get('/', function(req, res) {
 	
 
 
+	console.log('checking authentication');
+	request.post({url:host_str + '/users/add', form:{
+		'username': "Grant", "password": "hello", "displayname": "Grant",
+		'birthday': '02-13-34', "height": "5'1", "weight": 153, 'level': 'pro'
+	}}, function(err,res,body) {
+		console.log('created user');
+		request.post({url:host_str + '/users/login', form:{
+			username: 'Grant',
+			password: 'hello'
+		}}, function(err,res,body) {
+			request.post({url:host_str + '/workout', form:{
+				username: 'Bob',
+				date: 'date!!',
+				exercise_name: 'chest',
+				type: 'lift',
+				lift_name: 'bench',
+				reps: 5,
+				sets: 3,
+				weight: 100
+
+			}}, function(err,res,body) {
+				console.log('posted workout');
+				console.log(body);
+			});
+		})
+	});
+
+
 	// request.post({host_str + '/users/add', form:{
 	// 	'username': "Grant", "password": "hello", "displayname": "Grant",
 	// 	'birthday': '02-13-34', "height": "5'1", "weight": 153, 'level': 'pro'
@@ -73,6 +110,7 @@ router.get('/', function(req, res) {
 	// 	console.log('created user');
 		
 	// });
+
 	/*
 	//functional delete test
 	request.del(host_str + '/workout', function(err,res,body) {
@@ -107,6 +145,7 @@ router.get('/', function(req, res) {
 	// });
 
 });
+
 
 
 module.exports = router;
