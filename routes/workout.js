@@ -51,16 +51,20 @@ router.post('/', function(req,res) {
 
 	var workout = new Workouts({username: "Bob"});
 	workout.save(function(err){
-		if (err) return handleError(err);
+		if (err) utils.sendErrResponse(res, 500, 'Could not save workout to DB.');
 		var date = new Dates({parentWorkout: workout._id,date:'10-21-2014'});
 		date.save(function(err){
-			if (err) return console.log(err);
+			if (err) utils.sendErrResponse(res, 500, 'Could not save date to DB.');
+			workout.dates.push(date);
 			var exercise = new Exercises({parentDate: date._id,name:'Chest',type:'lift'});
 			exercise.save(function(err){
-				if (err) return handleError(err);
+				if (err) utils.sendErrResponse(res, 500, 'Could not save exercise to DB.');
+				date.exercises.push(exercise);
 				var lift = new Lifts({parentExercise: exercise._id,name:'bench',reps:5,sets:2,weight:85});
 				lift.save(function(err){
-					if (err) return handleError(err);
+					if (err) utils.sendErrResponse(res, 500, 'Could not save lift to DB.');
+					exercise.lifts.push(lift);
+					utils.sendSuccessResponse(res, {workout: workout, date: date, exercise: exercise, lift: lift});
 				});
 			});
 		});
