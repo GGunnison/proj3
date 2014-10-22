@@ -18,38 +18,38 @@
 // });
 
 //liftid is specified
-QUnit.asyncTest("testing add lift with specified liftID", function(assert){
-	var exerciseID = '5447362295a004581b378ef8';
+// QUnit.asyncTest("testing add lift with specified liftID", function(assert){
+// 	var exerciseID = '5447362295a004581b378ef8';
 
-	expect(1);
+// 	expect(1);
 
-	$.ajax({
-		type: "POST",
-		url: "http://localhost:3000/workout/addlift",
-		data: {'liftid' : '5447362295a123451b378ef7', 'parentExercise' : exerciseID,'liftname' : 'Squat','sets': '5','reps' : '5','weight' : '200'},
-		success: function(obj){
-			assert.equal(1,1, "Successful specified add");
-			QUnit.start();
-		}
-	});
-});
+// 	$.ajax({
+// 		type: "POST",
+// 		url: "http://localhost:3000/workout/addlift",
+// 		data: {'liftid' : '5447362295a123451b378ef7', 'parentExercise' : exerciseID,'liftname' : 'Squat','sets': '5','reps' : '5','weight' : '200'},
+// 		success: function(obj){
+// 			assert.equal(1,1, "Successful specified add");
+// 			QUnit.start();
+// 		}
+// 	});
+// });
 
-//the specified liftid is used here to delete the lift from the DB
-// deletes the lift that we added in the test above
-QUnit.asyncTest("testing delete the specified liftID", function(assert){
-	var liftID = '5447362295a123451b378ef7';
-	expect(1);
+// //the specified liftid is used here to delete the lift from the DB
+// // deletes the lift that we added in the test above
+// QUnit.asyncTest("testing delete the specified liftID", function(assert){
+// 	var liftID = '5447362295a123451b378ef7';
+// 	expect(1);
 
-	$.ajax({
-		type: "DELETE",
-		url: "http://localhost:3000/workout/deletelift",
-		data: {'liftID':liftID},
-		success: function(obj){
-			assert.equal(1,1, "Successful delete");
-			QUnit.start();
-		}
-	});
-});
+// 	$.ajax({
+// 		type: "DELETE",
+// 		url: "http://localhost:3000/workout/deletelift",
+// 		data: {'liftID':liftID},
+// 		success: function(obj){
+// 			assert.equal(1,1, "Successful delete");
+// 			QUnit.start();
+// 		}
+// 	});
+// });
 
 QUnit.asyncTest("testing workout workflow", function(assert){
 	

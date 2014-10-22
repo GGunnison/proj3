@@ -75,7 +75,7 @@ app.use(function(req,res, next){
     next();
 });
 
-app.use('/', index);
+
 app.use('/users', users);
 app.use('/workout', workout);
 
