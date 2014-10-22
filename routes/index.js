@@ -40,9 +40,18 @@ router.get('/', function(req, res) {
 			console.log('Body ' + body);
 	});*/
 
-	/*
+
+	// request.post({url:host_str + '/workout/addWorkout', form:{
+	// 	workout: {username: 'username'}, 
+	// 	dates: {parentWorkout: 'parentWorkout', date: 'date'},
+	// 	exercises: {parentDate: 'parentDate', name: 'name', type: 'type'},
+	// 	lifts: {parentExercise: 'parentExercise', name: 'name', reps: 'reps', sets: 'sets', weight: 'weight'}}}, function(err,res,body){
+	// 		console.log('Body ' + body);
+	// });
+
+	
 	//successfully calls add workout with parameter object
-	request.post({url:host_str + '/workout', form:{
+	request.post({url:host_str + '/workout/addWorkout', form:{
 		username: 'Bob',
 		date: 'date!!',
 		exercise_name: 'chest',
@@ -55,8 +64,9 @@ router.get('/', function(req, res) {
 	}}, function(err,res,body) {
 		console.log(body);
 	});
-	*/
+	
 
+<<<<<<< HEAD
 	console.log('checking authentication');
 	request.post({url:host_str + '/users/add', form:{
 		'username': "Grant", "password": "hello", "displayname": "Grant",
@@ -83,6 +93,16 @@ router.get('/', function(req, res) {
 			});
 		})
 	});
+
+
+	// request.post({host_str + '/users/add', form:{
+	// 	'username': "Grant", "password": "hello", "displayname": "Grant",
+	// 	'birthday': '02-13-34', "height": "5'1", "weight": 153, 'level': 'pro'
+	// }}, function(err,res,body) {
+	// 	console.log('created user');
+		
+	// });
+
 	/*
 	//functional delete test
 	request.del(host_str + '/workout', function(err,res,body) {
@@ -116,9 +136,7 @@ router.get('/', function(req, res) {
 	// 	console.log(body);
 	// });
 
-
 });
-
 
 
 
