@@ -7,6 +7,18 @@ router.get('/', function(req, res) {
 	
 	var host_str = 'http://localhost:3000';
 
+	/*
+	request.post({url:host_str + '/users', form:{
+		'username' : 'Grant1',
+		'password' : 'hello1',
+		'displayName' : 'Dirk1',
+		'birthday' : '01-26-1994',
+		'height' : '5\' 9\"',
+		'weight' : '140',
+		'level' : 'amateur'}
+	}, function(err,res,body) {
+		*/
+
 	// request.post({url:host_str + '/users', form:{
 	// 	'username' : 'Grant',
 	// 	'password' : 'hello',
@@ -24,11 +36,26 @@ router.get('/', function(req, res) {
 		workout: {username: 'username'}, 
 		dates: {parentWorkout: 'parentWorkout', date: 'date'},
 		exercises: {parentDate: 'parentDate', name: 'name', type: 'type'},
-		lifts: {parentExercise: 'parentExercise', name: 'name', reps: 'reps', sets: 'sets', weight: 'weight'}
-	}}, function(err,res,body) {
-
-			console.log(body);
+		lifts: {parentExercise: 'parentExercise', name: 'name', reps: 'reps', sets: 'sets', weight: 'weight'}}}, function(err,res,body){
+			console.log('Body ' + body);
 	});
+
+	/*
+	//successfully calls add workout with parameter object
+	request.post({url:host_str + '/workout', form:{
+		username: 'Bob',
+		date: 'date!!',
+		exercise_name: 'chest',
+		type: 'lift',
+		lift_name: 'bench',
+		reps: 5,
+		sets: 3,
+		weight: 100
+>>>>>>> 864f91fc89d35164966ca6459874d162dd46abe7
+	}}, function(err,res,body) {
+		console.log(body);
+	});
+	*/
 
 	// request.post({url:host_str + '/workout/addlift', form:{
 	// 	exerciseID: "5446f2a86dbd1b401e1abe11",
@@ -39,6 +66,9 @@ router.get('/', function(req, res) {
 	// });
 
 
+	// request.del(host_str + '/workout', function(err,res,body) {
+	// 	console.log(body);
+	// });
 
 	// request.post({url:host_str + '/workout', form:{
 	// 	'username' : 'dirk3',
