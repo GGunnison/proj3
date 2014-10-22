@@ -5,11 +5,16 @@ var utils = require('../utils/utils');
 
 
 var isLoggedIn = function(req,res){
+<<<<<<< HEAD
 	if (req.session.user == req.body.username){
+=======
+	var currentUser = req.session.user;
+	if (currentUser){
+>>>>>>> bad8cf99d07a8c5fa9fda0cb33ae8b1868673cae
 		utils.sendErrResponse(res, 403, 'A user is already logged in');
 		return true;
 	}
-    console.log('user not logged in');
+    console.log('no user currently logged in');
 	return false;
 };
 
@@ -37,7 +42,7 @@ var isInvalidNewUserBody = function(req,res){
 /* POST to login a user */
 // used when the login button is pressed on the home page
 router.post('/login', function(req, res) {
-    console.log('in POST /:login');
+    console.log('in POST /login');
 
 	if (isLoggedIn(req,res) || isInvalidLoginBody(req,res)){
         console.log("invalid body or already logged in")
@@ -48,17 +53,22 @@ router.post('/login', function(req, res) {
     var userPassword = req.body.password;
     var userCollection = req.userDB;
 
-    console.log("in post username");
-
     userCollection.findOne({username: userName}, function(err, user){
         //if the username is in the collection
         if (user){
         	//if the correct password was typed
             if (user.password == userPassword){
+<<<<<<< HEAD
                 //direct to main page
                 req.session.user = userName;
                 //we need to send the workout information here too??
                 utils.sendSuccessResponse(res, user);
+=======
+                console.log("storing username of newly logged in user");
+                req.session.user = user; //store username of logged in user
+
+                utils.sendSuccessResponse(res, {user: user});
+>>>>>>> bad8cf99d07a8c5fa9fda0cb33ae8b1868673cae
             }else{
                 console.log('here')
                 utils.sendErrResponse(res, 403, 'Incorrect Password');
@@ -103,7 +113,7 @@ router.post('/add', function(req, res) {
     userCollection.findOne({username: userName}, function(err, user){
         //Do not allow calls to API if a user is already logged in
         if (isLoggedIn(req,res) || isInvalidNewUserBody(req,res)){
-            console.log("user already logged in; returning");
+            console.log("user already logged in - returning");
         	return;
         }
 

@@ -20,8 +20,8 @@ var requireContent = function(req, res, next) {
 };
 
 //next two methods and definitions from example API code https://github.com/kongming92/6170-p3demo
-router.all('*', requireAuthentication);
-router.post('*', requireContent);
+//router.all('*', requireAuthentication);
+//router.post('*', requireContent);
 
 //get an user's workouts
 //method modified from example API code https://github.com/kongming92/6170-p3demo
@@ -43,7 +43,36 @@ router.get('/', function(req,res) {
 //HOW DO WE BUILD/PACKAGE THE WORKOUTS?? 
 // HOW DO WE INSERT THE OBJECT??
 router.post('/', function(req,res) {
-	var workouts = req.workoutDB;
+	console.log('in workout post /');
+	var Workouts = req.workoutDB;
+	var Dates = req.dateDB;
+	var Exercises = req.exercisesDB;
+	var Lifts = req.liftDB;
+
+	var workout = new Workouts({username: "Bob"});
+	workout.save(function(err){
+		if (err) utils.sendErrResponse(res, 500, 'Could not save workout to DB.');
+		var date = new Dates({parentWorkout: workout._id,date:'10-21-2014'});
+		date.save(function(err){
+			if (err) utils.sendErrResponse(res, 500, 'Could not save date to DB.');
+			workout.dates.push(date);
+			var exercise = new Exercises({parentDate: date._id,name:'Chest',type:'lift'});
+			exercise.save(function(err){
+				if (err) utils.sendErrResponse(res, 500, 'Could not save exercise to DB.');
+				date.exercises.push(exercise);
+				var lift = new Lifts({parentExercise: exercise._id,name:'bench',reps:5,sets:2,weight:85});
+				lift.save(function(err){
+					if (err) utils.sendErrResponse(res, 500, 'Could not save lift to DB.');
+					exercise.lifts.push(lift);
+					utils.sendSuccessResponse(res, {workout: workout, date: date, exercise: exercise, lift: lift});
+				});
+			});
+		});
+	});
+});
+
+	//exercises.findOne()
+
 	/*
 	var lift = {name : req.body.liftName, 
 	var
@@ -59,27 +88,9 @@ router.post('/', function(req,res) {
 		else {
 			utils.sendSuccessResponse(res);
 		}
-	});
-*/
-});
+	});*/
 
-//get the exercises from a workout
 
-//I don't think we need to do this method... we should return the entire workout at once
-//client side should parse the json's for the exercises for individual dates
-
-//HOW DO WE UNPACKAGE THE WORKOUT?? dot notion??
-router.get('/', function(req,res) {
-	var workouts = req.workoutDB
-	var user = req.body.username
-
-	workouts.findOne({username:user}, function(err, workout){
-		if (err){
-			utils.sendErrResponse(res, 500, "An unknown error occured")
-		}
-
-	})
-});
 
 //add or edit exercise to an existing workout
 //look up workouts by name, date
