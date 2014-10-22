@@ -5,12 +5,7 @@ var utils = require('../utils/utils');
 
 
 var isLoggedIn = function(req,res){
-<<<<<<< HEAD
-	if (req.session.user == req.body.username){
-=======
-	var currentUser = req.session.user;
-	if (currentUser){
->>>>>>> bad8cf99d07a8c5fa9fda0cb33ae8b1868673cae
+	if (req.session.user){
 		utils.sendErrResponse(res, 403, 'A user is already logged in');
 		return true;
 	}
@@ -58,17 +53,12 @@ router.post('/login', function(req, res) {
         if (user){
         	//if the correct password was typed
             if (user.password == userPassword){
-<<<<<<< HEAD
+
                 //direct to main page
                 req.session.user = userName;
                 //we need to send the workout information here too??
                 utils.sendSuccessResponse(res, user);
-=======
-                console.log("storing username of newly logged in user");
-                req.session.user = user; //store username of logged in user
 
-                utils.sendSuccessResponse(res, {user: user});
->>>>>>> bad8cf99d07a8c5fa9fda0cb33ae8b1868673cae
             }else{
                 console.log('here')
                 utils.sendErrResponse(res, 403, 'Incorrect Password');

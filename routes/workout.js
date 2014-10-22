@@ -114,7 +114,7 @@ router.put('/', function(req,res) {
 });
 //delete all workout? one day? one excerise? -- different methods for these?
 router.delete('/:username', function(req, res){
-
+	console.log(req.username);
     workouts.findOne({username: req.username}, function(err, workout){
         if (workout){
             workouts.remove({username: req.username}, function(err, user){

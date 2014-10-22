@@ -7,8 +7,7 @@ router.get('/', function(req, res) {
 	
 	var host_str = 'http://localhost:3000';
 
-	
-<<<<<<< HEAD
+
 	request.post({url:host_str + '/users', form:{
 		'username' : 'Grant1',
 		'password' : 'hello1',
@@ -18,7 +17,7 @@ router.get('/', function(req, res) {
 		'weight' : '140',
 		'level' : 'amateur'}
 	}, function(err,res,body) {
-=======
+
 	// request.post({url:host_str + '/users', form:{
 	// 	'username' : 'Grant',
 	// 	'password' : 'hello',
@@ -35,7 +34,7 @@ router.get('/', function(req, res) {
 	request.post({url:host_str + '/workout', form:{
 		'weight': 100
 	}}, function(err,res,body) {
->>>>>>> bad8cf99d07a8c5fa9fda0cb33ae8b1868673cae
+
 		console.log(body);
 	});
 
@@ -51,10 +50,7 @@ router.get('/', function(req, res) {
 	// 	console.log(body);
 	// });
 
-<<<<<<< HEAD
 
-=======
->>>>>>> bad8cf99d07a8c5fa9fda0cb33ae8b1868673cae
 });
 
 
