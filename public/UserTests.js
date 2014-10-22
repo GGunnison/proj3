@@ -1,3 +1,9 @@
+
+/*
+MAKE USERS IN DB! username:grant, password: hello
+&
+username:Nick
+*/
 QUnit.asyncTest("testing Login", function(assert){
 	expect(1);
 
@@ -114,7 +120,6 @@ QUnit.asyncTest('edit user info', function(assert){
 		'birthday': '05-03-93', "height": "6'1", "weight": 187, 'level': 'pro'},
 		success: function(obj){
 			var res = JSON.parse(obj)
-			console.log(res);
 			assert.equal(res.content.password, 'here', 'Verify that the change happened');
 			QUnit.start();
 		}

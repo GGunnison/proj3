@@ -22,7 +22,6 @@ mongoose.connect('mongodb://' + connection_string);
 
 var app = express();
 
-var index = require('./routes/index');
 var users = require('./routes/users');
 var workout = require('./routes/workout');
 
@@ -76,7 +75,7 @@ app.use(function(req,res, next){
     next();
 });
 
-app.use('/', index);
+
 app.use('/users', users);
 app.use('/workout', workout);
 
