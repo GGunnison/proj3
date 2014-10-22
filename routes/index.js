@@ -2,6 +2,7 @@ var http = require("http");
 var express = require('express');
 var request = require('request');
 var router = express.Router();
+var objectID = require('mongodb').ObjectID;
 /* GET home page. */
 router.get('/', function(req, res) {
 	
@@ -51,16 +52,23 @@ router.get('/', function(req, res) {
 
 	
 	//successfully calls add workout with parameter object
-	request.post({url:host_str + '/workout/addWorkout', form:{
-		username: 'Bob',
-		date: 'date!!',
-		exercise_name: 'chest',
-		type: 'lift',
-		lift_name: 'bench',
-		reps: 5,
-		sets: 3,
-		weight: 100
+	// request.post({url:host_str + '/workout/addWorkout', form:{
+	// 	username: 'Bob',
+	// 	date: 'date!!',
+	// 	exercise_name: 'chest',
+	// 	type: 'lift',
+	// 	lift_name: 'bench',
+	// 	reps: 5,
+	// 	sets: 3,
+	// 	weight: 100
 
+	// }}, function(err,res,body) {
+	// 	console.log(body);
+	// });
+
+		//successfully calls add workout with parameter object
+	request.del({url:host_str + '/workout/deletelift', form:{
+		liftID: objectID('54473712f88c755821d787c9')
 	}}, function(err,res,body) {
 		console.log(body);
 	});
