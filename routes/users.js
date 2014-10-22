@@ -210,7 +210,7 @@ router.delete('/:username', function(req, res){
     userCollection.findOne({username: username}, function(err, user){
         if (user){
 
-            request.del('http://localhost:3000/workout', function(err) {
+            request.del('/workout', function(err) {
                 if(err){
                     utils.sendErrResponse(res, 410, "Unknown error deleting")
                 }else{

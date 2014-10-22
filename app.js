@@ -22,7 +22,6 @@ mongoose.connect('mongodb://' + connection_string);
 
 var app = express();
 
-var index = require('./routes/index');
 var users = require('./routes/users');
 var workout = require('./routes/workout');
 
@@ -114,7 +113,8 @@ app.use(function(err, req, res, next) {
 
 
 
-app.set('port', process.env.PORT || 3000);
+//app.set('port', process.env.PORT || 3000);
+app.listen(process.env.OPENSHIFT_NODEJS_PORT || 8080, process.env.OPENSHIFT_NODEJS_IP);
 
 var server = app.listen(app.get('port'), function() {
   console.log('Express server listening on port ' + server.address().port);

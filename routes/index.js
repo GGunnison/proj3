@@ -5,7 +5,7 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res) {
 	
-	var host_str = 'http://localhost:3000';
+	var host_str = '';
 
 	/*
 	request.post({url:host_str + '/users', form:{
