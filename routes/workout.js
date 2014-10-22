@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var utils = require('../utils/utils');
+var objectID = require('mongodb').ObjectID;
+var moment = require('moment');
 
 var requireAuthentication = function(req,res,next) {
 	if (!req.currentUser) {
@@ -105,6 +107,29 @@ router.post('/', function(req,res) {
 
 
 //add lift to exercise
+router.post('/addlift', function(req,res) {
+	var exercises = req.exercisesDB;
+	var lifts = req.liftDB;
+
+	var liftID = req.body.liftID;
+	var exerciseID = req.body.exerciseID;
+
+	exercises.findOne({_id: exerciseID}, function(err,exercise){
+		if (exercise){
+			lifts.findOne({_id: liftID}, function(err, lift){
+				if (lift){
+					exercise.lifts.push(lift);
+					utils.sendSuccessResponse(res, {exercise: exercise});
+				}else{
+					utils.sendErrResponse(res, 500, 'That lift is not in the database.');
+				}
+			});
+		}else{
+			utils.sendErrResponse(res, 500, 'That exercise is not in the database.');
+		}
+
+	});
+});
 
 
 //add or edit exercise to an existing workout
