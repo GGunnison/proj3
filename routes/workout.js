@@ -52,26 +52,33 @@ router.post('/addWorkout', function(req,res) {
 
 	//username | parentWorkout date | parentDate name type | parentExercise name reps sets weight
 
+	console.log('got here');
 	var workout = new Workouts({username: req.body.username});
 	workout.save(function(err){
 		if (err) utils.sendErrResponse(res, 500, 'Could not save workout to DB.');
+		console.log('got here');
 		var date = new Dates({parentWorkout: workout._id, date:req.body.date});
 		date.save(function(err){
 			if (err) utils.sendErrResponse(res, 500, 'Could not save date to DB.');
 			workout.dates.push(date);
+			console.log('got here');
 			var exercise = new Exercises({parentDate: date._id,name:req.body.exercise_name,type:req.body.type});
 			exercise.save(function(err){
 				if (err) utils.sendErrResponse(res, 500, 'Could not save exercise to DB.');
 				date.exercises.push(exercise);
+				console.log('got here');
 				var lift = new Lifts({parentExercise: exercise._id,name:req.body.lift_name,reps:req.body.reps,sets:req.body.sets,weight:req.body.weight});
 				lift.save(function(err){
 					if (err) utils.sendErrResponse(res, 500, 'Could not save lift to DB.');
+					console.log('got here');
 					exercise.lifts.push(lift);
 					//Save everything
 					exercise.save(function(err){
 						if (err) utils.sendErrResponse(res, 500, 'Could not save exercise to DB.');
+						console.log('got here');
 						date.save(function(err){
 							if (err) utils.sendErrResponse(res, 500, 'Could not save date to DB.');
+							console.log('got here');
 							workout.save(function(err){
 								if (err) utils.sendErrResponse(res, 500, 'Could not save workout to DB.');
 								utils.sendSuccessResponse(res, {workout: workout, date: date, exercise: exercise, lift: lift});

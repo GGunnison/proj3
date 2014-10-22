@@ -66,7 +66,7 @@ router.get('/', function(req, res) {
 	});
 	
 
-<<<<<<< HEAD
+
 	console.log('checking authentication');
 	request.post({url:host_str + '/users/add', form:{
 		'username': "Grant", "password": "hello", "displayname": "Grant",

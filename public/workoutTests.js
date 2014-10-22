@@ -1,6 +1,5 @@
-QUnit.asyncTest('add new user', function(assert){
-	console.log('in third test');
-	var u = 'Jimmy';
+QUnit.asyncTest("testing Login", function(assert){
+	var u = 'Jill';
 	//ADD USER
 	$.ajax({
 		type:"POST",
@@ -18,17 +17,39 @@ QUnit.asyncTest('add new user', function(assert){
 				url: "http://localhost:3000/users/login",
 				data: {'username': u, 'password': 'mountains'},
 				success: function(obj){
-					var res = JSON.parse(obj);
 
-					//DELETE USER
+					//ADD WORKOUT
 					$.ajax({
-						type: "DELETE",
-						url: "http://localhost:3000/users/" + u,
-						data: {'username':u},
+						type: "POST",
+						url: "http://localhost:3000/workout/addWorkout",
+						data: {
+							username: 'Bob',
+							date: 'date!!',
+							exercise_name: 'chest',
+							type: 'lift',
+							lift_name: 'bench',
+							reps: 5,
+							sets: 3,
+							weight: 100
+						},
 						success: function(obj){
 							var res = JSON.parse(obj);
-							console.log('returned from delete call');
-							QUnit.start();
+							assert.equal(1,1); //if we got here, it was successful
+
+							//DELETE USER
+							$.ajax({
+								type: "DELETE",
+								url: "http://localhost:3000/users/" + u,
+								data: {'username':u},
+								success: function(obj){
+									var res = JSON.parse(obj);
+									console.log('returned from delete call');
+									//deleting user also calls the workout delete method
+									//so no point in writing a separate test - it's covered here
+									assert(1,1); 
+									QUnit.start();
+								}
+							});
 						}
 					});
 				}
@@ -36,3 +57,5 @@ QUnit.asyncTest('add new user', function(assert){
 		}
 	});
 });
+
+
