@@ -82,6 +82,56 @@ router.post('/', function(req,res) {
 	});
 });
 
+
+
+
+//add a workout
+router.post('/addWorkout', function(req,res) {
+	var Workouts = req.workoutDB;
+	var Dates = req.dateDB;
+	var Exercises = req.exercisesDB;
+	var Lifts = req.liftDB;
+
+	//username | parentWorkout date | parentDate name type | parentExercise name reps sets weight
+	
+	console.log(req.body);
+	console.log(req.body[workout]);
+
+	/*{ 
+		workout: {username: 'username'}, 
+		dates: {parentWorkout: 'parentWorkout', date: 'date'},
+		exercises: {parentDate: 'parentDate', name: 'name', type: 'type'},
+		lifts: {parentExercise: 'parentExercise', name: 'name', reps: 'reps', sets: 'sets', weight: 'weight'}
+	}*/
+
+
+	var workout = new Workouts({username: 'Bill'});
+	workout.save(function(err){
+		if (err) utils.sendErrResponse(res, 500, 'Could not save workout to DB.');
+		var date = new Dates({parentWorkout: workout._id,date:'10-21-2014'});
+		date.save(function(err){
+			if (err) utils.sendErrResponse(res, 500, 'Could not save date to DB.');
+			Workouts.update({username: 'Bill'}, {$addToSet:{'dates': date}}, function(err){
+	    		var exercise = new Exercises({parentDate: date._id,name:'Chest',type:'lift'});
+				exercise.save(function(err){
+					if (err) utils.sendErrResponse(res, 500, 'Could not save exercise to DB.');
+					Dates.update({_id: date._id}, {$addToSet:{exercises: exercise}}, function(err){
+						var lift = new Lifts({parentExercise: exercise._id,name:'bench',reps:5,sets:2,weight:85});
+						lift.save(function(err){
+							if (err) utils.sendErrResponse(res, 500, 'Could not save lift to DB.');
+							Exercises.update({_id: exercise._id}, {$addToSet:{lifts: lift}}, function(err){
+								utils.sendSuccessResponse(res, {workout: workout, date: date, exercise: exercise, lift: lift});
+							});	
+						});
+					});
+				});
+			});
+		});
+	});
+});
+
+
+
 	//exercises.findOne()
 
 	/*
