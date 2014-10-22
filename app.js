@@ -26,7 +26,11 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var workout = require('./routes/workout');
 
-
+app.use(session({
+    resave: false, // don't save session if unmodified
+    saveUninitialized: false, // don't create session until something stored
+    secret: 'secret'
+}));
 
 // Authentication middleware
 // Check that the user's session passed in req.session is valid
