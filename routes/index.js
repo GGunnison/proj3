@@ -32,7 +32,10 @@ router.get('/', function(req, res) {
 	
 
 	request.post({url:host_str + '/workout', form:{
-		'weight': 100
+		workout: {username: 'username'}, 
+		dates: {parentWorkout: 'parentWorkout', date: 'date'},
+		exercises: {parentDate: 'parentDate', name: 'name', type: 'type'},
+		lifts: {parentExercise: 'parentExercise', name: 'name', reps: 'reps', sets: 'sets', weight: 'weight'}
 	}}, function(err,res,body) {
 
 		console.log(body);

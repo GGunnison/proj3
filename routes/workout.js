@@ -38,16 +38,25 @@ router.get('/', function(req,res) {
 	});
 });
 
-//add a workout to a user's list of workouts
-
-//HOW DO WE BUILD/PACKAGE THE WORKOUTS?? 
-// HOW DO WE INSERT THE OBJECT??
+//add a workout
 router.post('/', function(req,res) {
-	console.log('in workout post /');
 	var Workouts = req.workoutDB;
 	var Dates = req.dateDB;
 	var Exercises = req.exercisesDB;
 	var Lifts = req.liftDB;
+
+	//username | parentWorkout date | parentDate name type | parentExercise name reps sets weight
+	
+	console.log(req.body);
+	console.log(req.body.workout)
+
+	/*{ 
+		workout: {username: 'username'}, 
+		dates: {parentWorkout: 'parentWorkout', date: 'date'},
+		exercises: {parentDate: 'parentDate', name: 'name', type: 'type'},
+		lifts: {parentExercise: 'parentExercise', name: 'name', reps: 'reps', sets: 'sets', weight: 'weight'}
+	}*/
+
 
 	var workout = new Workouts({username: "Bob"});
 	workout.save(function(err){
