@@ -84,9 +84,8 @@ router.post('/', function(req,res) {
 		else {
 			utils.sendSuccessResponse(res);
 		}
->>>>>>> 91b2ea7f7af4afef4cbe04f1edff66ef96856eaa
-	});
-});
+	});*/
+
 
 
 //add or edit exercise to an existing workout
