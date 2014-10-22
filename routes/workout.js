@@ -209,7 +209,8 @@ router.delete('/', function(req, res){
                 }
             });
         }else{
-            utils.sendErrResponse(res, 500, "No workout for this user")
+            //utils.sendErrResponse(res, 500, "No workout for this user")
+            utils.sendSuccessResponse(res,'No workout found for this user');
         }
     });
 });

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var utils = require('../utils/utils');
+var request = require('request');
 //var data = require('../data/db.js');
 
 /*
@@ -194,41 +195,40 @@ Response:
            500 Could not delete user from the database
 */
 router.delete('/:username', function(req, res){
-<<<<<<< HEAD
+
     console.log('in user delete');
     var userCollection = req.userDB;
     var workouts = req.workoutDB;
     var username = req.param('username');
     console.log('deleting user ' + username);
-=======
-    var userCollection = req.userDB;
-    var workouts = req.workoutDB;
-    var username = req.param('username');
 
->>>>>>> 0fa55dcb9ac4d8744ea79d8bd69fe5bd2158a3db
     userCollection.findOne({username: username}, function(err, user){
         if (user){
-            userCollection.remove({username: username}, function(err, user){
-                if (err){
-                    utils.sendErrResponse(res, 500, "Could not delete from database")
+
+            request.del('http://localhost:3000/workout', function(err) {
+                if(err){
+                    utils.sendErrResponse(res, 410, "Unknown error deleting")
                 }else{
-                    //logout 
-                    if (req.session.user){
-                        delete req.session.user
-                    }
-                    res.redirect('/workout/', function(err, res){
-                        if(err){
-                            utils.sendErrResponse(res, 410, "Unknown error deleting")
+                    utils.sendSuccessResponse(res, 'Successfully deleted user'); //can this be sent and then do stuff after?
+                    userCollection.remove({username: username}, function(err){
+                        if (err){
+                            //utils.sendErrResponse(res, 500, "Could not delete from database")
                         }else{
-                            utils.sendSuccessResponse(res, user);        
+                            console.log('user to delete has been located');
+                            //logout 
+                            if (req.session.user){
+                                delete req.session.user
+                            }
+                            //utils.sendSuccessResponse(res,'success!');
                         }
-                    });
-                    }
+                    });      
+                }
             });
+
         }else{
+            console.log('user not in database');
             utils.sendErrResponse(res, 500, "User not in the database")
         }
-
 
     });
 });
