@@ -91,13 +91,18 @@ router.post('/', function(req,res) {
 	});*/
 
 
+//add lift to exercise
+
 
 //add or edit exercise to an existing workout
 //look up workouts by name, date
 router.put('/', function(req,res) {
 	var workouts = req.workoutDB;
+	var dates = req.dateDB;
+	var exercises = req.exercisesDB;
 	var user =  req.body.username;
 	var date = req.body.date;
+
 
 	workouts.findOne({username:user}, function(err, workout) {
 	
@@ -112,6 +117,7 @@ router.put('/', function(req,res) {
 		});
 	})
 });
+
 //delete all workout? one day? one excerise? -- different methods for these?
 router.delete('/:username', function(req, res){
 	console.log(req.username);

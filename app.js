@@ -37,11 +37,6 @@ var exerciseSchema = mongoose.Schema({
     parentDate: String, //id of the parent date
     name: String,
     type: String,
-    //has all fields, only take relevant based on type
-
-    //cardio
-    exercise: String,
-    length: Number,
 
     //lifting
     lifts:[{type: Schema.Types.ObjectId, ref: 'lift'}] 
@@ -71,8 +66,6 @@ var date = mongoose.model('date', dateSchema);
 var exercises = mongoose.model('exercises', exerciseSchema);
 var lift = mongoose.model('lift', liftSchema)
 var User = mongoose.model('User',userSchema);
->>>>>>> bad8cf99d07a8c5fa9fda0cb33ae8b1868673cae
-
 
 var app = express();
 app.use(session({
