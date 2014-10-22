@@ -20,59 +20,13 @@ if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
 }
 mongoose.connect('mongodb://' + connection_string);
 
-
+var app = express();
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var workout = require('./routes/workout');
 
 
-var dateSchema = mongoose.Schema({
-    parentWorkout: String, //id of the parent workout
-    date: String,
-    exercises: [{type: Schema.Types.ObjectId, ref: 'exercises'}]
-});
-
-var exerciseSchema = mongoose.Schema({
-    parentDate: String, //id of the parent date
-    name: String,
-    type: String,
-
-    //lifting
-    lifts:[{type: Schema.Types.ObjectId, ref: 'lift'}] 
-});
-
-var liftSchema = mongoose.Schema({
-    parentExercise: String, //id reference
-    name: String, 
-    sets: Number, 
-    reps: Number, 
-    weight: Number
-});
-
-
-var userSchema = mongoose.Schema({
-    username: String,
-    password: String,
-    displayname: String,
-    birthday: String,
-    height: String,
-    weight: Number,
-    level: String
-});
-
-var Workout = mongoose.model('Workout',workoutSchema);
-var date = mongoose.model('date', dateSchema);
-var exercises = mongoose.model('exercises', exerciseSchema);
-var lift = mongoose.model('lift', liftSchema)
-var User = mongoose.model('User',userSchema);
-
-var app = express();
-app.use(session({
-    secret: 'secret',
-    saveUninitialized: true,
-    resave: true
-}));
 
 // Authentication middleware
 // Check that the user's session passed in req.session is valid
