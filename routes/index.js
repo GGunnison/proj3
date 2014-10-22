@@ -7,7 +7,7 @@ router.get('/', function(req, res) {
 	
 	var host_str = 'http://localhost:3000';
 
-
+	/*
 	request.post({url:host_str + '/users', form:{
 		'username' : 'Grant1',
 		'password' : 'hello1',
@@ -17,6 +17,7 @@ router.get('/', function(req, res) {
 		'weight' : '140',
 		'level' : 'amateur'}
 	}, function(err,res,body) {
+		*/
 
 	// request.post({url:host_str + '/users', form:{
 	// 	'username' : 'Grant',
@@ -31,15 +32,59 @@ router.get('/', function(req, res) {
 	// });
 	
 
-	request.post({url:host_str + '/workout', form:{
+	request.post({url:host_str + '/workout/addWorkout', form:{
 		workout: {username: 'username'}, 
 		dates: {parentWorkout: 'parentWorkout', date: 'date'},
 		exercises: {parentDate: 'parentDate', name: 'name', type: 'type'},
-		lifts: {parentExercise: 'parentExercise', name: 'name', reps: 'reps', sets: 'sets', weight: 'weight'}
-	}}, function(err,res,body) {
+		lifts: {parentExercise: 'parentExercise', name: 'name', reps: 'reps', sets: 'sets', weight: 'weight'}}}, function(err,res,body){
+			console.log('Body ' + body);
+	});
 
+	/*
+	//successfully calls add workout with parameter object
+	request.post({url:host_str + '/workout', form:{
+		username: 'Bob',
+		date: 'date!!',
+		exercise_name: 'chest',
+		type: 'lift',
+		lift_name: 'bench',
+		reps: 5,
+		sets: 3,
+		weight: 100
+
+	}}, function(err,res,body) {
 		console.log(body);
 	});
+	*/
+
+
+	request.post({host_str + '/users/add', form:{
+		'username': "Grant", "password": "hello", "displayname": "Grant",
+		'birthday': '02-13-34', "height": "5'1", "weight": 153, 'level': 'pro'
+	}}, function(err,res,body) {
+		console.log('created user');
+		
+	});
+	/*
+	//functional delete test
+	request.del(host_str + '/workout', function(err,res,body) {
+		console.log(body);
+	});
+	*/
+
+	// request.post({url:host_str + '/workout/addlift', form:{
+	// 	exerciseID: "5446f2a86dbd1b401e1abe11",
+	// 	liftID: "5446f2ae6dbd1b401e1abe16"
+	// }}, function(err,res,body) {
+
+	// 		console.log(body);
+	// });
+
+
+	// request.del(host_str + '/workout', function(err,res,body) {
+	// 	console.log(body);
+	// });
+
 
 	// request.post({url:host_str + '/workout', form:{
 	// 	'username' : 'dirk3',
@@ -53,9 +98,9 @@ router.get('/', function(req, res) {
 	// 	console.log(body);
 	// });
 
+});
+});
 
-});
-});
 
 
 

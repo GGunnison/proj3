@@ -20,18 +20,16 @@ if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
 }
 mongoose.connect('mongodb://' + connection_string);
 
-
+var app = express();
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var workout = require('./routes/workout');
 
-
-var app = express();
 app.use(session({
-    secret: 'secret',
-    saveUninitialized: true,
-    resave: true
+    resave: false, // don't save session if unmodified
+    saveUninitialized: false, // don't create session until something stored
+    secret: 'secret'
 }));
 
 // Authentication middleware
