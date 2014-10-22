@@ -38,8 +38,8 @@ router.get('/', function(req, res) {
 		lifts: {parentExercise: 'parentExercise', name: 'name', reps: 'reps', sets: 'sets', weight: 'weight'}
 	}}, function(err,res,body) {
 
-		console.log(body);
-	});
+			console.log(body);
+		});
 
 	// request.post({url:host_str + '/workout', form:{
 	// 	'username' : 'dirk3',
@@ -54,6 +54,7 @@ router.get('/', function(req, res) {
 	// });
 
 
+	});
 });
 
 
