@@ -117,6 +117,7 @@ router.get('/', function(req, res) {
 	// });
 
 });
+});
 
 
 
