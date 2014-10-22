@@ -1,21 +1,21 @@
-QUnit.asyncTest("testing Login", function(assert){
-	var u = 'Jill';
+QUnit.asyncTest("testing workout workflow", function(assert){
+	
 	//ADD USER
 	$.ajax({
 		type:"POST",
 		url: "http://localhost:3000/users/add",
-		data: {'username': u, "password": "mountains", "displayname": "Billy",
+		data: {'username': 'Jill', "password": "mountains", "displayname": "Billy",
 		'birthday': '02-13-34', "height": "5'1", "weight": 153, 'level': 'pro'},
 		success: function(obj){
 			var res = JSON.parse(obj);
-			assert.equal(res.content.username, u);
+			assert.equal(res.content.username, 'Jill');
 			console.log('after first ajax call');
 
 			//LOGIN
 			$.ajax({
 				type: "POST",
 				url: "http://localhost:3000/users/login",
-				data: {'username': u, 'password': 'mountains'},
+				data: {'username': 'Jill', 'password': 'mountains'},
 				success: function(obj){
 
 					//ADD WORKOUT
@@ -39,14 +39,14 @@ QUnit.asyncTest("testing Login", function(assert){
 							//DELETE USER
 							$.ajax({
 								type: "DELETE",
-								url: "http://localhost:3000/users/" + u,
-								data: {'username':u},
+								url: "http://localhost:3000/users/" + 'Jill',
+								data: {'username':'Jill'},
 								success: function(obj){
 									var res = JSON.parse(obj);
 									console.log('returned from delete call');
 									//deleting user also calls the workout delete method
 									//so no point in writing a separate test - it's covered here
-									assert(1,1); 
+									assert.equal(1,1, "Successful delete"); 
 									QUnit.start();
 								}
 							});

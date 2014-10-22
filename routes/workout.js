@@ -4,6 +4,13 @@ var utils = require('../utils/utils');
 var objectID = require('mongodb').ObjectID;
 var moment = require('moment');
 
+
+/*
+
+Require authentication on all access to the server
+When not logged in the method will throw a 403 error
+
+*/
 var requireAuthentication = function(req,res,next) {
 	console.log('in requireAuthentication');
 	console.log(req.session.user);
@@ -15,6 +22,12 @@ var requireAuthentication = function(req,res,next) {
 	}
 };
 
+/*
+Used for create and eqit requests to the server. 
+
+Sends a 400 error if there is no content
+
+*/
 var requireContent = function(req, res, next) {
 	if (!req.body.content) {
 		utils.sendErrResponse(res, 400, 'Content required in request.');
@@ -29,6 +42,15 @@ var requireContent = function(req, res, next) {
 
 //get an user's workouts
 //method modified from example API code https://github.com/kongming92/6170-p3demo
+/*
+GET / for workouts
+No response parameters:
+Response:
+	Success: true if a workout is found
+		-returns the workout found
+
+	Error: 500 error if a workout isn't found
+*/
 router.get('/', function(req,res) {
 	var workouts = req.workoutDB;
 	
@@ -44,6 +66,18 @@ router.get('/', function(req,res) {
 
 
 //add a workout
+
+/*
+POST /addWorkout to add a workout for the user
+
+No request parameters
+Response:
+	Success: true when we build all of dependent objects and add a workout to the db
+		-send all of the dependent objects to the client
+	Error:
+		500 for any of the databases not being saved to for one of the dependent objects
+*/
+
 router.post('/addWorkout', function(req,res) {
 	var Workouts = req.workoutDB;
 	var Dates = req.dateDB;
@@ -93,6 +127,16 @@ router.post('/addWorkout', function(req,res) {
 
 
 //add lift to exercise
+
+/*
+POST /addlift to add something to the daily exercise
+
+No Response paramter
+Response:
+	Success: true if we add a lift to a workout
+		-returns the exercise to the client
+	Error: 500 Either the lift or exercise did not make it into the database
+*/
 router.post('/addlift', function(req,res) {
 	var exercises = req.exercisesDB;
 	var lifts = req.liftDB;
@@ -122,6 +166,15 @@ router.post('/addlift', function(req,res) {
 
 
 //delete the user's workout
+
+/*
+DELETE / for workout
+No response parameters
+Response:
+	Success: true if the user's workout is deleted from the database
+		-returns an user object to the client
+	Error: 500 - Couldn't delete from the database
+*/
 router.delete('/', function(req, res){
 	console.log('in delete method');
 	var username = req.session.user;
