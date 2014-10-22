@@ -44,66 +44,26 @@ router.get('/', function(req,res) {
 // HOW DO WE INSERT THE OBJECT??
 router.post('/', function(req,res) {
 	var Workouts = req.workoutDB;
-
+	var Dates = req.dateDB;
 	var Exercises = req.exercisesDB;
-	var Lifts = req.liftsDB;
-	/*
-	var workout = new Workouts({date:'10-21-2014'});
-	workout.save(function(err,workouts) {
-		console.log("saved workout");
-	});
-	*/
+	var Lifts = req.liftDB;
 
-/*
-var opts = [
-	{ path: 'company', match: { x: 1 }, select: 'name' }
-	, { path: 'notes', options: { limit: 10 }, model: 'override' }
-]*/
-
-	
-	var lift = new Lifts({name:'bench',reps:5,sets:2,weight:85});
-	var lift1 = new Lifts({name:'pullup',reps:5,sets:2,weight:85});
-	//what do I put for the lifts paramter?
-	var exercise = new Exercises({name:'Chest',type:'lift',lifts:[lift._id,lift1._id]});
-
-	lift.save(function(err,lifts_returned) {
-		Lifts.findOne({name:'bench',reps:5,sets:2,weight:85}, function(err,l) {
-			Lifts.populate(l, opts, function(err,l) {
-				console.log(l);
+	var workout = new Workouts({username: "Bob"});
+	workout.save(function(err){
+		if (err) return handleError(err);
+		var date = new Dates({parentWorkout: workout._id,date:'10-21-2014'});
+		date.save(function(err){
+			if (err) return console.log(err);
+			var exercise = new Exercises({parentDate: date._id,name:'Chest',type:'lift'});
+			exercise.save(function(err){
+				if (err) return handleError(err);
+				var lift = new Lifts({parentExercise: exercise._id,name:'bench',reps:5,sets:2,weight:85});
+				lift.save(function(err){
+					if (err) return handleError(err);
+				});
 			});
 		});
-
-
-		/*
-		var e = new Exercises({name:'dirk',type:'lift',exercise:'bench'});
-		e.save(function(err,exercises) {
-			Exercises.findOne({name:'dirk',type:'lift',exercise:'bench'})
-				.populate('lifts')
-		});
-		*/
 	});
-	
-	
-
-	//exercises.findOne()
-
-	/*
-	var lift = {name : req.body.liftName, 
-	var
-
-
-	var dateObject = 
-	
-	workouts.update({username: req.cookies.username},
-	 {$addToSet{dates: dateObject}}, function(err) {
-		if (err) {
-			utils.sendErrResponse(res, 500, 'An unknown error occurred.');
-		}
-		else {
-			utils.sendSuccessResponse(res);
-		}
-	});
-*/
 });
 
 
