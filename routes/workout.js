@@ -48,34 +48,19 @@ router.post('/', function(req,res) {
 	var Lifts = req.liftDB;
 
 	//username | parentWorkout date | parentDate name type | parentExercise name reps sets weight
-	
-	console.log(req.body);
-	console.log('-->req.body.lifts:');
-	console.log(req.body.lifts);
-	console.log('*********************************');
-	console.log(req.body.lifts['weight']);
-	console.log('*********************************');
 
-	/*{ 
-		workout: {username: 'username'}, 
-		dates: {parentWorkout: 'parentWorkout', date: 'date'},
-		exercises: {parentDate: 'parentDate', name: 'name', type: 'type'},
-		lifts: {parentExercise: 'parentExercise', name: 'name', reps: 'reps', sets: 'sets', weight: 'weight'}
-	}*/
-
-
-	var workout = new Workouts({username: "Bob"});
+	var workout = new Workouts({username: req.body.username});
 	workout.save(function(err){
 		if (err) utils.sendErrResponse(res, 500, 'Could not save workout to DB.');
-		var date = new Dates({parentWorkout: workout._id,date:'10-21-2014'});
+		var date = new Dates({parentWorkout: workout._id, date:req.body.date});
 		date.save(function(err){
 			if (err) utils.sendErrResponse(res, 500, 'Could not save date to DB.');
 			workout.dates.push(date);
-			var exercise = new Exercises({parentDate: date._id,name:'Chest',type:'lift'});
+			var exercise = new Exercises({parentDate: date._id,name:req.body.exercise_name,type:req.body.type});
 			exercise.save(function(err){
 				if (err) utils.sendErrResponse(res, 500, 'Could not save exercise to DB.');
 				date.exercises.push(exercise);
-				var lift = new Lifts({parentExercise: exercise._id,name:'bench',reps:5,sets:2,weight:85});
+				var lift = new Lifts({parentExercise: exercise._id,name:req.body.lift_name,reps:req.body.reps,sets:req.body.sets,weight:req.body.weight});
 				lift.save(function(err){
 					if (err) utils.sendErrResponse(res, 500, 'Could not save lift to DB.');
 					exercise.lifts.push(lift);
@@ -153,15 +138,18 @@ router.put('/', function(req,res) {
 				utils.sendSuccessResponse(res, date.workout)
 			}
 		});
-	})
+	});
 });
 
-//delete all workout? one day? one excerise? -- different methods for these?
-router.delete('/:username', function(req, res){
-	console.log(req.username);
-    workouts.findOne({username: req.username}, function(err, workout){
+//delete the user's workout
+router.delete('/', function(req, res){
+	console.log('in delete method');
+	var username = req.session.user;
+	var Workouts = req.workoutDB;
+
+    Workouts.findOne({username: username}, function(err, workout){
         if (workout){
-            workouts.remove({username: req.username}, function(err, user){
+            Workouts.remove({username: username}, function(err, user){
                 if (err){
                     utils.sendErrResponse(res, 500, "Could not delete from database")
                 }else{
@@ -173,8 +161,6 @@ router.delete('/:username', function(req, res){
         }
     });
 });
-
-
 
 
 module.exports = router;
