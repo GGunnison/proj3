@@ -47,11 +47,19 @@ router.get('/', function(req, res) {
 	});
 	*/
 
-	request.
-
+	request.post({host_str + '/users/add', form:{
+		'username': "Grant", "password": "hello", "displayname": "Grant",
+		'birthday': '02-13-34', "height": "5'1", "weight": 153, 'level': 'pro'
+	}}, function(err,res,body) {
+		console.log('created user');
+		
+	});
+	/*
+	//functional delete test
 	request.del(host_str + '/workout', function(err,res,body) {
 		console.log(body);
 	});
+	*/
 
 	// request.post({url:host_str + '/workout', form:{
 	// 	'username' : 'dirk3',
