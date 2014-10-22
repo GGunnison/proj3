@@ -3,12 +3,12 @@ var router = express.Router();
 var utils = require('../utils/utils');
 
 var isLoggedIn = function(req,res){
-	var currentUser = req.cookies.name
+	var currentUser = req.session.user;
 	if (currentUser){
 		utils.sendErrResponse(res, 403, 'A user is already logged in');
 		return true;
 	}
-    console.log('user not logged in');
+    console.log('no user currently logged in');
 	return false;
 };
 
@@ -36,7 +36,7 @@ var isInvalidNewUserBody = function(req,res){
 /* POST to login a user */
 // used when the login button is pressed on the home page
 router.post('/login', function(req, res) {
-    console.log('in POST /:login');
+    console.log('in POST /login');
 
 	if (isLoggedIn(req,res) || isInvalidLoginBody(req,res)){
 		return;
@@ -46,17 +46,14 @@ router.post('/login', function(req, res) {
     var userPassword = req.body.password;
     var userCollection = req.userDB;
 
-    console.log("in post username");
-
     userCollection.findOne({username: userName}, function(err, user){
         //if the username is in the collection
         if (user){
         	//if the correct password was typed
             if (user.password == userPassword){
-                //direct to the freetlist page
+                console.log("storing username of newly logged in user");
+                req.session.user = user; //store username of logged in user
 
-                res.cookie("name",userName); //create cookie with username
-                //we need to send the workout information here too??
                 utils.sendSuccessResponse(res, {user: user});
             }else{
                 utils.sendErrResponse(res, 403, 'Incorrect Password');
@@ -103,7 +100,7 @@ router.post('/', function(req, res) {
     userCollection.findOne({username: userName}, function(err, user){
         //Do not allow calls to API if a user is already logged in
         if (isLoggedIn(req,res) || isInvalidNewUserBody(req,res)){
-            console.log("user already logged in; returning");
+            console.log("user already logged in - returning");
         	return;
         }
 

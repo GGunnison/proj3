@@ -43,6 +43,7 @@ router.get('/', function(req,res) {
 //HOW DO WE BUILD/PACKAGE THE WORKOUTS?? 
 // HOW DO WE INSERT THE OBJECT??
 router.post('/', function(req,res) {
+	console.log('in workout post /');
 	var Workouts = req.workoutDB;
 	var Dates = req.dateDB;
 	var Exercises = req.exercisesDB;
@@ -63,6 +64,27 @@ router.post('/', function(req,res) {
 				});
 			});
 		});
+	});
+});
+
+	//exercises.findOne()
+
+	/*
+	var lift = {name : req.body.liftName, 
+	var
+
+
+	var dateObject = 
+	
+	workouts.update({username: req.cookies.username},
+	 {$addToSet{dates: dateObject}}, function(err) {
+		if (err) {
+			utils.sendErrResponse(res, 500, 'An unknown error occurred.');
+		}
+		else {
+			utils.sendSuccessResponse(res);
+		}
+>>>>>>> 91b2ea7f7af4afef4cbe04f1edff66ef96856eaa
 	});
 });
 
