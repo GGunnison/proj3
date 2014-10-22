@@ -48,7 +48,11 @@ router.post('/', function(req,res) {
 	//username | parentWorkout date | parentDate name type | parentExercise name reps sets weight
 	
 	console.log(req.body);
-	console.log(req.body[workout]);
+	console.log('-->req.body.lifts:');
+	console.log(req.body.lifts);
+	console.log('*********************************');
+	console.log(req.body.lifts['weight']);
+	console.log('*********************************');
 
 	/*{ 
 		workout: {username: 'username'}, 
