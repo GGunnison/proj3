@@ -80,5 +80,71 @@ QUnit.asyncTest('add user already made', function(assert){
 			QUnit.start();
 		}
 	});
+});
 
-})
+QUnit.asyncTest( 'delete user', function(assert){
+	$.ajax({
+		type:"DELETE",
+		url: "http://localhost:3000/users/Billy Joel",
+		data : {},
+		success: function(obj){
+			assert.equal(1, 1, 'We successfully redirected to the workout page w/ the username')
+			QUnit.start();
+		}
+	});
+});
+
+QUnit.asyncTest('delete user that does not exist', function(assert){
+	$.ajax({
+		type:'DELETE',
+		url: "http://localhost:3000/users/Timmy",
+		data : {},
+		error: function(obj){
+			assert.equal(1, 1, 'This should always be true for users that do not exist');
+			QUnit.start();
+		}
+	});
+});
+
+QUnit.asyncTest('edit user info', function(assert){
+	$.ajax({
+		type:'put',
+		url: "http://localhost:3000/users/Nick",
+		data: {'username': "Nick", "password": "here", "displayname": "Nick",
+		'birthday': '05-03-93', "height": "6'1", "weight": 187, 'level': 'pro'},
+		success: function(obj){
+			var res = JSON.parse(obj)
+			console.log(res);
+			assert.equal(res.content.password, 'here', 'Verify that the change happened');
+			QUnit.start();
+		}
+	});
+});
+
+QUnit.asyncTest('edit without info', function(assert){
+	$.ajax({
+		type:'put',
+		url: "http://localhost:3000/users/Nick",
+		data: {'username': "Nick", "displayname": "Nick",
+		'birthday': '05-03-93', "height": "6'1", "weight": 187, 'level': 'pro'},
+		error: function(obj){
+			assert.equal(0,0,'Will throw error without all info');
+			QUnit.start();
+		}
+	});
+});
+
+QUnit.asyncTest('edit user info', function(assert){
+	$.ajax({
+		type:'put',
+		url: "http://localhost:3000/users/Bill",
+		data: {'username': "Nathan", "password": "here", "displayname": "Nick",
+		'birthday': '05-03-93', "height": "6'1", "weight": 187, 'level': 'pro'},
+		error: function(obj){
+			assert.equal(0,0, 'Verify that the change happened');
+			QUnit.start();
+		}
+	});
+});
+
+
