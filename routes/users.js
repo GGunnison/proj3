@@ -138,11 +138,11 @@ router.post('/add', function(req, res) {
 //we need to use different routes here... just variables instead of paths
 //Delete the user and all the data in the workout db with that user
 router.delete('/:username', function(req, res){
-    
+    console.log('in user delete');
     var userCollection = req.userDB;
     var workouts = req.workoutDB;
-    var username = param('username');
-
+    var username = req.param('username');
+    console.log('deleting user ' + username);
     userCollection.findOne({username: username}, function(err, user){
         if (user){
             userCollection.remove({username: username}, function(err, user){
