@@ -9,6 +9,8 @@ var session = require('express-session');
 var Schema = mongoose.Schema
 var data = require('./data/db');
 
+
+
 //set up database
 var connection_string = 'localhost/proj3_liftmate';
 if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
