@@ -15,7 +15,7 @@ function isLoggedIn(req, res, next) {
 
 	// show the home page (will also have our login links)
 	router.get('/', function(req, res) {
-		res.render('index.ejs');
+		res.render('index', {});
 	});
 
 	// PROFILE SECTION =========================
