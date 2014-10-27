@@ -1,151 +1,81 @@
-var http = require("http");
 var express = require('express');
-var request = require('request');
 var router = express.Router();
-var objectID = require('mongodb').ObjectID;
-/* GET home page. */
-router.get('/', function(req, res) {
-	
-	var host_str = '';
-
-	/*
-	request.post({url:host_str + '/users', form:{
-		'username' : 'Grant1',
-		'password' : 'hello1',
-		'displayName' : 'Dirk1',
-		'birthday' : '01-26-1994',
-		'height' : '5\' 9\"',
-		'weight' : '140',
-		'level' : 'amateur'}
-	}, function(err,res,body) {
-		*/
-
-	// request.post({url:host_str + '/users', form:{
-	// 	'username' : 'Grant',
-	// 	'password' : 'hello',
-	// 	'displayName' : 'Dirk1',
-	// 	'birthday' : '01-26-1994',
-	// 	'height' : '5\' 9\"',
-	// 	'weight' : '140',
-	// 	'level' : 'amateur'}
-	// }, function(err,res,body) {
-	// 	console.log(body);
-	// });
-	
-	/*
-	request.post({url:host_str + '/workout/addWorkout', form:{
-		workout: {username: 'username'}, 
-		dates: {parentWorkout: 'parentWorkout', date: 'date'},
-		exercises: {parentDate: 'parentDate', name: 'name', type: 'type'},
-		lifts: {parentExercise: 'parentExercise', name: 'name', reps: 'reps', sets: 'sets', weight: 'weight'}}}, function(err,res,body){
-			console.log('Body ' + body);
-	});*/
+var passport = require('passport');
 
 
-	// request.post({url:host_str + '/workout/addWorkout', form:{
-	// 	workout: {username: 'username'}, 
-	// 	dates: {parentWorkout: 'parentWorkout', date: 'date'},
-	// 	exercises: {parentDate: 'parentDate', name: 'name', type: 'type'},
-	// 	lifts: {parentExercise: 'parentExercise', name: 'name', reps: 'reps', sets: 'sets', weight: 'weight'}}}, function(err,res,body){
-	// 		console.log('Body ' + body);
-	// });
+// route middleware to ensure user is logged in
+function isLoggedIn(req, res, next) {
+	if (req.isAuthenticated())
+		return next();
 
-	
-	//successfully calls add workout with parameter object
-	// request.post({url:host_str + '/workout/addWorkout', form:{
-	// 	username: 'Bob',
-	// 	date: 'date!!',
-	// 	exercise_name: 'chest',
-	// 	type: 'lift',
-	// 	lift_name: 'bench',
-	// 	reps: 5,
-	// 	sets: 3,
-	// 	weight: 100
+	res.redirect('/');
+}
 
-	// }}, function(err,res,body) {
-	// 	console.log(body);
-	// });
+// normal routes ===============================================================
 
-		//successfully calls add workout with parameter object
-	request.del({url:host_str + '/workout/deletelift', form:{
-		liftID: objectID('54473712f88c755821d787c9')
-	}}, function(err,res,body) {
-		console.log(body);
-	});
-	
-
-
-	console.log('checking authentication');
-	request.post({url:host_str + '/users/add', form:{
-		'username': "Grant", "password": "hello", "displayname": "Grant",
-		'birthday': '02-13-34', "height": "5'1", "weight": 153, 'level': 'pro'
-	}}, function(err,res,body) {
-		console.log('created user');
-		request.post({url:host_str + '/users/login', form:{
-			username: 'Grant',
-			password: 'hello'
-		}}, function(err,res,body) {
-			request.post({url:host_str + '/workout', form:{
-				username: 'Bob',
-				date: 'date!!',
-				exercise_name: 'chest',
-				type: 'lift',
-				lift_name: 'bench',
-				reps: 5,
-				sets: 3,
-				weight: 100
-
-			}}, function(err,res,body) {
-				console.log('posted workout');
-				console.log(body);
-			});
-		})
+	// show the home page (will also have our login links)
+	router.get('/', function(req, res) {
+		res.render('index.ejs');
 	});
 
-
-	// request.post({host_str + '/users/add', form:{
-	// 	'username': "Grant", "password": "hello", "displayname": "Grant",
-	// 	'birthday': '02-13-34', "height": "5'1", "weight": 153, 'level': 'pro'
-	// }}, function(err,res,body) {
-	// 	console.log('created user');
-		
-	// });
-
-	/*
-	//functional delete test
-	request.del(host_str + '/workout', function(err,res,body) {
-		console.log(body);
+	// PROFILE SECTION =========================
+	router.get('/profile', isLoggedIn, function(req, res) {
+		res.render('profile.ejs', {
+			user : req.user
+		});
 	});
-	*/
 
-	// request.post({url:host_str + '/workout/addlift', form:{
-	// 	exerciseID: "5446f2a86dbd1b401e1abe11",
-	// 	liftID: "5446f2ae6dbd1b401e1abe16"
-	// }}, function(err,res,body) {
+	// LOGOUT ==============================
+	router.get('/logout', function(req, res) {
+		req.logout();
+		res.redirect('/');
+	});
 
-	// 		console.log(body);
-	// });
+// =============================================================================
+// AUTHENTICATE (FIRST LOGIN) ==================================================
+// =============================================================================
+
+	// locally --------------------------------
+		// LOGIN ===============================
+		// show the login form
+		router.get('/login', function(req, res) {
+			res.render('login.ejs', { message: req.flash('loginMessage') });
+		});
+
+		// process the login form
+		router.post('/login', passport.authenticate('local-login', {
+			successRedirect : '/profile', // redirect to the secure profile section
+			failureRedirect : '/login', // redirect back to the signup page if there is an error
+			failureFlash : true // allow flash messages
+		}));
+
+		// SIGNUP =================================
+		// show the signup form
+		router.get('/signup', function(req, res) {
+			res.render('signup.ejs', { message: req.flash('signupMessage') });
+		});
+
+		// process the signup form
+		router.post('/signup', passport.authenticate('local-signup', {
+			successRedirect : '/profile', // redirect to the secure profile section
+			failureRedirect : '/signup', // redirect back to the signup page if there is an error
+			failureFlash : true // allow flash messages
+		}));
 
 
-	// request.del(host_str + '/workout', function(err,res,body) {
-	// 	console.log(body);
-	// });
+// =============================================================================
+// AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
+// =============================================================================
 
-
-	// request.post({url:host_str + '/workout', form:{
-	// 	'username' : 'dirk3',
-	// 	'password' : 'password',
-	// 	'displayName' : 'Dirk',
-	// 	'birthday' : '01-26-1994',
-	// 	'height' : '5\' 9\"',
-	// 	'weight' : '140',
-	// 	'level' : 'amateur'}
-	// }, function(err,res,body) {
-	// 	console.log(body);
-	// });
-
-});
-
+	// locally --------------------------------
+		router.get('/connect/local', function(req, res) {
+			res.render('connect-local.ejs', { message: req.flash('loginMessage') });
+		});
+		router.post('/connect/local', passport.authenticate('local-signup', {
+			successRedirect : '/profile', // redirect to the secure profile section
+			failureRedirect : '/connect/local', // redirect back to the signup page if there is an error
+			failureFlash : true // allow flash messages
+		}));
 
 
 module.exports = router;
