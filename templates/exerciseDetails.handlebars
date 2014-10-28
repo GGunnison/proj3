@@ -9,11 +9,11 @@
 	<button type="button" onclick="alert('Delete Exercise!')">Delete</button>
 	<div id="editExercisePopup" class="hidden">
 		<form id="editExerciseForm">
-			Exercise Name: <input type="text" name="exName"><br>
-			Sets: <input type="text" name="sets"><br>
-			Reps: <input type="text" name="reps"><br>
-			Weight: <input type="text" name="weight">
-			<input type="button" onclick="submit()" value="Submit">
+			Exercise Name: <input type="text" value={{name}} name="exName"><br>
+			Sets: <input type="text" value={{setCount}} name="sets"><br>
+			Reps: <input type="text" value={{repCount}} name="reps"><br>
+			Weight: <input type="text" value={{weight}} name="weight">
+			<input type="button" value="Submit">
 		</form>
 	</div>
 </div>

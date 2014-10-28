@@ -1,5 +1,16 @@
 <div id="workoutDetails-template">
-	<span class="meta">Workout {{date}}</span>
-	<button type="button" onclick="alert('Edit Workout!')">Edit</button>
+	<script>
+	  	$('#editWorkoutButton').click(function(){
+			$('#editWorkoutPopup').removeClass("hidden");
+		});
+	</script>
+	<span class="meta">Workout ({{date}})</span>
+	<button id="editWorkoutButton" type="button">Edit</button>
 	<button type="button" onclick="alert('Delete Workout!')">Delete</button>
+	<div id="editWorkoutPopup" class="hidden">
+		<form id="editWorkoutForm">
+			Date: <input type="text" value={{[date]}} name="date">
+			<input type="button" value="Submit">
+		</form>
+	</div>
 </div>
