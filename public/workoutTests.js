@@ -1,106 +1,102 @@
+QUnit.asyncTest("testing workout add/edit/delete", function(assert){
 
-// DO NOT DELETE THIS TEST!!!
-//when no liftid is specified, a random one is generated and added to the DB
-// QUnit.asyncTest("testing add lift without specified liftID", function(assert){
-// 	var exerciseID = '5447362295a004581b378ef8';
-
-// 	expect(1);
-
-// 	$.ajax({
-// 		type: "POST",
-// 		url: "http://localhost:3000/workout/addlift",
-// 		data: {'parentExercise' : exerciseID,'liftname' : 'Squat','sets': '5','reps' : '5','weight' : '200'},
-// 		success: function(obj){
-// 			assert.equal(1,1, "Successful add");
-// 			QUnit.start();
-// 		}
-// 	});
-// });
-
-//liftid is specified
-// QUnit.asyncTest("testing add lift with specified liftID", function(assert){
-// 	var exerciseID = '5447362295a004581b378ef8';
-
-// 	expect(1);
-
-// 	$.ajax({
-// 		type: "POST",
-// 		url: "http://localhost:3000/workout/addlift",
-// 		data: {'liftid' : '5447362295a123451b378ef7', 'parentExercise' : exerciseID,'liftname' : 'Squat','sets': '5','reps' : '5','weight' : '200'},
-// 		success: function(obj){
-// 			assert.equal(1,1, "Successful specified add");
-// 			QUnit.start();
-// 		}
-// 	});
-// });
-
-// //the specified liftid is used here to delete the lift from the DB
-// // deletes the lift that we added in the test above
-// QUnit.asyncTest("testing delete the specified liftID", function(assert){
-// 	var liftID = '5447362295a123451b378ef7';
-// 	expect(1);
-
-// 	$.ajax({
-// 		type: "DELETE",
-// 		url: "http://localhost:3000/workout/deletelift",
-// 		data: {'liftID':liftID},
-// 		success: function(obj){
-// 			assert.equal(1,1, "Successful delete");
-// 			QUnit.start();
-// 		}
-// 	});
-// });
-
-QUnit.asyncTest("testing workout workflow", function(assert){
-	
-	//ADD USER
+	//add workout
 	$.ajax({
-		type:"POST",
-		url: "http://localhost:3000/users/add",
-		data: {'username': 'Jill', "password": "mountains", "displayname": "Billy",
-		'birthday': '02-13-34', "height": "5'1", "weight": 153, 'level': 'pro'},
+		type: "POST",
+		url: "http://localhost:3000/workout",
+		data: {userid: "544da3dbf00d960000117c14"},
 		success: function(obj){
 			var res = JSON.parse(obj);
-			assert.equal(res.content.username, 'Jill');
-			console.log('after first ajax call');
-
-			//LOGIN
+			workoutID = res.content.workout._id;
+			//Edit workout
 			$.ajax({
-				type: "POST",
-				url: "http://localhost:3000/users/login",
-				data: {'username': 'Jill', 'password': 'mountains'},
+				type: "PUT",
+				url: "http://localhost:3000/workout",
+				data: {workoutID: workoutID, date: new Date('Oct 23, 1919')},
 				success: function(obj){
+					var res = JSON.parse(obj);
+					assert.equal(res.content.workout.date,'1919-10-23T04:00:00.000Z');
 
-					//ADD WORKOUT
+					$.ajax({
+						type: "DELETE",
+						url: "http://localhost:3000/workout",
+						data: {workoutid: workoutID},
+						success: function(obj){
+							var res = JSON.parse(obj);
+							assert.equal(res.content.succeeded, true);
+							QUnit.start();
+						}
+					});
+				}
+			});
+		}
+	});
+});
+
+////////////
+
+QUnit.asyncTest("testing exercise add/edit", function(assert){
+
+	//add workout
+	$.ajax({
+		type: "POST",
+		url: "http://localhost:3000/workout",
+		data: {userid: "544da3dbfeed9eeee0117c14"}, //meaningless id, just a placehoder here
+		success: function(obj) {
+			var res = JSON.parse(obj);
+			workoutID = res.content.workout._id;
+
+			//get how many exercises are in the workout
+			$.ajax({
+				type: "GET",
+				url: "http://localhost:3000/workout/single",
+				data: {workoutID: workoutID},
+				success: function(obj){
+					var res = JSON.parse(obj);
+					var exercises_len = res.content.workout.exercises.length; //use last since we just added it
+
+					//add exercise to workout created in first part
 					$.ajax({
 						type: "POST",
-						url: "http://localhost:3000/workout/addWorkout",
+						url: "http://localhost:3000/workout/exercises",
 						data: {
-							username: 'Bob',
-							date: 'date!!',
-							exercise_name: 'chest',
-							type: 'lift',
-							lift_name: 'bench',
-							reps: 5,
-							sets: 3,
-							weight: 100
+							workoutID: workoutID, //the ID of the workout we want to add the exercise to
+							exerciseName: 'bench',
+							repCount: 5,
+							setCount: 5,
+							weight: 105,
 						},
 						success: function(obj){
 							var res = JSON.parse(obj);
-							assert.equal(1,1); //if we got here, it was successful
-
-							//DELETE USER
+							
+							console.log(res.content.workout.exercises.length);
+							assert.equal(res.content.workout.exercises.length, exercises_len + 1);
+							var exercises = res.content.workout.exercises;
+							var exerciseID = exercises[exercises.length-1];
+														
+							//edit exercise
 							$.ajax({
-								type: "DELETE",
-								url: "http://localhost:3000/users/" + 'Jill',
-								data: {'username':'Jill'},
-								success: function(obj){
+								type: "PUT",
+								url: "http://localhost:3000/workout/exercises",
+								data: {
+									exerciseID: exerciseID, //the ID of the workout we want to add the exercise to
+									repCount: 700,
+								},
+								success: function(obj) {
 									var res = JSON.parse(obj);
-									console.log('returned from delete call');
-									//deleting user also calls the workout delete method
-									//so no point in writing a separate test - it's covered here
-									assert.equal(1,1, "Successful delete"); 
-									QUnit.start();
+									assert.equal(res.content.exercise.repCount,700);
+
+									//delete workout we just created
+									$.ajax({
+										type: "DELETE",
+										url: "http://localhost:3000/workout",
+										data: {workoutid: workoutID},
+										success: function(obj){
+											var res = JSON.parse(obj);
+											assert.equal(res.content.succeeded, true);
+											QUnit.start();
+										}
+									});
 								}
 							});
 						}
@@ -110,5 +106,4 @@ QUnit.asyncTest("testing workout workflow", function(assert){
 		}
 	});
 });
-
 
