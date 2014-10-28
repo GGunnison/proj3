@@ -1,5 +1,8 @@
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['addExercise'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "<div id=\"addExercise-template\">\r\n	<script>\r\n	  	$('#addExerciseButton').click(function(){\r\n			$('#addExercisePopup').removeClass(\"hidden\");\r\n		});\r\n	</script>\r\n	<button id=\"addExerciseButton\" type=\"button\")\">Add Exercise</button>\r\n	<div id=\"addExercisePopup\" class=\"hidden\">\r\n		<form id=\"addExerciseForm\">\r\n			Exercise Name: <input type=\"text\" name=\"exName\"><br>\r\n			Sets: <input type=\"text\" name=\"sets\"><br>\r\n			Reps: <input type=\"text\" name=\"reps\"><br>\r\n			Weight: <input type=\"text\" name=\"weight\">\r\n			<input type=\"button\" value=\"Submit\">\r\n		</form>\r\n	</div>\r\n</div>";
+  },"useData":true});
 templates['exerciseDetails'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "<div id=\"exerciseDetails-template\">\r\n	<script>\r\n	  	$('#editExerciseButton').click(function(){\r\n			$('#editExercisePopup').removeClass(\"hidden\");\r\n		});\r\n	</script>\r\n	<span class=\"meta\">"
@@ -10,7 +13,15 @@ templates['exerciseDetails'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main"
     + escapeExpression(((helper = (helper = helpers.repCount || (depth0 != null ? depth0.repCount : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"repCount","hash":{},"data":data}) : helper)))
     + ") using "
     + escapeExpression(((helper = (helper = helpers.weight || (depth0 != null ? depth0.weight : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"weight","hash":{},"data":data}) : helper)))
-    + " pounds</span>\r\n	<button id=\"editExerciseButton\" type=\"button\">Edit</button>\r\n	<button type=\"button\" onclick=\"alert('Delete Exercise!')\">Delete</button>\r\n	<div id=\"editExercisePopup\" class=\"hidden\">\r\n		<form id=\"editExerciseForm\">\r\n			Exercise Name: <input type=\"text\" name=\"exName\"><br>\r\n			Sets: <input type=\"text\" name=\"sets\"><br>\r\n			Reps: <input type=\"text\" name=\"reps\"><br>\r\n			Weight: <input type=\"text\" name=\"weight\">\r\n			<input type=\"button\" onclick=\"submit()\" value=\"Submit\">\r\n		</form>\r\n	</div>\r\n</div>";
+    + " pounds</span>\r\n	<button id=\"editExerciseButton\" type=\"button\">Edit</button>\r\n	<button type=\"button\" onclick=\"alert('Delete Exercise!')\">Delete</button>\r\n	<div id=\"editExercisePopup\" class=\"hidden\">\r\n		<form id=\"editExerciseForm\">\r\n			Exercise Name: <input type=\"text\" value="
+    + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
+    + " name=\"exName\"><br>\r\n			Sets: <input type=\"text\" value="
+    + escapeExpression(((helper = (helper = helpers.setCount || (depth0 != null ? depth0.setCount : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"setCount","hash":{},"data":data}) : helper)))
+    + " name=\"sets\"><br>\r\n			Reps: <input type=\"text\" value="
+    + escapeExpression(((helper = (helper = helpers.repCount || (depth0 != null ? depth0.repCount : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"repCount","hash":{},"data":data}) : helper)))
+    + " name=\"reps\"><br>\r\n			Weight: <input type=\"text\" value="
+    + escapeExpression(((helper = (helper = helpers.weight || (depth0 != null ? depth0.weight : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"weight","hash":{},"data":data}) : helper)))
+    + " name=\"weight\">\r\n			<input type=\"button\" value=\"Submit\">\r\n		</form>\r\n	</div>\r\n</div>";
 },"useData":true});
 templates['index'] = template({"1":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
@@ -44,8 +55,10 @@ templates['signin'] = template({"1":function(depth0,helpers,partials,data) {
 },"useData":true});
 templates['workoutDetails'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "<div id=\"workoutDetails-template\">\r\n	<span class=\"meta\">Workout "
+  return "<div id=\"workoutDetails-template\">\r\n	<script>\r\n	  	$('#editWorkoutButton').click(function(){\r\n			$('#editWorkoutPopup').removeClass(\"hidden\");\r\n		});\r\n	</script>\r\n	<span class=\"meta\">Workout ("
     + escapeExpression(((helper = (helper = helpers.date || (depth0 != null ? depth0.date : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"date","hash":{},"data":data}) : helper)))
-    + "</span>\r\n	<button type=\"button\" onclick=\"alert('Edit Workout!')\">Edit</button>\r\n	<button type=\"button\" onclick=\"alert('Delete Workout!')\">Delete</button>\r\n</div>";
+    + ")</span>\r\n	<button id=\"editWorkoutButton\" type=\"button\">Edit</button>\r\n	<button type=\"button\" onclick=\"alert('Delete Workout!')\">Delete</button>\r\n	<div id=\"editWorkoutPopup\" class=\"hidden\">\r\n		<form id=\"editWorkoutForm\">\r\n			Date: <input type=\"text\" value="
+    + escapeExpression(((helper = (helper = helpers.date || (depth0 != null ? depth0.date : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"date","hash":{},"data":data}) : helper)))
+    + " name=\"date\">\r\n			<input type=\"button\" value=\"Submit\">\r\n		</form>\r\n	</div>\r\n</div>";
 },"useData":true});
 })();

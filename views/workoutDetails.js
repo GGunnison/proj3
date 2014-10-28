@@ -1,4 +1,4 @@
 $( document ).ready(function() {
-	var data = {date: 'Oct 31, 2014'};
-  	$('#workout').html(Handlebars.templates['workoutDetails'](data));
+	var data = {date: '10/31/14'};
+  	$('#workoutDetails').html(Handlebars.templates['workoutDetails'](data));
 });
