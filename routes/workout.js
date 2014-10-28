@@ -6,14 +6,15 @@ var Exercises = require('../models/Exercise.js');
 
 //gets all workouts for a user
 router.get('/', function(req,res) {
-	console.log('in GET /');
-	var userID = req.query.userid;
-
-	Workouts.find({user: userID}, function(err, workouts) {
+	var userID = req.user._id;
+	console.log(userID);
+	Workouts.find({_id: userID}, function(err, workouts) {
 		if (err) {
 			utils.sendErrResponse(res,500,'Could not retrieve workout from database');
 		}else{
-			utils.sendSuccessResponse(res, {workout: workouts});
+			console.log('got here');
+			console.log(workouts);
+			res.render('userPage', {workout: workouts});
 		}
 	});
 });
@@ -22,7 +23,6 @@ router.get('/', function(req,res) {
 router.get('/single', function(req,res) {
 	console.log('in GET /single');
 	var workoutID = req.query.workoutID;
-
 	Workouts.findOne({_id: workoutID}, function(err, workout) {
 		if (err) {
 			utils.sendErrResponse(res,500,'Could not retrieve workout from database');
