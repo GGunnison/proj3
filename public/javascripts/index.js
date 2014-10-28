@@ -1,5 +1,8 @@
 var loadPage = function(template, data) {
   data = data || {};
+  console.log(template);
+  console.log(data);
+  console.log(Handlebars.templates[template]);
   $('#main-container').html(Handlebars.templates[template](data));
 };
 
@@ -34,17 +37,17 @@ $(document).on('submit', '#register-form', function(evt) {
   });
 });
 
-$(document).on('submit', '#signin-form', function(evt) {
-  evt.preventDefault();
-  $.ajax({
-  	type: "POST",
-  	url: '/login',
-  	data : helpers.getFormData(this)
-  }).done(function(response) {
-    currentUser = response.username;
-    loadPage('userPage');
-  }).fail(function(jqxhr) {
-    var response = $.parseJSON(jqxhr.responseText);
-    loadPage('index', {error: response.err});
-  });
-});
+// $(document).on('submit', '#signin-form', function(evt) {
+//   evt.preventDefault();
+//   $.ajax({
+//   	type: "POST",
+//   	url: '/login',
+//   	data : helpers.getFormData(this)
+//   }).done(function(response) {
+//     currentUser = response.username;
+//     loadPage('userPage');
+//   }).fail(function(jqxhr) {
+//     var response = $.parseJSON(jqxhr.responseText);
+//     loadPage('index', {error: response.err});
+//   });
+// });
