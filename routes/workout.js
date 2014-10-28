@@ -14,6 +14,7 @@ Content: returns all workouts for the currently logged in user
 Error: 500 if unable to retrieve workout from database
 */
 router.get('/', function(req,res) {
+	console.log('in GET /');
 	var userID = req.user._id;
 	console.log(userID);
 	Workouts.find({_id: userID}, function(err, workouts) {
@@ -148,15 +149,14 @@ Error: 500 if no workout exists with specified id, 501 if exercise could not be 
 could not be saved
 */
 router.post('/exercises', function(req,res) {
+	console.log("in POST /workout/exercises");
+	console.log(req.body);
 	var workoutID = req.body.workoutID; //the ID of the workout we want to add the exercise to
-	var exerciseName = req.body.name;
-	var description = req.body.description;
+	var exerciseName = req.body.exerciseName;
 	var repCount = req.body.repCount;
 	var setCount = req.body.setCount;
 	var weight = req.body.weight;
-	var time = req.body.time;
-	var exercise = new Exercises({name: exerciseName, description: description, repCount: repCount, 
-										setCount: setCount, weight: weight});
+	var exercise = new Exercises({name: exerciseName, repCount: repCount, setCount: setCount, weight: weight});
 
 	Workouts.findOne({_id: workoutID}, function(err, workout){
 		if (err){
