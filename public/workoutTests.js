@@ -1,41 +1,57 @@
-QUnit.asyncTest("testing workout add/edit/delete", function(assert){
-
-	//add workout
+//workout tests
+QUnit.asyncTest("testing workout add/edit/delete + user", function(assert){
+	//create user so we can log in
 	$.ajax({
 		type: "POST",
-		url: "http://localhost:3000/workout",
-		data: {userid: "544da3dbf00d960000117c14"},
-		success: function(obj){
-			var res = JSON.parse(obj);
-			workoutID = res.content.workout._id;
-			//Edit workout
+		url: '/signup',
+		data : {username: 'dirk', password: 'potato'},
+		success: function(obj) {
 			$.ajax({
-				type: "PUT",
-				url: "http://localhost:3000/workout",
-				data: {workoutID: workoutID, date: new Date('Oct 23, 1919')},
-				success: function(obj){
-					var res = JSON.parse(obj);
-					assert.equal(res.content.workout.date,'1919-10-23T04:00:00.000Z');
-
+				type: "POST",
+				url: '/login',
+				data : {username: 'dirk', password: 'potato'},
+				success: function(obj) {
+					//add workout
 					$.ajax({
-						type: "DELETE",
+						type: "POST",
 						url: "http://localhost:3000/workout",
-						data: {workoutid: workoutID},
+						data: {userid: "544da3dbf00d960000117c14"},
 						success: function(obj){
 							var res = JSON.parse(obj);
-							assert.equal(res.content.succeeded, true);
-							QUnit.start();
+							workoutID = res.content.workout._id;
+							//Edit workout
+							$.ajax({
+								type: "PUT",
+								url: "http://localhost:3000/workout",
+								data: {workoutID: workoutID, date: new Date('Oct 23, 1919')},
+								success: function(obj){
+									var res = JSON.parse(obj);
+									assert.equal(res.content.workout.date,'1919-10-23T04:00:00.000Z');
+
+									$.ajax({
+										type: "DELETE",
+										url: "http://localhost:3000/workout",
+										data: {workoutid: workoutID},
+										success: function(obj){
+											var res = JSON.parse(obj);
+											assert.equal(res.content.succeeded, true);
+											QUnit.start();
+										}
+									});
+								}
+							});
 						}
 					});
 				}
 			});
 		}
-	});
+	}); 
 });
 
-////////////
+//now move on to exercise tests
 
-QUnit.asyncTest("testing exercise add/edit", function(assert){
+//exercise tests
+QUnit.asyncTest("testing exercise add/edit/delete", function(assert){
 
 	//add workout
 	$.ajax({
@@ -106,4 +122,11 @@ QUnit.asyncTest("testing exercise add/edit", function(assert){
 		}
 	});
 });
+
+
+
+//////////////
+/////
+///
+//
 
