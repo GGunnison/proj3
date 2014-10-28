@@ -48,8 +48,8 @@ router.post('/', function(req,res) {
 			console.log("error adding workout");
 			utils.sendErrResponse(res, 500, 'Could not save workout to DB.');
 		}else{
-			console.log("succesfully added");
-			utils.sendSuccessResponse(res, {workout: workout, userID: userID, date: workout.date});
+			
+			res.render('userPage', {workout: workout, userID: userID, date: workout.date});
 		}
 	});
 });
