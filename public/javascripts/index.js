@@ -14,7 +14,6 @@ $(document).ready(function(){
 
 $(document).on('submit', '#register-form', function(evt) {
   evt.preventDefault();
-  console.log('hello');
   var formData = helpers.getFormData(this);
   if (formData.password !== formData.confirm) {
     $('.error').text('Password and confirmation do not match!');
@@ -42,9 +41,8 @@ $(document).on('submit', '#signin-form', function(evt) {
   	url: '/login',
   	data : helpers.getFormData(this)
   }).done(function(response) {
-  	console.log(response);
     currentUser = response.username;
-    loadPage('profile');
+    loadPage('userPage');
   }).fail(function(jqxhr) {
     var response = $.parseJSON(jqxhr.responseText);
     loadPage('index', {error: response.err});

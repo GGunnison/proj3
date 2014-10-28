@@ -40,8 +40,7 @@ function isLoggedIn(req, res, next) {
 			failureRedirect : '/', // redirect back to the signup page if there is an error
 			failureFlash : true // allow flash messages
 		}),	function(req, res){
-			//console.log(req);
-			res.json(req.user);
+			res.render('/userPage', req.user);
 		}
 		);
 

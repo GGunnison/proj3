@@ -11,7 +11,7 @@
     <div>Age: <input type="Number" name="weight" required /></div>
     <div>Password: <input type="password" name="password" required /></div>
     <div>Confirm Password: <input type="password" name="confirm" required /></div>
-    <input id="submit"></input>
+    <input id="submit"/>
   </form>
 </div>
 
@@ -21,7 +21,7 @@
   {{#if error}}
     <div class="error">{{error}}</div>
   {{/if}}
-  <form id="signin-form">
+  <form id="signin-form" action"/login" method="post">
     <div>Username: <input type="text" name="username" required /></div>
     <div>Password: <input type="password" name="password" required /></div>
     <input type="submit" />
