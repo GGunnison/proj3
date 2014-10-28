@@ -27,7 +27,7 @@ module.exports = function(passport) {
     // =========================================================================
     // LOCAL LOGIN =============================================================
     // =========================================================================
-    passport.use('login', new LocalStrategy({
+    passport.use('local-login', new LocalStrategy({
         // by default, local strategy uses username and password, we will override with email
         usernameField : 'username',
         passwordField : 'password',
@@ -60,7 +60,7 @@ module.exports = function(passport) {
     // =========================================================================
     // LOCAL SIGNUP ============================================================
     // =========================================================================
-    passport.use('signup', new LocalStrategy({
+    passport.use('local-signup', new LocalStrategy({
         // by default, local strategy uses username and password, we will override with email
         usernameField : 'username',
         passwordField : 'password',

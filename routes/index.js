@@ -15,7 +15,13 @@ function isLoggedIn(req, res, next) {
 
 	// show the home page (will also have our login links)
 	router.get('/', function(req, res) {
-		res.render('index', {});
+		console.log('Res.user:'+req.user);
+		if (req.user) {
+			console.log('is this it?')
+			res.redirect('/workout');
+			return;
+		}
+		res.render('index.ejs', {});
 	});
 
 	// PROFILE SECTION =========================
@@ -36,17 +42,15 @@ function isLoggedIn(req, res, next) {
 // =============================================================================
 
 		// process the login form
-		router.post('/login', passport.authenticate('login', {
+		router.post('/login', passport.authenticate('local-login', {
+			successRedirect : '/workout', // redirect to the secure profile section
 			failureRedirect : '/', // redirect back to the signup page if there is an error
 			failureFlash : true // allow flash messages
-		}),	function(req, res){
-			res.render('/userPage', req.user);
-		}
-		);
+		}));
+
 
 		// process the signup form
-		router.post('/signup', passport.authenticate('signup', {
-
+		router.post('/signup', passport.authenticate('local-signup', {
 			successRedirect : '/', // redirect to the secure profile section
 			failureRedirect : '/', // redirect back to the signup page if there is an error
 			failureFlash : true // allow flash messages
