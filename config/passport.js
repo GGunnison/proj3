@@ -2,7 +2,7 @@
 var LocalStrategy    = require('passport-local').Strategy;
 
 // load up the user model
-var User       = require('../models/user');
+var User  = require('../models/user');
 
 module.exports = function(passport) {
 
@@ -36,7 +36,6 @@ module.exports = function(passport) {
     function(req, username, password, done) {
         if (username)
             username = username.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
-
         // asynchronous
         process.nextTick(function() {
             User.findOne({ 'username' :  username }, function(err, user) {

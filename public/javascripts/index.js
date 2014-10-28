@@ -12,21 +12,39 @@ $(document).ready(function(){
 });
 
 
-$(document).on('click', '#register-button', function(evt) {
-  console.log('hello');
+$(document).on('submit', '#register-form', function(evt) {
   evt.preventDefault();
+  console.log('hello');
   var formData = helpers.getFormData(this);
   if (formData.password !== formData.confirm) {
     $('.error').text('Password and confirmation do not match!');
     return;
   }
   delete formData['confirm'];
-  $.post(
-    '/signup',
-    formData
+
+  $.ajax({ 
+  	type: "POST",	
+    url: '/signup',
+    data : formData
+}
   ).done(function(response) {
-  	console.log("here")
     loadHomePage();
+  }).fail(function(jqxhr) {
+    var response = $.parseJSON(jqxhr.responseText);
+    loadPage('index', {error: response.err});
+  });
+});
+
+$(document).on('submit', '#signin-form', function(evt) {
+  evt.preventDefault();
+  $.ajax({
+  	type: "POST",
+  	url: '/login',
+  	data : helpers.getFormData(this)
+  }).done(function(response) {
+  	console.log(response);
+    currentUser = response.username;
+    loadPage('profile');
   }).fail(function(jqxhr) {
     var response = $.parseJSON(jqxhr.responseText);
     loadPage('index', {error: response.err});

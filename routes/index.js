@@ -36,14 +36,18 @@ function isLoggedIn(req, res, next) {
 // =============================================================================
 
 		// process the login form
-		router.post('/login', passport.authenticate('local-login', {
-			successRedirect : '/profile', // redirect to the secure profile section
-			failureRedirect : '/login', // redirect back to the signup page if there is an error
+		router.post('/login', passport.authenticate('login', {
+			failureRedirect : '/', // redirect back to the signup page if there is an error
 			failureFlash : true // allow flash messages
-		}));
+		}),	function(req, res){
+			//console.log(req);
+			res.json(req.user);
+		}
+		);
 
 		// process the signup form
 		router.post('/signup', passport.authenticate('signup', {
+
 			successRedirect : '/', // redirect to the secure profile section
 			failureRedirect : '/', // redirect back to the signup page if there is an error
 			failureFlash : true // allow flash messages
