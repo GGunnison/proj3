@@ -2,10 +2,9 @@ var mongoose = require('mongoose');
 
 var exerciseSchema = mongoose.Schema({
     name: String,
-    description: String,
     repCount: Number,
     setCount: Number,
-    time: Number
+    weight: Number
 });
 
 
