@@ -3,7 +3,6 @@ var router = express.Router();
 var utils = require('../utils/utils');
 var Workouts = require('../models/Workout.js');
 var Exercises = require('../models/Exercise.js');
-var Users = require('../models/User.js');
 
 //gets all workouts for a user
 router.get('/', function(req,res) {
@@ -36,26 +35,18 @@ router.get('/single', function(req,res) {
 //POST add a workout
 router.post('/', function(req,res) {
 	console.log('in POST /');
-	var currentUser = req.user;
+	var userid = req.user._id;
 
-	//look up user to find id
-	Users.findOne({username: currentUser}, function(err,user) {
-		if (err) {
-			utils.sendErrResponse(res,500,'User not found in database');
+	//create workout for the current user, specified date, and with no exercises
+	var workout = new Workouts({user: userid, date: new Date('Jun 23, 1912'), exercises: []}); //TODO: this
+	//save the workout to the DB
+	workout.save(function(err){
+		if (err){
+			console.log("error adding workout");
+			utils.sendErrResponse(res, 500, 'Could not save workout to DB.');
 		}else{
-			var userid = user._id;
-			//create workout for the current user, specified date, and with no exercises
-			var workout = new Workouts({user: userid, date: new Date('Jun 23, 1912'), exercises: []}); //TODO: this
-			//save the workout to the DB
-			workout.save(function(err){
-				if (err){
-					console.log("error adding workout");
-					utils.sendErrResponse(res, 500, 'Could not save workout to DB.');
-				}else{
-					console.log("succesfully added");
-					utils.sendSuccessResponse(res, {workout: workout, user: userid, date: workout.date});
-				}
-			});
+			console.log("succesfully added");
+			utils.sendSuccessResponse(res, {workout: workout, user: userid, date: workout.date});
 		}
 	});
 });
@@ -101,7 +92,7 @@ router.delete('/', function(req,res){
 
 
 /////////////////////////////////////////////////////////////////////////////
-//Exercises
+//Exercises //
 /////////////////////////////////////////////////////////////////////////////
 
 
