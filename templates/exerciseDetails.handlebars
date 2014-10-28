@@ -1,5 +1,19 @@
 <div id="exerciseDetails-template">
+	<script>
+	  	$('#editExerciseButton').click(function(){
+			$('#editExercisePopup').removeClass("hidden");
+		});
+	</script>
 	<span class="meta">{{name}}: ({{setCount}}x{{repCount}}) using {{weight}} pounds</span>
-	<button type="button" onclick="$("#divdeps").dialog('open')">Edit</button>
+	<button id="editExerciseButton" type="button">Edit</button>
 	<button type="button" onclick="alert('Delete Exercise!')">Delete</button>
+	<div id="editExercisePopup" class="hidden">
+		<form id="editExerciseForm">
+			Exercise Name: <input type="text" name="exName"><br>
+			Sets: <input type="text" name="sets"><br>
+			Reps: <input type="text" name="reps"><br>
+			Weight: <input type="text" name="weight">
+			<input type="button" onclick="submit()" value="Submit">
+		</form>
+	</div>
 </div>
