@@ -21,14 +21,12 @@ function isLoggedIn(req, res, next) {
 			res.redirect('/workout');
 			return;
 		}
-		res.render('index.ejs', {});
+		res.render('index.ejs');
 	});
 
 	// PROFILE SECTION =========================
-	router.get('/profile', isLoggedIn, function(req, res) {
-		res.render('profile.ejs', {
-			user : req.user
-		});
+	router.get('/home', isLoggedIn, function(req, res) {
+		res.render('userPage.ejs');
 	});
 
 	// LOGOUT ==============================
@@ -43,7 +41,7 @@ function isLoggedIn(req, res, next) {
 
 		// process the login form
 		router.post('/login', passport.authenticate('local-login', {
-			successRedirect : '/workout', // redirect to the secure profile section
+			successRedirect : '/home', // redirect to the secure profile section
 			failureRedirect : '/', // redirect back to the signup page if there is an error
 			failureFlash : true // allow flash messages
 		}));

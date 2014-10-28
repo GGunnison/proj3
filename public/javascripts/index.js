@@ -1,18 +1,7 @@
-var loadPage = function(template, data) {
-  data = data || {};
-  console.log(template);
-  console.log(data);
-  console.log(Handlebars.templates[template]);
-  $('#main-container').html(Handlebars.templates[template](data));
-};
-
-var loadHomePage = function() {
-    loadPage('index', null);
-};
 
 $(document).ready(function(){
-		loadHomePage();
-});
+    //do nothing for now
+  });
 
 
 $(document).on('submit', '#register-form', function(evt) {
@@ -28,12 +17,9 @@ $(document).on('submit', '#register-form', function(evt) {
   	type: "POST",	
     url: '/signup',
     data : formData
-}
-  ).done(function(response) {
-    loadHomePage();
+}).done(function(response) {
   }).fail(function(jqxhr) {
     var response = $.parseJSON(jqxhr.responseText);
-    loadPage('index', {error: response.err});
   });
 });
 
