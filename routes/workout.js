@@ -3,6 +3,7 @@ var router = express.Router();
 var utils = require('../utils/utils');
 var Workouts = require('../models/Workout.js');
 var Exercises = require('../models/Exercise.js');
+var moment = require('moment');
 
 //gets all workouts for a user
 router.get('/', function(req,res) {
@@ -22,7 +23,9 @@ router.get('/', function(req,res) {
 //gets a single workout (designated by id) for a user
 router.get('/single', function(req,res) {
 	console.log('in GET /single');
+
 	var workoutID = req.query.workoutID;
+
 	Workouts.findOne({_id: workoutID}, function(err, workout) {
 		if (err) {
 			utils.sendErrResponse(res,500,'Could not retrieve workout from database');
@@ -35,18 +38,18 @@ router.get('/single', function(req,res) {
 //POST add a workout
 router.post('/', function(req,res) {
 	console.log('in POST /');
-	var userid = req.user._id;
-
+	var userID = req.user._id;
+	var date = req.body.date;
+	console.log(req.body);
 	//create workout for the current user, specified date, and with no exercises
-	var workout = new Workouts({user: userid, date: new Date('Jun 23, 1912'), exercises: []}); //TODO: this
-	//save the workout to the DB
+	var workout = new Workouts({user: userID, date: new Date(date), exercises: []}); 
 	workout.save(function(err){
 		if (err){
 			console.log("error adding workout");
 			utils.sendErrResponse(res, 500, 'Could not save workout to DB.');
 		}else{
 			console.log("succesfully added");
-			utils.sendSuccessResponse(res, {workout: workout, user: userid, date: workout.date});
+			utils.sendSuccessResponse(res, {workout: workout, userID: userID, date: workout.date});
 		}
 	});
 });
