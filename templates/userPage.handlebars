@@ -65,34 +65,37 @@
 					<input type="button" value="Submit">
 				</form>
 			</div></br>
-
-			<div class="addExercise">
-				<button id="addExerciseButton" type="button">Add Exercise</button>
-				<div id="addExercisePopup" class ="hidden">
-					<form class="addExerciseForm">
-						Exercise Name: <input type="text" name="name" required><br>
-						Sets: <input type="text" name="setCount" required><br>
-						Reps: <input type="text" name="repCount" required><br>
-						Weight: <input type="text" name="weight" required>
-						<input class="hidden" value={{_id}} name="workoutID">
-						<input type="submit" />
-					</form>
+			<div>
+				<div class="addExercise">
+					<button class="addExerciseButton" type="button">Add Exercise</button>
+					<div class="addExercisePopup hidden">
+						<form class="addExerciseForm">
+							Exercise Name: <input type="text" name="name" required><br>
+							Sets: <input type="text" name="setCount" required><br>
+							Reps: <input type="text" name="repCount" required><br>
+							Weight: <input type="text" name="weight" required>
+							<input class="hidden" value={{_id}} name="workoutID">
+							<input type="submit" />
+						</form>
+					</div>
 				</div>
 			</div>
 			{{#each exercises}}
-				<span class="meta">{{name}}: ({{setCount}}x{{repCount}}) using {{weight}} pounds</span>
-				<button id="editExerciseButton" type="button">Edit</button>
-				<button type="button" onclick="alert('Delete Exercise!')">Delete</button>
-				<div id="editExercisePopup" class="hidden">
-					<form id="editExerciseForm">
-						Exercise Name: <input type="text" value={{name}} name="name"><br>
-						Sets: <input type="text" value={{setCount}} name="setCount"><br>
-						Reps: <input type="text" value={{repCount}} name="repCount"><br>
-						Weight: <input type="text" value={{weight}} name="weight">
-						<input type="button" value="Submit">
-					</form>
-				</div>
-				<br>				
+				<div>
+					<span class="meta">{{name}}: ({{setCount}}x{{repCount}}) using {{weight}} pounds</span>
+					<button class="editExerciseButton" type="button">Edit</button>
+					<button type="button" onclick="alert('Delete Exercise!')">Delete</button>
+					<div class="editExercisePopup hidden">
+						<form id="editExerciseForm">
+							Exercise Name: <input type="text" value={{name}} name="name"><br>
+							Sets: <input type="text" value={{setCount}} name="setCount"><br>
+							Reps: <input type="text" value={{repCount}} name="repCount"><br>
+							Weight: <input type="text" value={{weight}} name="weight">
+							<input type="button" value="Submit">
+						</form>
+					</div>
+					<br>
+				</div>				
 			{{/each}}
 
 
