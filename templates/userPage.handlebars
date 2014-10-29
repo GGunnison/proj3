@@ -10,7 +10,7 @@
 
 <div id="workoutDetails-template">
 	
-	<span class="meta">Workout (<span id="workout_id">{{date}}</span>)</span>
+	<span class="meta">Workout ({{date}})</span>
 	<button id="editWorkoutButton" type="button">Edit</button>
 	<button type="button" onclick="alert('Delete Workout!')">Delete</button>
 	<div id="editWorkoutPopup" class="hidden">
@@ -25,6 +25,7 @@
 	
 	<button id="addExerciseButton" type="button">Add Exercise</button>
 	<div id="addExercisePopup" class="hidden">
+
 		<form id="addExerciseForm" method="post" action="/workout/exercises">
 			Exercise Name: <input type="text" name="exerciseName"><br>
 			Sets: <input type="text" name="setCount"><br>

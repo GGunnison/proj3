@@ -1,65 +1,16 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-	<script src="/javascripts/helpers.js"></script>
-	<script src="/javascripts/userPage.js"></script>
-</head>
-<body>
-	<div id="addWorkout-template">	
-		<button id="addWorkoutButton" type="button">Add Workout</button>
-		<div id="addWorkoutPopup" class="hidden">
-			<form id="addWorkoutForm">
-				Date: <input type="date" name="date" required><br>
-				<input type="submit" />
-			</form>
-		</div>
-	</div>
-
-	<div id="workoutDetails-template">
-
-		<span class="meta">Workout ({{date}})</span>
-		<button id="editWorkoutButton" type="button">Edit</button>
-		<button type="button" onclick="alert('Delete Workout!')">Delete</button>
-		<div id="editWorkoutPopup" class="hidden">
-			<form id="editWorkoutForm">
-				Date: <input type="date" value={{[date]}} name="date">
-				<input type="submit" />
-			</form>
-		</div>
-	</div>
-
-	<div id="addExercise-template">
-
-		<button id="addExerciseButton" type="button">Add Exercise</button>
-		<div id="addExercisePopup" class="hidden">
-			<form id="addExerciseForm">
-				Exercise Name: <input type="text" name="exName"><br>
-				Sets: <input type="text" name="sets"><br>
-				Reps: <input type="text" name="reps"><br>
-				Weight: <input type="text" name="weight">
-				<input type="submit" />
-			</form>
-		</div>
-	</div>
-
-	<div id="exerciseDetails-template">
-
-		<span class="meta">{{name}}: ({{setCount}}x{{repCount}}) using {{weight}} pounds</span>
-		<button id="editExerciseButton" type="button">Edit</button>
-		<button type="button" onclick="alert('Delete Exercise!')">Delete</button>
-		<div id="editExercisePopup" class="hidden">
-			<form id="editExerciseForm">
-				Exercise Name: <input type="text" value={{name}} name="exName"><br>
-				Sets: <input type="text" value={{setCount}} name="sets"><br>
-				Reps: <input type="text" value={{repCount}} name="reps"><br>
-				Weight: <input type="text" value={{weight}} name="weight">
-				<input type="button" value="Submit">
-			</form>
-		</div>
-	</div>
-</body>
+	<head>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="/javascripts/handlebars-v2.0.0.js"></script>
+	    <script src="/javascripts/templates.js"></script>
+	    <script src="/javascripts/helpers.js"></script>
+	    <script src="/javascripts/userPage.js"></script>
+	</head>
+	<body>
+		<div id="main-container"></div>
+	</body>
 </html>

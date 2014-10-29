@@ -1,37 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>LiftMate</title>
-	<link rel='stylesheet' href='/stylesheets/style.css' />
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-	<script src="/javascripts/helpers.js"></script>
-	<script src="/javascripts/index.js"></script>
-</head>
+	<head>
+		<title>LiftMate</title>
+		<link rel='stylesheet' href='/stylesheets/style.css' />
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+		<script src="/javascripts/handlebars-v2.0.0.js"></script>
+    	<script src="/javascripts/templates.js"></script> 
+    	<script src="/javascripts/helpers.js"></script>
+    	<script src="/javascripts/index.js"></script>
+	</head>
 
-<body>
-	<div id="register">
-		<h1>Register</h1>
-		</div>
-		<form id="register-form">
-			<div>Username: <input type="text" name="username" required /></div>
-			<div>Weight: <input type="number" name="weight" required /></div>
-			<div>Age: <input type="Number" name="age" required /></div>
-			<div>Password: <input type="password" name="password" required /></div>
-			<div>Confirm Password: <input type="password" name="confirm" required /></div>
-			<input type="submit"/>
-		</form>
-	</div>
-
-
-	<div id="signin">
-		<h1>Sign in</h1>
-		<form id="signin-form" action="/login" method="post">
-			<div>Username: <input type="text" name="username" required /></div>
-			<div>Password: <input type="password" name="password" required /></div>
-			<input type="submit" />
-		</form>
-	</div>
-</body>
+	<body>
+		<div id="main-container"></div>
+	</body>
 </html>

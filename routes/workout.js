@@ -16,11 +16,14 @@ Error: 500 if unable to retrieve workout from database
 router.get('/', function(req,res) {
 	console.log('in GET /');
 	var userID = req.user._id;
-	Workouts.find({user: userID}, function(err, workouts) {
+	console.log(userID);
+	Workouts.find({_id: userID}, function(err, workouts) {
 		if (err) {
 			utils.sendErrResponse(res,500,'Could not retrieve workout from database');
 		}else{
-			res.send({workout: workouts});
+			console.log('got here');
+			console.log(workouts);
+			res.render('userPage', {workout: workouts});
 		}
 	});
 });
@@ -69,7 +72,7 @@ router.post('/', function(req,res) {
 			utils.sendErrResponse(res, 500, 'Could not save workout to DB.');
 		}else{
 			
-			res.render('userPage', {workout: workout, userID: userID, date: workout.date});
+			res.send({workout: workout, userID: userID, date: workout.date});
 		}
 	});
 });
