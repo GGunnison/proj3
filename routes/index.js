@@ -26,7 +26,7 @@ function isLoggedIn(req, res, next) {
 
 	// PROFILE SECTION =========================
 	router.get('/home', isLoggedIn, function(req, res) {
-		res.render('profile.ejs', {
+		res.render('userPage.ejs', {
 			user : req.user
 		});
 	});
