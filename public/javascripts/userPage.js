@@ -16,8 +16,9 @@ $(document).ready(function() {
   
   $.ajax({
     type:"GET",
-    url:"/workout"
+    url:"/workout",
   }).done(function(data){
+    console.log(data);
       $('#main-container').html(Handlebars.templates['userPage'](data));
 
   });
