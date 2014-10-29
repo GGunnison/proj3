@@ -24,6 +24,15 @@ $(document).ready(function() {
   });
 });
 
+
+$(document).on('click', '.editWorkout', function(){
+    if($(this).parent().children(".editWorkoutPopup").hasClass('hidden')){
+      $(this).parent().children(".editWorkoutPopup").removeClass("hidden");
+    }else{
+      $(this).parent().children(".editWorkoutPopup").addClass("hidden");
+    }
+    });
+
 //Open and close workout form
 $(document).on('click', '#addWorkoutButton', function(){
       if ($('#addWorkoutPopup').hasClass("hidden")){

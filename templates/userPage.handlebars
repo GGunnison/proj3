@@ -1,6 +1,4 @@
-{{#each workout}}
-	{{date}}
-	{{/each}}
+<!-- 
 <div id="addWorkout-template">	
 	<button id="addWorkoutButton" type="button">Add Workout</button>
 	<div id="addWorkoutPopup" class="hidden">
@@ -52,4 +50,21 @@
 			<input type="button" value="Submit">
 		</form>
 	</div>
-</div>
+</div> -->
+{{#each workout}}
+		<div>
+			<span class="meta">Workout ({{date}})</span>
+			<button class="editWorkout" id="editWorkoutButton" type="button">Edit</button>
+			<button type="button" onclick="alert('Delete Workout!')">Delete</button>
+			<div class ="editWorkoutPopup hidden">
+				<form class="editWorkoutForm">
+					Date: <input type="text" value={{[date]}} name="date">
+					<input type="button" value="Submit">
+				</form>
+			</div></br>
+		</div>
+	{{/each}}
+
+
+
+
