@@ -5,8 +5,16 @@ var Workouts = require('../models/Workout.js');
 var Exercises = require('../models/Exercise.js');
 var moment = require('moment');
 
-//gets all workouts for a user
+
+/*
+GET /
+No parameters
+Success: true if user has stored workouts
+Content: returns all workouts for the currently logged in user
+Error: 500 if unable to retrieve workout from database
+*/
 router.get('/', function(req,res) {
+	console.log('in GET /');
 	var userID = req.user._id;
 	Workouts.find({user: userID}).populate({path:'exercises', model:'Exercise'}).exec(function(err, workouts) {
 		if (err) {
@@ -17,7 +25,14 @@ router.get('/', function(req,res) {
 	});
 });
 
-//gets a single workout (designated by id) for a user
+/*
+GET /single
+Parameters:
+	workoutID: id of the workout to return
+Success: true if workoutID exists in database
+Content: returns workout specified by id
+Error: 500 if unable to retrieve workout from database
+*/
 router.get('/single', function(req,res) {
 
 	var workoutID = req.query.workoutID;
@@ -31,7 +46,15 @@ router.get('/single', function(req,res) {
 	});
 });
 
-//POST add a workout
+/*
+POST /
+Parameters:
+	userID: id of the user to add the workout to
+	date: date object representing the date this workout occurred
+Success: true if workout is saved to database
+Content: returns workout, userID, date
+Error: 500 if unable to retrieve workout from database
+*/
 router.post('/', function(req,res) {
 	var userID = req.user._id;
 	var date = req.body.date;
@@ -48,6 +71,15 @@ router.post('/', function(req,res) {
 	});
 });
 
+/*
+PUT /
+Parameters:
+	workoutID: id of the workout to edit
+	newDate: date to update the workout with
+Success: true if workoutID can be updated
+Content: returns workout after editing
+Error: 500 if unable to save workout, 501 if unable to retrieve edited workout
+*/
 router.put('/', function(req, res){
 	var workoutID = req.body.workoutID;
 	var newDate = req.body.date;
@@ -62,7 +94,7 @@ router.put('/', function(req, res){
 				//utils.sendSuccessResponse(res,workout);
 				Workouts.findOne({_id: workoutID}, function(err,workout) {
 					if (err) {
-						utils.sendErrResponse(res,500, "Could not retrieve after editing");
+						utils.sendErrResponse(res,501, "Could not retrieve after editing");
 					}else{
 						utils.sendSuccessResponse(res, {workout:workout});
 					}
@@ -72,7 +104,14 @@ router.put('/', function(req, res){
 	});
 });
 
-//DELETE workout
+/*
+DELETE /
+Parameters:
+	workoutID: id of the workout to delete
+Success: true if workoutID is deleted
+Content: nothing
+Error: 500 if unable to retrieve workout from database
+*/
 router.delete('/', function(req,res){
 	var workoutID = req.body.workoutID;
 	Workouts.remove({_id: workoutID}, function(err){
@@ -90,14 +129,26 @@ router.delete('/', function(req,res){
 /////////////////////////////////////////////////////////////////////////////
 
 
+/*
+POST /exercises
+Parameters:
+	workoutID: id of the workout to return
+	exerciseName, description, repCount, setCount, weight, time, exercises: all exercise properties to add
+Success: true if workoutID exists in database
+Content: returns workout specified by id
+Error: 500 if no workout exists with specified id, 501 if exercise could not be saved, 502 if workout 
+could not be saved
+*/
 router.post('/exercises', function(req,res) {
+	console.log("in POST /workout/exercises");
+	console.log(req.body);
 	var workoutID = req.body.workoutID; //the ID of the workout we want to add the exercise to
-	var exerciseName = req.body.name;
+
+	var exerciseName = req.body.exerciseName;
 	var repCount = req.body.repCount;
 	var setCount = req.body.setCount;
 	var weight = req.body.weight;
-	var exercise = new Exercises({name: exerciseName, repCount: repCount, 
-										setCount: setCount, weight: weight});
+	var exercise = new Exercises({name: exerciseName, repCount: repCount, setCount: setCount, weight: weight});
 
 	Workouts.findOne({_id: workoutID}, function(err, workout){
 		if (err){
@@ -106,13 +157,14 @@ router.post('/exercises', function(req,res) {
 			workout.exercises.push(exercise);
 			exercise.save(function(err) {
 				if (err) {
-					utils.sendErrResponse(res,500,'Could not save exercise');
+					utils.sendErrResponse(res,501,'Could not save exercise');
 				}else{
 					workout.save(function(err){
 						if (err){
-							utils.sendErrResponse(res, 500, 'Could not save workout to database');
+							utils.sendErrResponse(res, 502, 'Could not save workout to database');
 						}else{
-							utils.sendSuccessResponse(res, {workout: workout})
+							//utils.sendSuccessResponse(res, {workout: workout})
+							res.send({workout: workout});
 						}
 					});
 				}
@@ -122,6 +174,16 @@ router.post('/exercises', function(req,res) {
 	});
 });
 
+
+/*
+PUT /exercises
+Parameters:
+	exerciseID: id of the exercise to edit
+	exerciseName, repCount, setCount, weight: parameters to edit (none are required)
+Success: true if workout can be successfully saved
+Content: returns exercise that was just added
+Error: 500 if unable to retrieve workout from database
+*/
 router.put('/exercises', function(req, res){
 	var exerciseName = req.body.name;
 	var repCount = req.body.repCount;
@@ -145,7 +207,7 @@ router.put('/exercises', function(req, res){
 		}
 		exercise.save(function(err) {
 			if(err) {
-				utils.sendErrResponse(res,500,'Could not update exercise');
+				utils.sendErrResponse(res,501,'Could not update exercise');
 			}
 			else {
 				utils.sendSuccessResponse(res, {exercise: exercise});
@@ -154,7 +216,14 @@ router.put('/exercises', function(req, res){
 	});
 });
 
-//delete exercise from workout/DB
+/*
+DELETE /exercises
+Parameters:
+	exerciseID: id of the exercise to delete
+Success: true if workout can be deleted
+Content: none
+Error: 500 if workout could not be removed
+*/
 router.delete('/exercises', function(req,res) {
 	var exerciseID = req.body.exerciseID;
 

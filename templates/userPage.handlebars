@@ -26,11 +26,13 @@
 	
 	<button id="addExerciseButton" type="button">Add Exercise</button>
 	<div id="addExercisePopup" class="hidden">
-		<form id="addExerciseForm">
-			Exercise Name: <input type="text" name="exName"><br>
-			Sets: <input type="text" name="sets"><br>
-			Reps: <input type="text" name="reps"><br>
+
+		<form id="addExerciseForm" method="post">
+			Exercise Name: <input type="text" name="exerciseName"><br>
+			Sets: <input type="text" name="setCount"><br>
+			Reps: <input type="text" name="repCount"><br>
 			Weight: <input type="text" name="weight">
+			<input type="hidden" name="workoutID" id="{{workout._id}}" />
 			<input type="submit" />
 		</form>
 	</div>

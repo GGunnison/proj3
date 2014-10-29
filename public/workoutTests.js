@@ -122,11 +122,3 @@ QUnit.asyncTest("testing exercise add/edit/delete", function(assert){
 		}
 	});
 });
-
-
-
-//////////////
-/////
-///
-//
-

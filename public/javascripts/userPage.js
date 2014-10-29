@@ -51,6 +51,7 @@ $(document).on('click', '#editWorkoutButton', function(){
     });
 
 //Open and close adding an exercise form
+
 $(document).on('click', '.addExerciseButton', function(){
     if($(this).parent().children(".addExercisePopup").hasClass('hidden')){
       $(this).parent().children(".addExercisePopup").removeClass("hidden");
@@ -58,6 +59,45 @@ $(document).on('click', '.addExerciseButton', function(){
       $(this).parent().children(".addExercisePopup").addClass("hidden");
     }
 });
+
+$(document).on('submit', '#addExerciseForm', function(evt) {
+  evt.preventDefault();
+  var formData = helpers.getFormData(this);
+  var date = $('#workout_id').innerHTML
+
+  formData.workoutID = "544ed46e6726410000df13b7"; //TODO: change this
+
+  console.log(date);
+  console.log(formData);
+  $.ajax({
+    type: "POST",
+    url: '/workout/exercises',
+    data: formData
+
+  }).done(function(response){
+    $('#addExercisePopup').addClass("hidden");
+
+  }).fail(function(jqxhr) {
+    console.log('FAILED in add exercise button');
+    //var response = $.parseJSON(jqxhr.responseText);
+    //loadPage('index', {error: response.err});
+  });
+});
+
+
+$(document).on('submit', '#editWorkoutForm', function(evt){
+    evt.preventDefault();
+    var formData = helpers.getFormData(this);
+    $.ajax({
+      type: "PUT",
+      url: '/workout',
+      data: formData
+    }).done(function(response){
+      $('#editWorkoutPopup').addClass('hidden');
+    }).fail(function(failure){
+      var response = $.parseJSON(failure.responseText);
+    })
+})
 
 $(document).on('submit', '#addWorkoutForm', function(evt){
 	evt.preventDefault();
