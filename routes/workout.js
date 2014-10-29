@@ -9,11 +9,10 @@ var moment = require('moment');
 router.get('/', function(req,res) {
 	var userID = req.user._id;
 	console.log(userID);
-	Workouts.find({user: userID}, function(err, workouts) {
+	Workouts.find({user: userID}).populate({path:'exercises', model:'Exercise'}).exec(function(err, workouts) {
 		if (err) {
 			utils.sendErrResponse(res,500,'Could not retrieve workout from database');
 		}else{
-			
 			res.send({workout: workouts});
 		}
 	});
@@ -101,12 +100,10 @@ router.delete('/', function(req,res){
 router.post('/exercises', function(req,res) {
 	var workoutID = req.body.workoutID; //the ID of the workout we want to add the exercise to
 	var exerciseName = req.body.name;
-	var description = req.body.description;
 	var repCount = req.body.repCount;
 	var setCount = req.body.setCount;
 	var weight = req.body.weight;
-	var time = req.body.time;
-	var exercise = new Exercises({name: exerciseName, description: description, repCount: repCount, 
+	var exercise = new Exercises({name: exerciseName, repCount: repCount, 
 										setCount: setCount, weight: weight});
 
 	Workouts.findOne({_id: workoutID}, function(err, workout){
