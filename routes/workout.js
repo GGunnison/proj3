@@ -8,7 +8,6 @@ var moment = require('moment');
 //gets all workouts for a user
 router.get('/', function(req,res) {
 	var userID = req.user._id;
-	console.log(userID);
 	Workouts.find({user: userID}).populate({path:'exercises', model:'Exercise'}).exec(function(err, workouts) {
 		if (err) {
 			utils.sendErrResponse(res,500,'Could not retrieve workout from database');
@@ -20,7 +19,6 @@ router.get('/', function(req,res) {
 
 //gets a single workout (designated by id) for a user
 router.get('/single', function(req,res) {
-	console.log('in GET /single');
 
 	var workoutID = req.query.workoutID;
 
@@ -35,7 +33,6 @@ router.get('/single', function(req,res) {
 
 //POST add a workout
 router.post('/', function(req,res) {
-	console.log('in POST /');
 	var userID = req.user._id;
 	var date = req.body.date;
 	
@@ -43,7 +40,6 @@ router.post('/', function(req,res) {
 	var workout = new Workouts({user: userID, date: date, exercises: []}); 
 	workout.save(function(err){
 		if (err){
-			console.log("error adding workout");
 			utils.sendErrResponse(res, 500, 'Could not save workout to DB.');
 		}else{
 			
@@ -68,7 +64,6 @@ router.put('/', function(req, res){
 					if (err) {
 						utils.sendErrResponse(res,500, "Could not retrieve after editing");
 					}else{
-						console.log('date after getting retrieving again in edit');
 						utils.sendSuccessResponse(res, {workout:workout});
 					}
 				});
@@ -79,14 +74,11 @@ router.put('/', function(req, res){
 
 //DELETE workout
 router.delete('/', function(req,res){
-	console.log(req.body.workoutID);
 	var workoutID = req.body.workoutID;
 	Workouts.remove({_id: workoutID}, function(err){
 		if (err){
-			console.log("Could not delete workout");
 			utils.sendErrResponse(res, 500, "Could not delete from database")
 		}else{
-			console.log("Deleted workout");
 			utils.sendSuccessResponse(res, {succeeded: true});
 		}
 	});

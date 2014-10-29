@@ -18,7 +18,6 @@ $(document).ready(function() {
     type:"GET",
     url:"/workout",
   }).done(function(data){
-    console.log(data);
       $('#main-container').html(Handlebars.templates['userPage'](data));
 
   });
@@ -52,13 +51,12 @@ $(document).on('click', '#editWorkoutButton', function(){
     });
 
 //Open and close adding an exercise form
-$(document).on('click', '#addExerciseButton', function(){
-	console.log('asdf');
-	if($('#addExercisePopup').hasClass('hidden')){
-		$('#addExercisePopup').removeClass("hidden");
-	}else{
-		$('#addExercisePopup').addClass("hidden");
-	}	
+$(document).on('click', '.addExerciseButton', function(){
+    if($(this).parent().children(".addExercisePopup").hasClass('hidden')){
+      $(this).parent().children(".addExercisePopup").removeClass("hidden");
+    }else{
+      $(this).parent().children(".addExercisePopup").addClass("hidden");
+    }
 });
 
 $(document).on('submit', '#addWorkoutForm', function(evt){
@@ -76,7 +74,6 @@ $(document).on('submit', '#addWorkoutForm', function(evt){
     url: '/workout',
 
   }).done(function(data){
-      console.log(data);
       $('#addWorkoutPopup').addClass("hidden");
        $('#main-container').html(Handlebars.templates['userPage'](data));
 	}).fail(function(jqxhr) {
@@ -99,7 +96,6 @@ $(document).on('submit', '.addExerciseForm', function(){
     url: '/workout',
 
   }).done(function(data){
-      console.log(data);
       $('#addExercisePopup').addClass("hidden");
        //$('#main-container').html(Handlebars.templates['userPage'](data));
   }).fail(function(jqxhr) {
@@ -109,19 +105,26 @@ $(document).on('submit', '.addExerciseForm', function(){
 
 });
 
-$(document).on('click', '#editExerciseButton', function(){
-  console.log('asdf');
-  if($('#editExercisePopup').hasClass('hidden')){
-    $('#editExercisePopup').removeClass("hidden");
-  }else{
-    $('#editExercisePopup').addClass("hidden");
-  } 
+// $(document).on('click', '#editExerciseButton', function(){
+//   console.log('asdf');
+//   if($('#editExercisePopup').hasClass('hidden')){
+//     $('#editExercisePopup').removeClass("hidden");
+//   }else{
+//     $('#editExercisePopup').addClass("hidden");
+//   } 
+// });
+
+$(document).on('click', '.editExerciseButton', function(){
+    if($(this).parent().children(".editExercisePopup").hasClass('hidden')){
+      $(this).parent().children(".editExercisePopup").removeClass("hidden");
+    }else{
+      $(this).parent().children(".editExercisePopup").addClass("hidden");
+    }
 });
 
 $(document).on('click', '#deletebutton', function(evt){
     evt.preventDefault();
     var id = $(this).val();
-    console.log(id);
     $.ajax({
       type:"DELETE",
       url:'/workout',

@@ -15,9 +15,7 @@ function isLoggedIn(req, res, next) {
 
 	// show the home page (will also have our login links)
 	router.get('/', function(req, res) {
-		console.log('Res.user:'+req.user);
 		if (req.user) {
-			console.log('is this it?')
 			res.redirect('/workout');
 			return;
 		}
