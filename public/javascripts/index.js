@@ -1,3 +1,5 @@
+//Author Grant
+
 var loadPage = function(template, data) {
   data = data || {};
   $('#main-container').html(Handlebars.templates[template](data));
@@ -11,7 +13,7 @@ $(document).ready(function(){
 		loadHomePage();
 });
 
-
+//register a new user
 $(document).on('submit', '#register-form', function(evt) {
   evt.preventDefault();
   var formData = helpers.getFormData(this);
@@ -34,17 +36,3 @@ $(document).on('submit', '#register-form', function(evt) {
   });
 });
 
-// $(document).on('submit', '#signin-form', function(evt) {
-//   evt.preventDefault();
-//   $.ajax({
-//   	type: "POST",
-//   	url: '/login',
-//   	data : helpers.getFormData(this)
-//   }).done(function(response) {
-//     currentUser = response.username;
-//     loadPage('userPage');
-//   }).fail(function(jqxhr) {
-//     var response = $.parseJSON(jqxhr.responseText);
-//     loadPage('index', {error: response.err});
-//   });
-// });

@@ -1,3 +1,4 @@
+//Author's Nick & Grant
 
   var helpers = (function() {
   var self = {};
@@ -66,6 +67,26 @@ $(document).on('click', '.editExerciseButton', function(){
       $(this).parent().children(".editExercisePopup").addClass("hidden");
     }
 });
+//Edit a workout date
+$(document).on('submit', '.editWorkoutForm', function(evt){
+    evt.preventDefault();
+    var formData = helpers.getFormData(this);
+    $.ajax({
+      type: "PUT",
+      url: '/workout',
+      data: formData
+    });
+    $.ajax({
+      type:"GET",
+      url: '/workout'
+    }).done(function(data){
+      $('.editWorkoutPopup').addClass('hidden');
+      $('#main-container').html(Handlebars.templates['userPage'](data));
+  }).fail(function(jqxhr) {
+    }).fail(function(failure){
+      var response = $.parseJSON(failure.responseText);
+    });
+});
 
 //adds a workout to the user
 $(document).on('submit', '#addWorkoutForm', function(evt){
@@ -90,6 +111,7 @@ $(document).on('submit', '#addWorkoutForm', function(evt){
     loadPage('index', {error: response.err});
   });
 });
+
 //adds the exercise to a workout
 $(document).on('submit', '.addExerciseForm', function(){
   var formData = helpers.getFormData(this);
@@ -130,16 +152,19 @@ $(document).on('click', '#deletebutton', function(evt){
        $('#main-container').html(Handlebars.templates['userPage'](data));
      });
 });
-//Takes in the the info on the form and edits date of the workout
-$(document).on('submit', '.editWorkoutForm', function(evt){
+
+//When the edit function is called the edit exercise form is submitted
+$(document).on('submit', '.editExerciseForm', function(evt){
+
     evt.preventDefault();
     var formData = helpers.getFormData(this); 
     
     $.ajax({
       type:"PUT",
-      url:"/workout",
+      url:"/workout/exercises",
       data: formData
     });
+
     $.ajax({
     type:"GET",
     url: '/workout',
@@ -149,11 +174,10 @@ $(document).on('submit', '.editWorkoutForm', function(evt){
     $('#main-container').html(Handlebars.templates['userPage'](data));
      });
 });
-
+//Delete an exercise from a workout
 $(document).on('click', '#deleteExerciseButton', function(evt){
     evt.preventDefault();
     var id = $(this).val();
-    console.log(id);
     $.ajax({
       type:"DELETE",
       url:'/workout/exercises',
@@ -168,12 +192,10 @@ $(document).on('click', '#deleteExerciseButton', function(evt){
      });
 });
 
-
+//Logs the user out 
 $(document).on('click', '#logoutButton', function(evt){
   $(location).attr('href','/logout');
 });
-
-
 
 
 Handlebars.registerHelper('trimString', function(passedString) {

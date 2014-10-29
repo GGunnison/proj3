@@ -1,3 +1,5 @@
+/*Author Grant*/
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -9,14 +11,23 @@ a {
 #logoutdiv{
 	float:right;
 	clear:both;
-
+}
+button{
+	margin:10px;
+}
+#workoutTitle {
+	clear:both;
+	width: 25%;
+	margin-right:0;
+	
 }
  
 #workout{
 	
 	width:400px;
+	border: 1px solid;
 	box-shadow:5px 5px 5px;
-	margin: 15px;
+	margin-top: 15px;
 	padding:10px;
 }
 .editExercisePopup .hidden{
@@ -27,6 +38,11 @@ a {
 }
 .addExercisePopup .hidden{
 	display: none;
+}
+
+#addWorkout-template{
+	width:25%;
+	clear:right;
 }
 
 #register{

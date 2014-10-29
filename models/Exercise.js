@@ -1,3 +1,5 @@
+//Author Dirk
+
 var mongoose = require('mongoose');
 
 var exerciseSchema = mongoose.Schema({

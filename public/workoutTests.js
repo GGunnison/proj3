@@ -1,3 +1,5 @@
+//Author Dirk
+
 //workout tests
 QUnit.asyncTest("testing workout add/edit/delete + user", function(assert){
 	//create user so we can log in

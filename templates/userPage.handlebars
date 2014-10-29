@@ -1,4 +1,12 @@
+<!-- Author's Nick & Grant -->
 
+<!-- Logout button -->
+<div id="logoutdiv">
+	<button id="logoutButton">Logout</button>
+</div>
+
+<h1 id="workoutTitle"> My Workouts </h1>
+<!-- Add workout -->
 <div id="addWorkout-template">	
 	<button id="addWorkoutButton" type="button">Add Workout</button>
 	<div id="addWorkoutPopup" class="hidden">
@@ -9,60 +17,59 @@
 	</div>
 </div>
 
-<div id="logoutdiv">
-	<button id="logoutButton">Logout</button>
-</div>
-
-
+<!-- Display each workout -->
 {{#each workout}}
-	<div id="workout">
+<div id="workout">
+	<div>
 		<div>
-			<span class="meta">{{{trimString date}}}  Workout</span>
-			<button class="editWorkout" id="editWorkoutButton" type="button">Edit</button>
-			<button type="button" id="deletebutton" value={{_id}} >Delete</button>
-			<div class ="editWorkoutPopup hidden">
-				<form class="editWorkoutForm">
-					Date: <input type="date" value={{{trimString date}}} name="date">
-					<input class="hidden" value={{_id}} name ="workoutID"> 
-					<input type="submit"/>
-				</form>
-			</div></br>
-			<div>
-				<div class="addExercise">
-					<button class="addExerciseButton" type="button">Add Exercise</button>
-					<div class="addExercisePopup hidden">
-						<form class="addExerciseForm">
-							Exercise Name: <input type="text" name="name" required><br>
-							Sets: <input type="text" name="setCount" required><br>
-							Reps: <input type="text" name="repCount" required><br>
-							Weight: <input type="text" name="weight" required>
-							<input class="hidden" value={{_id}} name="workoutID">
-							<input type="submit" />
-						</form>
-					</div>
+			<div class="addExercise">
+				<span class="meta">Workout {{{trimString date}}} </span>
+				<button class="editWorkout" id="editWorkoutButton" type="button">Edit</button>
+				<button type="button" id="deletebutton" value={{_id}} >Delete</button>
+				<button class="addExerciseButton" type="button">Add Exercise</button>
+				<div class="editWorkoutPopup hidden">
+					<form class="editWorkoutForm">
+						Date: <input type="date" value={{{trimString date}}} name="date">
+						<input class="hidden" value={{_id}} name ="workoutID"> 
+						<input type="submit"/>
+					</form>
+				</div>
+
+				<div class="addExercisePopup hidden">
+					<form class="addExerciseForm">
+						Exercise Name: <input type="text" name="name" required><br>
+						Sets: <input type="number" name="setCount" required><br>
+						Reps: <input type="number" name="repCount" required><br>
+						Weight: <input type="number" name="weight" required>
+						<input class="hidden" value={{_id}} name="workoutID"><br>
+						<input type="submit" />
+					</form>
 				</div>
 			</div>
-			{{#each exercises}}
-				<div>
-					<span class="meta">{{name}}: ({{setCount}}x{{repCount}}) using {{weight}} pounds</span>
-					<button class="editExerciseButton" type="button">Edit</button>
-					<button type="button" id="deleteExerciseButton" value={{_id}}>Delete</button>
-					<div class="editExercisePopup hidden">
-						<form id="editExerciseForm">
-							Exercise Name: <input type="text" value={{name}} name="name"><br>
-							Sets: <input type="text" value={{setCount}} name="setCount"><br>
-							Reps: <input type="text" value={{repCount}} name="repCount"><br>
-							Weight: <input type="text" value={{weight}} name="weight">
-							<input type="button" value="Submit">
-						</form>
-					</div>
-					<br>
-				</div>				
-			{{/each}}
+		</div><br>
+		<!-- Display each exercise within a workout -->
+		{{#each exercises}}
+		<li>
+			<span class="meta">{{name}}: ({{setCount}}x{{repCount}}) using {{weight}} pounds</span>
+			<button class="editExerciseButton" type="button">Edit</button>
+			<button type="button" id="deleteExerciseButton" value={{_id}}>Delete</button>
+			<div class="editExercisePopup hidden">
+				<form class="editExerciseForm">
+					Exercise Name: <input type="text" value={{name}} name="name"><br>
+					Sets: <input type="number" value={{setCount}} name="setCount"><br>
+					Reps: <input type="number" value={{repCount}} name="repCount"><br>
+					Weight: <input type="number" value={{weight}} name="weight">
+					<input class="hidden" value={{_id}} name="exerciseID"><br>
+					<input type="submit" />
+				</form>
+			</div>
+			<br><br>
+		</li>				
+		{{/each}}
 
 
-		</div>
 	</div>
+</div>
 {{/each}}
 
 

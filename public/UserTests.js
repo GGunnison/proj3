@@ -1,8 +1,6 @@
 
 /*
-MAKE USERS IN DB! username:grant, password: hello
-&
-username:Nick
+Author Grant
 */
 QUnit.asyncTest("testing Login", function(assert){
 	expect(1);
