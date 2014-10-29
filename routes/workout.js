@@ -17,13 +17,12 @@ router.get('/', function(req,res) {
 	console.log('in GET /');
 	var userID = req.user._id;
 	console.log(userID);
-	Workouts.find({_id: userID}, function(err, workouts) {
+	Workouts.find({user: userID}, function(err, workouts) {
 		if (err) {
 			utils.sendErrResponse(res,500,'Could not retrieve workout from database');
 		}else{
-			console.log('got here');
-			console.log(workouts);
-			res.render('userPage', {workout: workouts});
+			
+			res.send({workout: workouts});
 		}
 	});
 });

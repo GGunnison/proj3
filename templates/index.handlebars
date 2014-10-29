@@ -1,6 +1,9 @@
 <div id="register">
 		<h1>Register</h1>
 		</div>
+		{{#each workout}}
+    	{{> workout}}
+  		{{/each}}
 		<form id="register-form">
 			<div>Username: <input type="text" name="username" required /></div>
 			<div>Weight: <input type="number" name="weight" required /></div>
