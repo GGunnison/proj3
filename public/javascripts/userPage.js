@@ -121,6 +121,7 @@ $(document).on('submit', '#addWorkoutForm', function(evt){
   });
 });
 
+//adds exercise to database
 $(document).on('submit', '.addExerciseForm', function(){
   var formData = helpers.getFormData(this);
   $.ajax({
@@ -168,15 +169,43 @@ $(document).on('click', '#deletebutton', function(evt){
      });
 });
 
-$(document).on('submit', '.editWorkoutForm', function(evt){
+// $(document).on('submit', '.editExerciseForm', function(evt){
+//     console.log("BLAHFDLAKFHALDFKHAD:LFKHA");
+//     evt.preventDefault();
+//     var formData = helpers.getFormData(this); 
+//     alert('EXXX ' + formData.exerciseID);
+    
+//     $.ajax({
+//       type:"PUT",
+//       url:"/workout/exercises",
+//       data: formData
+//     });
+//     $.ajax({
+//     type:"GET",
+//     url: '/workout',
+
+//   }).done(function(data){
+//     $('.editExercisePopup').addClass("hidden");
+//     $('#main-container').html(Handlebars.templates['userPage'](data));
+//      });
+// })
+// Handlebars.registerHelper('trimString', function(passedString) {
+//     var theString = passedString.substring(0,10);
+//     return new Handlebars.SafeString(theString)
+// });
+
+//called the edit exercise form is submitted
+$(document).on('submit', '.editExerciseForm', function(evt){
     evt.preventDefault();
     var formData = helpers.getFormData(this); 
+    alert(formData.exerciseID);
     
     $.ajax({
       type:"PUT",
-      url:"/workout",
+      url:"/workout/exercises",
       data: formData
     });
+
     $.ajax({
     type:"GET",
     url: '/workout',
