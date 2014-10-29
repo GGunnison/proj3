@@ -46,7 +46,7 @@ router.post('/', function(req,res) {
 			utils.sendErrResponse(res, 500, 'Could not save workout to DB.');
 		}else{
 			
-			res.render('userPage', {workout: workout, userID: userID, date: workout.date});
+			res.send({workout: workout, userID: userID, date: workout.date});
 		}
 	});
 });

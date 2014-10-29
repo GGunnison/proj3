@@ -15,10 +15,10 @@ $(document).ready(function() {
   
   $.ajax({
     type:"GET",
-    url:"/workout",
-    data: {}
+    url:"/workout"
   }).done(function(data){
-    console.log(data);
+    return data
+    console.log(data);  
   });
 });
 
