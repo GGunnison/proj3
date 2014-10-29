@@ -112,13 +112,43 @@ $(document).on('submit', '#addWorkoutForm', function(evt){
 		url: '/workout',
 		data: formData
 
-	}).done(function(response){
-    console.log('ended here');
+	 });
+  $.ajax({
+    type:"GET",
+    url: '/workout',
+
+  }).done(function(data){
+      console.log(data);
       $('#addWorkoutPopup').addClass("hidden");
+       $('#main-container').html(Handlebars.templates['userPage'](data));
 	}).fail(function(jqxhr) {
     var response = $.parseJSON(jqxhr.responseText);
     loadPage('index', {error: response.err});
   });
+});
+
+$(document).on('submit', '.addExerciseForm', function(){
+  var formData = helpers.getFormData(this);
+  //alert("WID " + formData.workoutID);
+  $.ajax({
+    type: "POST",
+    url: '/workout/exercises',
+    data: formData
+
+   });
+  $.ajax({
+    type:"GET",
+    url: '/workout',
+
+  }).done(function(data){
+      console.log(data);
+      $('#addExercisePopup').addClass("hidden");
+       //$('#main-container').html(Handlebars.templates['userPage'](data));
+  }).fail(function(jqxhr) {
+    var response = $.parseJSON(jqxhr.responseText);
+    loadPage('index', {error: response.err});
+  });
+
 });
 
 $(document).on('click', '#editExerciseButton', function(){

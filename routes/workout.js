@@ -17,13 +17,12 @@ router.get('/', function(req,res) {
 	console.log('in GET /');
 	var userID = req.user._id;
 
-	Workouts.find({_id: userID}, function(err, workouts) {
+	console.log(userID);
+	Workouts.find({user: userID}).populate({path:'exercises', model:'Exercise'}).exec(function(err, workouts) {
 		if (err) {
 			utils.sendErrResponse(res,500,'Could not retrieve workout from database');
 		}else{
-			console.log('got here');
-			console.log(workouts);
-			res.render('userPage', {workout: workouts});
+			res.send({workout: workouts});
 		}
 	});
 });
@@ -152,6 +151,7 @@ router.post('/exercises', function(req,res) {
 	console.log("in POST /workout/exercises");
 	console.log(req.body);
 	var workoutID = req.body.workoutID; //the ID of the workout we want to add the exercise to
+
 	var exerciseName = req.body.exerciseName;
 	var repCount = req.body.repCount;
 	var setCount = req.body.setCount;
