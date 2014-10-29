@@ -7,5 +7,5 @@ Project doc in the pdf
 
 Url of openShift:
 
-http://nickugunnisonstahdirkliftmate-dirkstahlecker.rhcloud.com/
+proj3openshift2-dirkstahlecker.rhcloud.com
 
