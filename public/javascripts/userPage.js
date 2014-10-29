@@ -60,7 +60,7 @@ $(document).on('click', '#addExerciseButton', function(){
 		$('#addExercisePopup').addClass("hidden");
 	}	
 });
-
+//Add a workout to the database
 $(document).on('submit', '#addWorkoutForm', function(evt){
 	evt.preventDefault();
 
@@ -92,6 +92,47 @@ $(document).on('click', '#editExerciseButton', function(){
   }else{
     $('#editExercisePopup').addClass("hidden");
   } 
+});
+
+$(document).on('click', '#deletebutton', function(evt){
+    evt.preventDefault();
+    var id = $(this).val();
+    console.log(id);
+    $.ajax({
+      type:"DELETE",
+      url:'/workout',
+      data: {workoutID:id}
+    });
+    $.ajax({
+    type:"GET",
+    url: '/workout',
+
+  }).done(function(data){
+       $('#main-container').html(Handlebars.templates['userPage'](data));
+     });
+});
+
+$(document).on('submit', '.editWorkoutForm', function(evt){
+    evt.preventDefault();
+    var formData = helpers.getFormData(this); 
+    
+    $.ajax({
+      type:"PUT",
+      url:"/workout",
+      data: formData
+    });
+    $.ajax({
+    type:"GET",
+    url: '/workout',
+
+  }).done(function(data){
+    $('#editExercisePopup').addClass("hidden");
+    $('#main-container').html(Handlebars.templates['userPage'](data));
+     });
+})
+Handlebars.registerHelper('trimString', function(passedString) {
+    var theString = passedString.substring(0,10);
+    return new Handlebars.SafeString(theString)
 });
 
 

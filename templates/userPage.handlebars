@@ -51,17 +51,21 @@
 		</form>
 	</div>
 </div> -->
+<div id="logoutdiv">
+	<button id="logoutButton">Logout</button>
+</div>
 
 
 {{#each workout}}
 		<div>
-			<span class="meta">Workout ({{date}})</span>
+			<span class="meta">Workout ({{{trimString date}}})</span>
 			<button class="editWorkout" id="editWorkoutButton" type="button">Edit</button>
-			<button type="button" onclick="alert('Delete Workout!')">Delete</button>
+			<button type="button" id="deletebutton" value={{_id}} >Delete</button>
 			<div class ="editWorkoutPopup hidden">
 				<form class="editWorkoutForm">
-					Date: <input type="text" value={{[date]}} name="date">
-					<input type="button" value="Submit">
+					Date: <input type="date" value={{{trimString date}}} name="date">
+					<input class="hidden" value={{_id}} name ="workoutID"> 
+					<input type="submit"/>
 				</form>
 			</div></br>
 		</div>

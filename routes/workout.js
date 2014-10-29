@@ -39,16 +39,16 @@ router.post('/', function(req,res) {
 	console.log('in POST /');
 	var userID = req.user._id;
 	var date = req.body.date;
-	console.log(req.body);
+	
 	//create workout for the current user, specified date, and with no exercises
-	var workout = new Workouts({user: userID, date: new Date(date), exercises: []}); 
+	var workout = new Workouts({user: userID, date: date, exercises: []}); 
 	workout.save(function(err){
 		if (err){
 			console.log("error adding workout");
 			utils.sendErrResponse(res, 500, 'Could not save workout to DB.');
 		}else{
 			
-			res.send({workout: workout, userID: userID, date: workout.date});
+			//res.send({workout: workout, userID: userID, date: workout.date});
 		}
 	});
 });
@@ -80,6 +80,7 @@ router.put('/', function(req, res){
 
 //DELETE workout
 router.delete('/', function(req,res){
+	console.log(req.body.workoutID);
 	var workoutID = req.body.workoutID;
 	Workouts.remove({_id: workoutID}, function(err){
 		if (err){
