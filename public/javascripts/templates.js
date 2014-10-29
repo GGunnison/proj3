@@ -1,32 +1,17 @@
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
-
-templates['index'] = template({"1":function(depth0,helpers,partials,data) {
-  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "      "
-    + escapeExpression(((helper = (helper = helpers.error || (depth0 != null ? depth0.error : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"error","hash":{},"data":data}) : helper)))
-    + "\n";
-},"3":function(depth0,helpers,partials,data) {
-  var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "    <div class=\"error\">"
-    + escapeExpression(((helper = (helper = helpers.error || (depth0 != null ? depth0.error : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"error","hash":{},"data":data}) : helper)))
-    + "</div>\n";
-},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, buffer = "<div id=\"register\">\n  <h1>Register</h1>\n  <div class=\"error\">\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.error : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  buffer += "  </div>\n  <form id=\"register-form\">\n    <div>Username: <input type=\"text\" name=\"username\" required /></div>\n    <div>Weight: <input type=\"number\" name=\"weight\" required /></div>\n    <div>Age: <input type=\"Number\" name=\"age\" required /></div>\n    <div>Password: <input type=\"password\" name=\"password\" required /></div>\n    <div>Confirm Password: <input type=\"password\" name=\"confirm\" required /></div>\n    <input type=\"submit\"/>\n  </form>\n</div>\n\n\n<div id=\"signin\">\n  <h1>Sign in</h1>\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.error : depth0), {"name":"if","hash":{},"fn":this.program(3, data),"inverse":this.noop,"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  return buffer + "  <form id=\"signin-form\" action=\"/login\" method=\"post\">\n    <div>Username: <input type=\"text\" name=\"username\" required /></div>\n    <div>Password: <input type=\"password\" name=\"password\" required /></div>\n    <input type=\"submit\" />\n  </form>\n</div>";
-},"useData":true});
+templates['index'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "<div id=\"register\">\n		<h1>Register</h1>\n		</div>\n		<form id=\"register-form\">\n			<div>Username: <input type=\"text\" name=\"username\" required /></div>\n			<div>Weight: <input type=\"number\" name=\"weight\" required /></div>\n			<div>Age: <input type=\"Number\" name=\"age\" required /></div>\n			<div>Password: <input type=\"password\" name=\"password\" required /></div>\n			<div>Confirm Password: <input type=\"password\" name=\"confirm\" required /></div>\n			<input type=\"submit\"/>\n		</form>\n	</div>\n\n\n	<div id=\"signin\">\n		<h1>Sign in</h1>\n		<form id=\"signin-form\" action=\"/login\" method=\"post\">\n			<div>Username: <input type=\"text\" name=\"username\" required /></div>\n			<div>Password: <input type=\"password\" name=\"password\" required /></div>\n			<input type=\"submit\" />\n		</form>\n	</div>";
+  },"useData":true});
 templates['userPage'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
-  return "<div id=\"addWorkout-template\">	\n	<button id=\"addWorkoutButton\" type=\"button\">Add Workout</button>\n	<div id=\"addWorkoutPopup\" class=\"hidden\">\n		<form id=\"addWorkoutForm\">\n			Date: <input type=\"date\" name=\"date\" required><br>\n			<input type=\"submit\" />\n		</form>\n	</div>\n</div>\n\n<div id=\"workoutDetails-template\">\n	\n	<span class=\"meta\">Workout (<span id=\"workout_id\">"
+  return "<div id=\"addWorkout-template\">	\n	<button id=\"addWorkoutButton\" type=\"button\">Add Workout</button>\n	<div id=\"addWorkoutPopup\" class=\"hidden\">\n		<form id=\"addWorkoutForm\">\n			Date: <input type=\"date\" name=\"date\" required><br>\n			<input type=\"submit\" />\n		</form>\n	</div>\n</div>\n\n<div id=\"workoutDetails-template\">\n	\n	<span class=\"meta\">Workout ("
     + escapeExpression(((helper = (helper = helpers.date || (depth0 != null ? depth0.date : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"date","hash":{},"data":data}) : helper)))
-    + "</span>)</span>\n	<button id=\"editWorkoutButton\" type=\"button\">Edit</button>\n	<button type=\"button\" onclick=\"alert('Delete Workout!')\">Delete</button>\n	<div id=\"editWorkoutPopup\" class=\"hidden\">\n		<form id=\"editWorkoutForm\">\n			Date: <input type=\"text\" value="
+    + ")</span>\n	<button id=\"editWorkoutButton\" type=\"button\">Edit</button>\n	<button type=\"button\" onclick=\"alert('Delete Workout!')\">Delete</button>\n	<div id=\"editWorkoutPopup\" class=\"hidden\">\n		<form id=\"editWorkoutForm\">\n			Date: <input type=\"text\" value="
     + escapeExpression(((helper = (helper = helpers.date || (depth0 != null ? depth0.date : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"date","hash":{},"data":data}) : helper)))
-    + " name=\"date\">\n			<input type=\"submit\" />\n		</form>\n	</div>\n</div>\n\n<div id=\"addExercise-template\">\n	\n	<button id=\"addExerciseButton\" type=\"button\">Add Exercise</button>\n	<div id=\"addExercisePopup\" class=\"hidden\">\n		<form id=\"addExerciseForm\" method=\"post\" action=\"/workout/exercises\">\n			Exercise Name: <input type=\"text\" name=\"exerciseName\"><br>\n			Sets: <input type=\"text\" name=\"setCount\"><br>\n			Reps: <input type=\"text\" name=\"repCount\"><br>\n			Weight: <input type=\"text\" name=\"weight\">\n			<input type=\"submit\" />\n		</form>\n	</div>\n</div>\n\n<div id=\"exerciseDetails-template\">\n\n	<span class=\"meta\">"
+    + " name=\"date\">\n			<input type=\"submit\" />\n		</form>\n	</div>\n</div>\n\n<div id=\"addExercise-template\">\n	\n	<button id=\"addExerciseButton\" type=\"button\">Add Exercise</button>\n	<div id=\"addExercisePopup\" class=\"hidden\">\n\n		<form id=\"addExerciseForm\" method=\"post\">\n			Exercise Name: <input type=\"text\" name=\"exerciseName\"><br>\n			Sets: <input type=\"text\" name=\"setCount\"><br>\n			Reps: <input type=\"text\" name=\"repCount\"><br>\n			Weight: <input type=\"text\" name=\"weight\">\n			<input type=\"hidden\" name=\"workoutID\" id=\""
+    + escapeExpression(((helper = (helper = helpers._id || (depth0 != null ? depth0._id : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"_id","hash":{},"data":data}) : helper)))
+    + "\" />\n			<input type=\"submit\" />\n		</form>\n	</div>\n</div>\n\n<div id=\"exerciseDetails-template\">\n\n	<span class=\"meta\">"
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
     + ": ("
     + escapeExpression(((helper = (helper = helpers.setCount || (depth0 != null ? depth0.setCount : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"setCount","hash":{},"data":data}) : helper)))

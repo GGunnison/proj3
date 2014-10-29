@@ -57,7 +57,7 @@ $(document).on('click', '#addExerciseForm', function() {
   var formData = helpers.getFormData(this);
   var date = $('#workout_id').innerHTML
 
-  formData.workoutID = "544ed46e6726410000df13b7"; //TODO: change this
+  //formData.workoutID = "544ed46e6726410000df13b7"; //TODO: change this
 
   console.log(date);
   console.log(formData);

@@ -171,7 +171,8 @@ router.post('/exercises', function(req,res) {
 						if (err){
 							utils.sendErrResponse(res, 502, 'Could not save workout to database');
 						}else{
-							utils.sendSuccessResponse(res, {workout: workout})
+							//utils.sendSuccessResponse(res, {workout: workout})
+							res.send({workout: workout});
 						}
 					});
 				}
