@@ -16,9 +16,11 @@ function isLoggedIn(req, res, next) {
 	// show the home page (will also have our login links)
 	router.get('/', function(req, res) {
 		if (req.user) {
-			res.redirect('/workout');
+			console.log("not here");
+			res.redirect('/home');
 			return;
 		}
+		console.log("should be");
 		res.render('index.ejs', {});
 	});
 
@@ -32,6 +34,8 @@ function isLoggedIn(req, res, next) {
 	// LOGOUT ==============================
 	router.get('/logout', function(req, res) {
 		req.logout();
+		console.log(req.user);
+		console.log("in here");
 		res.redirect('/');
 	});
 
@@ -39,20 +43,20 @@ function isLoggedIn(req, res, next) {
 // AUTHENTICATE (FIRST LOGIN) ==================================================
 // =============================================================================
 
-		// process the login form
-		router.post('/login', passport.authenticate('local-login', {
-			successRedirect : '/home', // redirect to the secure profile section
-			failureRedirect : '/', // redirect back to the signup page if there is an error
-			failureFlash : true // allow flash messages
-		}));
+	// process the login form
+	router.post('/login', passport.authenticate('local-login', {
+		successRedirect : '/home', // redirect to the secure profile section
+		failureRedirect : '/', // redirect back to the signup page if there is an error
+		failureFlash : true // allow flash messages
+	}));
 
 
-		// process the signup form
-		router.post('/signup', passport.authenticate('local-signup', {
-			successRedirect : '/', // redirect to the secure profile section
-			failureRedirect : '/', // redirect back to the signup page if there is an error
-			failureFlash : true // allow flash messages
-		}));
+	// process the signup form
+	router.post('/signup', passport.authenticate('local-signup', {
+		successRedirect : '/', // redirect to the secure profile section
+		failureRedirect : '/', // redirect back to the signup page if there is an error
+		failureFlash : true // allow flash messages
+	}));
 
 
 // =============================================================================

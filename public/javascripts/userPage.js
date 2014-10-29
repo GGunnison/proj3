@@ -11,9 +11,8 @@
   return self;
   })();
 
-
+//Immediately calls when userpage is loaded
 $(document).ready(function() {
-  
   $.ajax({
     type:"GET",
     url:"/workout",
@@ -23,7 +22,7 @@ $(document).ready(function() {
   });
 });
 
-
+//Open and close edit workout form
 $(document).on('click', '.editWorkout', function(){
     if($(this).parent().children(".editWorkoutPopup").hasClass('hidden')){
       $(this).parent().children(".editWorkoutPopup").removeClass("hidden");
@@ -59,45 +58,16 @@ $(document).on('click', '.addExerciseButton', function(){
     }
 });
 
-// $(document).on('submit', '#addExerciseForm', function(evt) {
-//   evt.preventDefault();
-//   var formData = helpers.getFormData(this);
-//   var date = $('#workout_id').innerHTML
+//Opens the form to edit the exercise
+$(document).on('click', '.editExerciseButton', function(){
+    if($(this).parent().children(".editExercisePopup").hasClass('hidden')){
+      $(this).parent().children(".editExercisePopup").removeClass("hidden");
+    }else{
+      $(this).parent().children(".editExercisePopup").addClass("hidden");
+    }
+});
 
-//   formData.workoutID = "544ed46e6726410000df13b7"; //TODO: change this
-
-//   console.log(date);
-//   console.log(formData);
-//   $.ajax({
-//     type: "POST",
-//     url: '/workout/exercises',
-//     data: formData
-
-//   }).done(function(response){
-//     $('#addExercisePopup').addClass("hidden");
-
-//   }).fail(function(jqxhr) {
-//     console.log('FAILED in add exercise button');
-//     //var response = $.parseJSON(jqxhr.responseText);
-//     //loadPage('index', {error: response.err});
-//   });
-// });
-
-
-$(document).on('submit', '#editWorkoutForm', function(evt){
-    evt.preventDefault();
-    var formData = helpers.getFormData(this);
-    $.ajax({
-      type: "PUT",
-      url: '/workout',
-      data: formData
-    }).done(function(response){
-      $('#editWorkoutPopup').addClass('hidden');
-    }).fail(function(failure){
-      var response = $.parseJSON(failure.responseText);
-    })
-})
-
+//adds a workout to the user
 $(document).on('submit', '#addWorkoutForm', function(evt){
 	evt.preventDefault();
 
@@ -120,7 +90,7 @@ $(document).on('submit', '#addWorkoutForm', function(evt){
     loadPage('index', {error: response.err});
   });
 });
-
+//adds the exercise to a workout
 $(document).on('submit', '.addExerciseForm', function(){
   var formData = helpers.getFormData(this);
   $.ajax({
@@ -143,14 +113,7 @@ $(document).on('submit', '.addExerciseForm', function(){
 
 });
 
-$(document).on('click', '.editExerciseButton', function(){
-    if($(this).parent().children(".editExercisePopup").hasClass('hidden')){
-      $(this).parent().children(".editExercisePopup").removeClass("hidden");
-    }else{
-      $(this).parent().children(".editExercisePopup").addClass("hidden");
-    }
-});
-
+//deletes the workout
 $(document).on('click', '#deletebutton', function(evt){
     evt.preventDefault();
     var id = $(this).val();
@@ -167,7 +130,7 @@ $(document).on('click', '#deletebutton', function(evt){
        $('#main-container').html(Handlebars.templates['userPage'](data));
      });
 });
-
+//Takes in the the info on the form and edits date of the workout
 $(document).on('submit', '.editWorkoutForm', function(evt){
     evt.preventDefault();
     var formData = helpers.getFormData(this); 
@@ -185,7 +148,34 @@ $(document).on('submit', '.editWorkoutForm', function(evt){
     $('#editExercisePopup').addClass("hidden");
     $('#main-container').html(Handlebars.templates['userPage'](data));
      });
-})
+});
+
+$(document).on('click', '#deleteExerciseButton', function(evt){
+    evt.preventDefault();
+    var id = $(this).val();
+    console.log(id);
+    $.ajax({
+      type:"DELETE",
+      url:'/workout/exercises',
+      data: {exerciseID:id}
+    });
+    $.ajax({
+    type:"GET",
+    url: '/workout',
+
+  }).done(function(data){
+       $('#main-container').html(Handlebars.templates['userPage'](data));
+     });
+});
+
+
+$(document).on('click', '#logoutButton', function(evt){
+  $(location).attr('href','/logout');
+});
+
+
+
+
 Handlebars.registerHelper('trimString', function(passedString) {
     var theString = passedString.substring(0,10);
     return new Handlebars.SafeString(theString)

@@ -15,9 +15,9 @@
 
 
 {{#each workout}}
-	<div>
+	<div id="workout">
 		<div>
-			<span class="meta">Workout ({{{trimString date}}})</span>
+			<span class="meta">{{{trimString date}}}  Workout</span>
 			<button class="editWorkout" id="editWorkoutButton" type="button">Edit</button>
 			<button type="button" id="deletebutton" value={{_id}} >Delete</button>
 			<div class ="editWorkoutPopup hidden">
@@ -46,7 +46,7 @@
 				<div>
 					<span class="meta">{{name}}: ({{setCount}}x{{repCount}}) using {{weight}} pounds</span>
 					<button class="editExerciseButton" type="button">Edit</button>
-					<button type="button" onclick="alert('Delete Exercise!')">Delete</button>
+					<button type="button" id="deleteExerciseButton" value={{_id}}>Delete</button>
 					<div class="editExercisePopup hidden">
 						<form id="editExerciseForm">
 							Exercise Name: <input type="text" value={{name}} name="name"><br>
@@ -62,7 +62,7 @@
 
 
 		</div>
-	<div>
+	</div>
 {{/each}}
 
 
