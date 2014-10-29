@@ -11,14 +11,15 @@
   return self;
   })();
 
+
 $(document).ready(function() {
   
   $.ajax({
     type:"GET",
     url:"/workout"
   }).done(function(data){
-    return data
-    console.log(data);  
+      $('#main-container').html(Handlebars.templates['userPage'](data));
+
   });
 });
 
@@ -42,26 +43,13 @@ $(document).on('click', '#editWorkoutButton', function(){
 
 //Open and close adding an exercise form
 $(document).on('click', '#addExerciseButton', function(){
+	console.log('asdf');
 	if($('#addExercisePopup').hasClass('hidden')){
 		$('#addExercisePopup').removeClass("hidden");
 	}else{
 		$('#addExercisePopup').addClass("hidden");
 	}	
 });
-
-$(document).on('submit', '#editWorkoutForm', function(evt){
-    evt.preventDefault();
-    var formData = helpers.getFormData(this);
-    $.ajax({
-      type: "PUT",
-      url: '/workout',
-      data: formData
-    }).done(function(response){
-      $('#editWorkoutPopup').addClass('hidden');
-    }).fail(function(failure){
-      var response = $.parseJSON(failure.responseText);
-    })
-})
 
 $(document).on('submit', '#addWorkoutForm', function(evt){
 	evt.preventDefault();
@@ -73,14 +61,16 @@ $(document).on('submit', '#addWorkoutForm', function(evt){
 		data: formData
 
 	}).done(function(response){
+    console.log('ended here');
       $('#addWorkoutPopup').addClass("hidden");
-	}).fail(function(failure) {
-    var response = $.parseJSON(failure.responseText);
+	}).fail(function(jqxhr) {
+    var response = $.parseJSON(jqxhr.responseText);
+    loadPage('index', {error: response.err});
   });
 });
 
-
 $(document).on('click', '#editExerciseButton', function(){
+  console.log('asdf');
   if($('#editExercisePopup').hasClass('hidden')){
     $('#editExercisePopup').removeClass("hidden");
   }else{

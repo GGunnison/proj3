@@ -37,8 +37,7 @@ app.use(express.static(__dirname + '/public'));
 
 // routes ======================================================================
 app.use('/', require('./routes/index.js'));
-app.use('/workout', require('./routes/workout.js'));
-
+app.use('/workout', require('./routes/workout.js'))
 
 var port     = process.env.PORT || 3000;
 // launch ======================================================================

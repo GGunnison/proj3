@@ -21,12 +21,14 @@ function isLoggedIn(req, res, next) {
 			res.redirect('/workout');
 			return;
 		}
-		res.render('index.ejs');
+		res.render('index.ejs', {});
 	});
 
 	// PROFILE SECTION =========================
 	router.get('/home', isLoggedIn, function(req, res) {
-		res.render('userPage.ejs');
+		res.render('profile.ejs', {
+			user : req.user
+		});
 	});
 
 	// LOGOUT ==============================
