@@ -51,7 +51,6 @@ $(document).on('click', '#editWorkoutButton', function(){
     });
 
 //Open and close adding an exercise form
-
 $(document).on('click', '.addExerciseButton', function(){
     if($(this).parent().children(".addExercisePopup").hasClass('hidden')){
       $(this).parent().children(".addExercisePopup").removeClass("hidden");
@@ -60,29 +59,29 @@ $(document).on('click', '.addExerciseButton', function(){
     }
 });
 
-$(document).on('submit', '#addExerciseForm', function(evt) {
-  evt.preventDefault();
-  var formData = helpers.getFormData(this);
-  var date = $('#workout_id').innerHTML
+// $(document).on('submit', '#addExerciseForm', function(evt) {
+//   evt.preventDefault();
+//   var formData = helpers.getFormData(this);
+//   var date = $('#workout_id').innerHTML
 
-  formData.workoutID = "544ed46e6726410000df13b7"; //TODO: change this
+//   formData.workoutID = "544ed46e6726410000df13b7"; //TODO: change this
 
-  console.log(date);
-  console.log(formData);
-  $.ajax({
-    type: "POST",
-    url: '/workout/exercises',
-    data: formData
+//   console.log(date);
+//   console.log(formData);
+//   $.ajax({
+//     type: "POST",
+//     url: '/workout/exercises',
+//     data: formData
 
-  }).done(function(response){
-    $('#addExercisePopup').addClass("hidden");
+//   }).done(function(response){
+//     $('#addExercisePopup').addClass("hidden");
 
-  }).fail(function(jqxhr) {
-    console.log('FAILED in add exercise button');
-    //var response = $.parseJSON(jqxhr.responseText);
-    //loadPage('index', {error: response.err});
-  });
-});
+//   }).fail(function(jqxhr) {
+//     console.log('FAILED in add exercise button');
+//     //var response = $.parseJSON(jqxhr.responseText);
+//     //loadPage('index', {error: response.err});
+//   });
+// });
 
 
 $(document).on('submit', '#editWorkoutForm', function(evt){
@@ -124,7 +123,6 @@ $(document).on('submit', '#addWorkoutForm', function(evt){
 
 $(document).on('submit', '.addExerciseForm', function(){
   var formData = helpers.getFormData(this);
-  //alert("WID " + formData.workoutID);
   $.ajax({
     type: "POST",
     url: '/workout/exercises',
@@ -144,15 +142,6 @@ $(document).on('submit', '.addExerciseForm', function(){
   });
 
 });
-
-// $(document).on('click', '#editExerciseButton', function(){
-//   console.log('asdf');
-//   if($('#editExercisePopup').hasClass('hidden')){
-//     $('#editExercisePopup').removeClass("hidden");
-//   }else{
-//     $('#editExercisePopup').addClass("hidden");
-//   } 
-// });
 
 $(document).on('click', '.editExerciseButton', function(){
     if($(this).parent().children(".editExercisePopup").hasClass('hidden')){

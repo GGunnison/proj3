@@ -144,7 +144,8 @@ router.post('/exercises', function(req,res) {
 	console.log(req.body);
 	var workoutID = req.body.workoutID; //the ID of the workout we want to add the exercise to
 
-	var exerciseName = req.body.exerciseName;
+	var exerciseName = req.body.name;
+	console.log(exerciseName);
 	var repCount = req.body.repCount;
 	var setCount = req.body.setCount;
 	var weight = req.body.weight;
@@ -197,7 +198,7 @@ router.put('/exercises', function(req, res){
 			return;
 		}
 		if (exerciseName) {
-			exercise.exerciseName = exerciseName;
+			exercise.name = exerciseName;
 		}if(repCount) {
 			exercise.repCount = repCount;
 		}if(setCount) {

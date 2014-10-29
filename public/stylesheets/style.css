@@ -11,17 +11,15 @@ a {
 	clear:both;
 
 }
-#addWorkout-template{
-	clear:both;
-}
+ 
 
-#editExercisePopup.hidden{
+.editExercisePopup .hidden{
 	display: none;
 }
-#editWorkoutPopup.hidden{
+.editWorkoutPopup .hidden{
 	display: none;
 }
-#addExercisePopup.hidden{
+.addExercisePopup .hidden{
 	display: none;
 }
 
